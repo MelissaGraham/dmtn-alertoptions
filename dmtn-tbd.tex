@@ -1,0 +1,206 @@
+\documentclass[DM,lsstdraft,authoryear,toc]{lsstdoc}
+% lsstdoc documentation: https://lsst-texmf.lsst.io/lsstdoc.html
+
+% Package imports go here.
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{latexsym}
+\usepackage{color}
+\usepackage{enumitem}
+
+% Local commands go here.
+
+% To add a short-form title:
+% \title[Short title]{Title}
+\title[Alerts Menu]{LSST Alerts: A Menu of Options}
+
+% Optional subtitle
+% \setDocSubtitle{A subtitle}
+
+\author{%
+M.~L.~Graham, and the Data Management System Science Team
+}
+
+\setDocRef{DMTN-MENU}
+\date{\today}
+% Optional: name of the document's curator
+% \setDocCurator{The Curator of this Document}
+\setDocUpstreamLocation{\url{https://github.com/lsst-dm/dmtn-xxx}}
+
+\setDocAbstract{%
+A review and discussion of the variety of options for alert packets and their distribution, such as latency timescale, packet contents, pre-stream filtering, and so forth.
+}
+
+% Change history defined here.
+% Order: oldest first.
+% Fields: VERSION, DATE, DESCRIPTION, OWNER NAME.
+% See LPM-51 for version number policy.
+\setDocChangeRecord{%
+  \addtohist{0}{2019-11-14}{Conception.}{Melissa Graham}
+}
+
+\begin{document}
+
+% Create the title page.
+% Table of contents is added automatically with the "toc" class option.
+\maketitle
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Introduction} \label{sec:intro}
+
+The LSST Science Requirements Document \citedsp{LPM-17} specifies that information about the detections of transient, variable, and moving objects be released promptly as a data stream.
+
+The purpose of this document is to consider the science motivation for, and impact of, the various options for alert packet contents and distribution timescales. 
+
+The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public (exempt from a proprietary period) and publicly \emph{accessible}. While the contents of the Prompt products database (PPDB, from which alerts are generated) are also world public, \emph{access} to the PPDB is restricted to individuals with data rights \citedsp[LDO-13].
+
+The size and latency of alerts might effect the number of supported community alert brokers. It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout. This is based in part on estimates of the alert stream data rate, and the bandwidth allocated to alert distribution in the LSST data facility.
+
+This draft contains content pertaining to the following open tickets in the DM-SST epic "Studies Around Alerts" (assignees):
+\begin{itemize}
+\item DM-19484, Estimate distribution of alert packet size based on scientific considerations (Bellm)
+\item DM-15654, Define policy for handling fields with $>$10K alerts (Bellm)
+\item DM-20296, Investigate the possibility of providing filtered streams (Graham)
+\item DM-20298, Revise the contents of the alert packets (Graham)
+\item DM-20299, Scientific use-cases requiring $<$5 minute access (Graham)
+\item DM-20300, Investigate options for expanding access to the alert stream (Bellm)
+\end{itemize}
+
+% \lsrreq \ossreq \dmreq \reqparam 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Alert Packet Contents} \label{sec:packets}
+
+The section explores the science impacts of various options for alert packet contents, such as the $\sim$12 month history of {\tt DIASource} records, the image stamps, and the static-sky {\tt Object} catalog associations.
+
+One of the positive scientific impacts of reducing the size of an alert packet is based on the assumption that the ability to transmit the stream to more community brokers would lead to more science being done with alerts. There is a potential secondary science impact, in that if brokers can spend less time developing software or spend less of their computational resources to, e.g., remove parts of the alert packet they do not need prior to processing, then they can spend more on developing and running algorithms for various alerts-related science goals. \S~\ref{ssec:packets_remove} and \ref{ssec:packets_compress} consider reducing the size of the alerts.
+
+
+\subsection{Removing Histories and/or Stamps}\label{ssec:packets_remove}
+
+The size of a fully-loaded individual alert packet is estimated to be $\lesssim$82~KB, based on simulations of the planned content of the alerts as described in Section 3.5 of \citeds{LSE-163}. The two largest components of the alert packet which could be considered "optional" are the history (the past $\sim$12 months of {\tt DIASource} records) and the stamps (at least 30$\times$30 pixels and contain flux (32 bit/pix), variance (32 bit/pix), and mask (16 bit/pix) extensions for both the template and difference image, plus a header of metadata \citedsp{LSE-163}). The history accounts for $\sim$27KB of the alert packet ($\sim$33\%) and the stamps contribute $\gtrsim$18~KB ($\sim$20\%). 
+
+Brokers that save all alerts, build a database of alerts contents, or have an automated interface with the LSST Prompt products database or Alerts database, would not need the historical records to be included. Brokers which do not use the image stamps -- or would need them for only a subset of the alerts and could feasibly query a stamps database -- would not need them included in the alerts packets. Individual broker teams may indicate which information they require (or would like removed from the packets in their stream) during the broker proposal process \citedsp{LDM-682}, and \textcolor{red}{we should include that feedback in this document}.
+
+
+If stamps are not sent in alerts, they need to be stored in a publicly accessible database
+
+{\bf Remove histories and stamps from all alerts. --}
+
+Pro: all transmitted streams have the same content and are identical (no need to keep on hand multiple versions of alert packets).
+
+Con: negatively impact science with brokers which do not save or associate alerts but run in pure real-time (\textcolor{red}{check LOI to assess how many?})
+
+{\bf Remove histories and stamps for some alert streams, at the request of brokers. --}
+
+{\bf Never remove histories or stamps from any distributed alerts. --}
+
+Pro: all transmitted streams have the same content and are identical (no need to keep on hand multiple versions of alert packets).
+
+Pro: every alert packet contains all the public data and there is no need to provide, e.g., a \emph{publicly accessible} stamps database.
+
+
+\subsection{Adding Associated {\tt Object} Record Elements}\label{ssec:packets_add}
+
+The contents of the alert packet are defined in \citeds{LSE-613}. They will include {\tt nearbyObj} ({\tt unit64[6]}), the {\it "closest {\tt Objects} (3 stars and 3 galaxies) in Data Release database"}, {\tt nearbyObjDist} ({\tt float[6]}), the {\it "distances to {\tt nearbyObj}"} in arcseconds, and {\tt nearbyObjLnP} ({\tt float[6]}), the {\it "natural log of the probability that the observed {\tt DIAObject} is the same as the nearby {\tt Object}"}. For the latter, there is a footnote that says {\it "This quantity will be computed by marginalizing over the product of position and proper motion error ellipses of the {\tt Object} and {\tt DIAObject}, assuming an appropriate prior"}.
+
+First, this definition of {\tt nearbyObjLnP} seems to only be appropriate for stars. For galaxies, the likelihood of a nearby galaxy being the true host is proportional to {\tt nearbyObjDist} divided by the effective radius of the host, or even better, \textcolor{red}{find the definition that uses semi-major and minor axies and the position angle etc.}. For this reason, the {\tt nearbyObj} included in the alerts should not simply be the three nearest galaxies -- it should be the \emph{three most likely host galaxies}. 
+
+Second, the most useful piece of information about a transient's host galaxy is the redshift, because this significantly improves photometric classification algorithms \textcolor{red}{(could cite RAPID or Ashely's work and others)}. 
+
+Including the three nearest stars remains appropriate because all stars have the same radial profile. For variable stars, \textcolor{red}{the most useful piece of information about its {\tt Object} is probably the mean apparent magnitude?}
+
+
+\subsection{Compressing the Alert Packets}\label{ssec:packets_compress}
+
+The application of gzip compression could further reduce the size of a full alert to $\sim$65~KB (80\%; JIRA ticket DM-16280). Naively, this seems like it would allow 1 more full stream to be transmitted to a broker, but the time and computational resources required to compress the alert packets has not been considered, \emph{and} this option would then force all brokers to decompress the alerts on arrival which might further delay processing for everyone. Science goals requiring low-latency alerts (\S~\ref{sec:latency}) could be negatively impacted.
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Alert Distribution Latency} \label{sec:latency}
+
+It is a requirement that the DMS be capable of supporting the distribution of at least 98\%\reqparam{OTT1}\reqparam{OTR1}\lsrreq{0101}\lsrreq{0025}\ossreq{0127}\dmreq{0004} of alerts for each visit within 60 seconds of the end of image readout.
+
+Here we attempt to outline which science goals require 1 minute alerts, and could not be satisfied with a longer latency (e.g., 5--10 minutes).
+
+
+The fast things seem to be triggers in other wavelengths... is there an optical thing you optically detect and then get followup? These scenarios start with a coincident LSST observation with a FRB or BNS GW event...
+
+\subsection{Fast Radio Bursts}
+
+(Can grab all the stuff you put into the CBW paper.)
+
+\subsection{Binary Neutron Star Mergers}
+% From Slack conversation 
+
+
+hi Fed, for what concerns ToO observations, I would say a very low latency would be optimal: I know that jet-powered (http://arxiv.org/abs/1705.10797) and/or proto-magnetar-powered (http://arxiv.org/abs/1508.07939) UV (and X-ray) transients from binary neutron star mergers are predicted to be detectable only up to ~1000 s following the merger. I cannot think of such a time-critical case for transients discovered during the main survey though...
+arXiv.orgarXiv.org
+The cocoon emission - an electromagnetic counterpart to...
+Short Gamma-Ray Bursts (SGRBs) are believed to arise from compact binary mergers (either neutron star-neutron star or black hole-neutron star). If so their jets must penetrate outflows that are...
+arXiv.orgarXiv.org
+Electromagnetic emission from long-lived binary neutron star...
+Recent observations indicate that in a large fraction of binary neutron star (BNS) mergers a long-lived neutron star (NS) may be formed rather than a black hole. Unambiguous electromagnetic (EM)...
+3 replies
+
+federica bianco  4 months ago
+Thanks! Excellent though even in "very low latency" cases, is the difference between 60 sec and 5 min critical?
+
+Eric Bellm  4 months ago
+It?s not clear to me whether the 60 second latency could be achieved for rapid TOO observations in any case: in the standard survey we expect to have to do a fair amount of pre-caching of slow database queries to get alerts out in time, which is possible because the next pointings are known ahead of time.  Potentially for a rapid TOO there wouldn?t be time for those to be executed before the images are taken, which would impose some further delay.  We don?t yet know how large an issue this would be, though. (edited) 
+:+1:
+1
+
+
+Om Sharan Salafia  4 months ago
+@federica I think you're right, it is probably anyway not critical either
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Pre-Filtered Alert Streams} \label{sec:prefilter}
+
+Pre-filtered streams might mean the alerts can be distributed to more brokers than numStreams. What kind of pre-filters might suit the brokers?
+
+ - magnitude or signal-to-noise ratio (affects completeness/purity)
+ - region of sky (like the south african proposal)
+ - static-sky object association
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Graceful Degradation} \label{sec:graceful}
+
+Along with the requirement of a 60 second alert distribution timescale (\S~\ref{sec:latency}, the DMS should support the distribution\reqparam{transN}\lsrreq{0101}\reqparam{nAlertVisitAvg}\ossreq{0193}\reqparam{nAlertVisitPeak}\dmreq{0393} of at least 10,000 alerts per standard visit on average during a given night, and at least 40,000 alerts per single standard visit. 
+
+It is also a requirement\reqparam{sciVisitAlertDelay}\reqparam{sciVisitAlertFailure}\ossreq{0112}\dmreq{0392} that no more than 1\% of all standard visits fail to have at least 98\% of its alerts distributed within 60 seconds of image readout, and that no more than 0.1\% of all standard visits fail to distribute alerts.
+
+These requirements apply to standard visits which should have produced $\leq$40,000 alerts. For example, a visit would be considered "delayed" and count towards that 1\% limit if $>$2\% of its alerts were distributed with a latency of $>$60 seconds. The requirement that no more than 0.1\% of all science visits fail to generate and/or distribute alerts is integrated over all stages of data handling, not just alert distribution, and includes failures at any stage of prompt processing.
+
+It is furthermore specified that alert distribution "degrade gracefully" beyond that limit, meaning that visits resulting in an excess of alerts should not cause any DMS downtime \citedsp{LSE-30,LSE-61}.
+
+
+In crowded fields there might be $>$40,000 difference-image sources.
+
+For alerts that are not distributed within 60 seconds, how should they be handled? 
+
+It is a requirement that all alerts be stored in an archival database and be available for retrieval\ossreq{0185}. The term "available for retrieval" applies to users with data rights and access to the LSST Science Platform. Like all other Prompt data products, the alerts archive will be updated within 24\reqparam{L1PublicT}\lsrreq{0104} hours \citedsp{LSE-29}.
+
+The retention period in the alert distribution system is still to be determined, but given the alert stream data rate of ~800 GB/night it is currently reasonable to expect a retention period of ~7 days.
+
+Brokers with data rights can retrieve old alert packets from the Alerts Database. However, note that the requirements on user access to the Alert Database are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities (DMTN-102 1).
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{LSST Alert Filtering Service}\label{sec:lafs}
+
+It is a requirement that the LSST alert filtering service be able to support\reqparam{numBrokerUsers}\dmreq{0343} at least 100 simultaneous users. The LAFS will be capable of returning 20\reqparam{numBrokerAlerts}\dmreq{0343} full-sized alerts per visit per user.
+
+The LSST alerts filtering service is a mechanism by which users --- individuals with LSST data rights and access --- can receive alerts via pre-defined filters that have been optimized for established transient classifications such as supernovae and/or create and apply their own filters to the stream \citedsp{LPM-17,LSE-61}. 
+
+Which options might be appropriate for implementation with the LAFS?
+A few of these options might also be available to users of the LSST alert filtering service (\S~\ref{sec:LAFS}).
+
+
+% Include all the relevant bib files.
+% https://lsst-texmf.lsst.io/lsstdoc.html#bibliographies
+\bibliography{local,lsst,lsst-dm,refs_ads,refs,books}
+
+\end{document}
