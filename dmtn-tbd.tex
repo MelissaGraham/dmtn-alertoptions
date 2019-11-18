@@ -28,7 +28,7 @@ M.~L.~Graham, and the Data Management System Science Team
 \setDocUpstreamLocation{\url{https://github.com/lsst-dm/dmtn-xxx}}
 
 \setDocAbstract{%
-\textcolor{red}{\bf EXTREME DRAFT STATE. DO NOT READ. DO NOT CITE.}\\
+\textcolor{red}{\bf EXTREME DRAFT STATE. DO NOT CITE. DO NOT READ (YET!).}\\
 A review and discussion of the variety of options for alert packets and their distribution, such as latency timescale, packet contents, pre-stream filtering, and so forth.
 }
 
@@ -53,9 +53,9 @@ The LSST Science Requirements Document \citedsp{LPM-17} specifies that informati
 
 The purpose of this document is to consider the science motivation for, and impact of, the various options for alert packet contents and distribution timescales. 
 
-The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public (exempt from a proprietary period) and publicly \emph{accessible}. While the contents of the Prompt products database (PPDB, from which alerts are generated) are also world public, \emph{access} to the PPDB is restricted to individuals with data rights \citedsp[LDO-13].
+The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public (exempt from a proprietary period) and publicly \emph{accessible}. While the contents of the Prompt products database (PPDB, from which alerts are generated) are also world public, \emph{access} to the PPDB is restricted to individuals with data rights \citedsp{LDO-13}.
 
-The size and latency of alerts might effect the number of supported community alert brokers. It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout. This is based in part on estimates of the alert stream data rate, and the bandwidth allocated to alert distribution in the LSST data facility.
+It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout. This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility. The size and latency of alerts could affect the ultimate number of supported community alert brokers.
 
 This draft contains content pertaining to the following open tickets in the DM-SST epic "Studies Around Alerts" (assignees):
 \begin{itemize}
@@ -117,22 +117,32 @@ Including the three nearest stars remains appropriate because all stars have the
 The application of gzip compression could further reduce the size of a full alert to $\sim$65~KB (80\%; JIRA ticket DM-16280). Naively, this seems like it would allow 1 more full stream to be transmitted to a broker, but the time and computational resources required to compress the alert packets has not been considered, \emph{and} this option would then force all brokers to decompress the alerts on arrival which might further delay processing for everyone. Science goals requiring low-latency alerts (\S~\ref{sec:latency}) could be negatively impacted.
 
 
+
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Alert Distribution Latency} \label{sec:latency}
 
 It is a requirement that the DMS be capable of supporting the distribution of at least 98\%\reqparam{OTT1}\reqparam{OTR1}\lsrreq{0101}\lsrreq{0025}\ossreq{0127}\dmreq{0004} of alerts for each visit within 60 seconds of the end of image readout.
 
-Here we attempt to outline which science goals require 1 minute alerts, and could not be satisfied with a longer latency (e.g., 5--10 minutes).
+This section attempts to gather the science goals which might potentially require 1 minute alerts, and could not be satisfied with a longer latency (e.g., 5--10 minutes).
+
+\subsection{Results of a TVS Survey About Alerts Timescales}
+
+Compact object mergers (kilonovae) appeared 4 times as the response to a question about the science driver for rapid alerts, but each respondent chose a different "maximum tolerable" time delay for alerts: of 1 min or less, 5 to 10 min, 1 to 6 hours, and 12 to 24 hours. The respondent's chosen "ideal average" times are only a little more consistent: 1 min or less (x2), 10-30 min, and 30-60 min. This probably represents diverse science goals to be done with kilonovae ? I?ll look into the details some more?
+
+\subsection{Solar System Objects}
 
 
-The fast things seem to be triggers in other wavelengths... is there an optical thing you optically detect and then get followup? These scenarios start with a coincident LSST observation with a FRB or BNS GW event...
 
 \subsection{Fast Radio Bursts}
 
 (Can grab all the stuff you put into the CBW paper.)
 
+
 \subsection{Binary Neutron Star Mergers}
-% From Slack conversation 
+% From Slack conversation, Federica Bianco, Om Sharan Salafia, Eric Bellm
+
+During LSST Operations, target-of-opportunity imaging follow-up sequences might be executed in the error ellipse of a gravitational wave (GW) detection to search for the electromagnetic (EM) optical counterpart. Such a search yielded a fast-evolving "kilonova" which decayed from 22 to 28th magnitude in the $g$-band in just 6 days \citep[faster in the bluer and slower in the redder filters][]{2017Sci...358.1559K}. 
+
 
 
 hi Fed, for what concerns ToO observations, I would say a very low latency would be optimal: I know that jet-powered (http://arxiv.org/abs/1705.10797) and/or proto-magnetar-powered (http://arxiv.org/abs/1508.07939) UV (and X-ray) transients from binary neutron star mergers are predicted to be detectable only up to ~1000 s following the merger. I cannot think of such a time-critical case for transients discovered during the main survey though...
@@ -144,17 +154,8 @@ Electromagnetic emission from long-lived binary neutron star...
 Recent observations indicate that in a large fraction of binary neutron star (BNS) mergers a long-lived neutron star (NS) may be formed rather than a black hole. Unambiguous electromagnetic (EM)...
 3 replies
 
-federica bianco  4 months ago
-Thanks! Excellent though even in "very low latency" cases, is the difference between 60 sec and 5 min critical?
 
-Eric Bellm  4 months ago
-It?s not clear to me whether the 60 second latency could be achieved for rapid TOO observations in any case: in the standard survey we expect to have to do a fair amount of pre-caching of slow database queries to get alerts out in time, which is possible because the next pointings are known ahead of time.  Potentially for a rapid TOO there wouldn?t be time for those to be executed before the images are taken, which would impose some further delay.  We don?t yet know how large an issue this would be, though. (edited) 
-:+1:
-1
-
-
-Om Sharan Salafia  4 months ago
-@federica I think you're right, it is probably anyway not critical either
+{\bf Summary --} Alert distribution within 5 minutes of readout is likely sufficient for all science goals related to BSN mergers and their associated optical counterparts. This is potentially good because for rapid ToO observations with LSST, there might not be time for the pre-caching of slow database queries (e.g., loading slices of the PPDB catalogs) when the upcoming pointings are not known in advance, as they are for the regular survey observations. \textcolor{red}{$\leftarrow$ This statement was modified from something ECB mentioned on Slack, double check it's accurate}.
 
 
 
@@ -164,8 +165,13 @@ Om Sharan Salafia  4 months ago
 Pre-filtered streams might mean the alerts can be distributed to more brokers than numStreams. What kind of pre-filters might suit the brokers?
 
  - magnitude or signal-to-noise ratio (affects completeness/purity)
- - region of sky (like the south african proposal)
+ - region of sky (like one of the LOI for a particular region)
  - static-sky object association
+ 
+ Image free streams of alert packets.
+ Sources only associated with past alerts.
+
+Provide estimates for how much the alert stream volume would be reduced.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Graceful Degradation} \label{sec:graceful}
@@ -185,9 +191,7 @@ For alerts that are not distributed within 60 seconds, how should they be handle
 
 It is a requirement that all alerts be stored in an archival database and be available for retrieval\ossreq{0185}. The term "available for retrieval" applies to users with data rights and access to the LSST Science Platform. Like all other Prompt data products, the alerts archive will be updated within 24\reqparam{L1PublicT}\lsrreq{0104} hours \citedsp{LSE-29}.
 
-The retention period in the alert distribution system is still to be determined, but given the alert stream data rate of ~800 GB/night it is currently reasonable to expect a retention period of ~7 days.
-
-Brokers with data rights can retrieve old alert packets from the Alerts Database. However, note that the requirements on user access to the Alert Database are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities (DMTN-102 1).
+\textcolor{red}{From the community post brokers FAQ $\rightarrow$}The retention period in the alert distribution system is still to be determined, but given the alert stream data rate of ~800 GB/night it is currently reasonable to expect a retention period of ~7 days. Brokers with data rights can retrieve old alert packets from the Alerts Database. However, note that the requirements on user access to the Alert Database are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities (DMTN-102 1).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{LSST Alert Filtering Service}\label{sec:lafs}
