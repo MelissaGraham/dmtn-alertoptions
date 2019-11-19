@@ -53,7 +53,7 @@ The LSST Science Requirements Document \citedsp{LPM-17} specifies that informati
 
 The purpose of this document is to consider the science motivation for, and impact of, the various options for alert packet contents and distribution timescales. 
 
-The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public (exempt from a proprietary period) and publicly \emph{accessible}. While the contents of the Prompt products database (PPDB, from which alerts are generated) are also world public, \emph{access} to the PPDB is restricted to individuals with data rights \citedsp{LDO-13}.
+The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public (exempt from a proprietary period) and publicly \emph{accessible}. While the contents of the Prompt products database (PPDB, from which alerts are generated) are also world public, \emph{access} to the PPDB is restricted to individuals with data rights \citedsp{LDO-013}.
 
 It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout. This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility. The size and latency of alerts could affect the ultimate number of supported community alert brokers.
 
@@ -69,6 +69,9 @@ This draft contains content pertaining to the following open tickets in the DM-S
 
 % \lsrreq \ossreq \dmreq \reqparam 
 
+
+
+\clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Alert Packet Contents} \label{sec:packets}
 
@@ -103,7 +106,7 @@ Pro: every alert packet contains all the public data and there is no need to pro
 
 \subsection{Adding Associated {\tt Object} Record Elements}\label{ssec:packets_add}
 
-The contents of the alert packet are defined in \citeds{LSE-613}. They will include {\tt nearbyObj} ({\tt unit64[6]}), the {\it "closest {\tt Objects} (3 stars and 3 galaxies) in Data Release database"}, {\tt nearbyObjDist} ({\tt float[6]}), the {\it "distances to {\tt nearbyObj}"} in arcseconds, and {\tt nearbyObjLnP} ({\tt float[6]}), the {\it "natural log of the probability that the observed {\tt DIAObject} is the same as the nearby {\tt Object}"}. For the latter, there is a footnote that says {\it "This quantity will be computed by marginalizing over the product of position and proper motion error ellipses of the {\tt Object} and {\tt DIAObject}, assuming an appropriate prior"}.
+The contents of the alert packet are defined in \citeds{LSE-163}. They will include {\tt nearbyObj} ({\tt unit64[6]}), the {\it "closest {\tt Objects} (3 stars and 3 galaxies) in Data Release database"}, {\tt nearbyObjDist} ({\tt float[6]}), the {\it "distances to {\tt nearbyObj}"} in arcseconds, and {\tt nearbyObjLnP} ({\tt float[6]}), the {\it "natural log of the probability that the observed {\tt DIAObject} is the same as the nearby {\tt Object}"}. For the latter, there is a footnote that says {\it "This quantity will be computed by marginalizing over the product of position and proper motion error ellipses of the {\tt Object} and {\tt DIAObject}, assuming an appropriate prior"}.
 
 First, this definition of {\tt nearbyObjLnP} seems to only be appropriate for stars. For galaxies, the likelihood of a nearby galaxy being the true host is proportional to {\tt nearbyObjDist} divided by the effective radius of the host, or even better, \textcolor{red}{find the definition that uses semi-major and minor axies and the position angle etc.}. For this reason, the {\tt nearbyObj} included in the alerts should not simply be the three nearest galaxies -- it should be the \emph{three most likely host galaxies}. 
 
@@ -117,7 +120,7 @@ Including the three nearest stars remains appropriate because all stars have the
 The application of gzip compression could further reduce the size of a full alert to $\sim$65~KB (80\%; JIRA ticket DM-16280). Naively, this seems like it would allow 1 more full stream to be transmitted to a broker, but the time and computational resources required to compress the alert packets has not been considered, \emph{and} this option would then force all brokers to decompress the alerts on arrival which might further delay processing for everyone. Science goals requiring low-latency alerts (\S~\ref{sec:latency}) could be negatively impacted.
 
 
-
+\clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Alert Distribution Latency} \label{sec:latency}
 
@@ -125,23 +128,59 @@ It is a requirement that the DMS be capable of supporting the distribution of at
 
 This section attempts to gather the science goals which might potentially require 1 minute alerts, and could not be satisfied with a longer latency (e.g., 5--10 minutes).
 
-\subsection{Results of a TVS Survey About Alerts Timescales}
-
-Compact object mergers (kilonovae) appeared 4 times as the response to a question about the science driver for rapid alerts, but each respondent chose a different "maximum tolerable" time delay for alerts: of 1 min or less, 5 to 10 min, 1 to 6 hours, and 12 to 24 hours. The respondent's chosen "ideal average" times are only a little more consistent: 1 min or less (x2), 10-30 min, and 30-60 min. This probably represents diverse science goals to be done with kilonovae ? I?ll look into the details some more?
-
-\subsection{Solar System Objects}
+{\bf Target of Opportunity --} For rapid ToO observations with LSST, there might not be time for the pre-caching of slow database queries (e.g., loading slices of the PPDB catalogs) when the upcoming pointings are not known in advance, as they are for the regular survey observations. \textcolor{red}{$\leftarrow$ This statement was modified from something ECB mentioned on Slack, double check it's accurate}.
 
 
+\subsection{Results of a TVS Survey About Alerts Timescales}\label{ssec:latency_tvs}
 
-\subsection{Fast Radio Bursts}
+The Transients and Variable Stars (TVS) science collaboration surveyed the science needs of their members with respect to alert latency, and the results are shown in Table \ref{tab:tvs}\footnote{Results courtesy of TVS co-chair Rachel Street.}. The survey asked respondents to choose the maximum tolerable and ideal average delay between the alerts being produced by the LSST data reduction pipeline and the alert information becoming available through the broker service. This is not exactly the same as the alert distribution timescale {\tt OTT1}, but these responses will inform the need for $<$1 minute alert distribution.  Respondents were asked to provide a short summary of their science goals for alerts if they reported needed access within 15 minutes. The pool of respondents is probably not representative of the wider collaboration, and is likely biased towards individuals with science interests that do require faster access to alerts. 
 
-(Can grab all the stuff you put into the CBW paper.)
+Only 20\% (10\%) of respondents report that $<$10 minutes ($\leq$1 minute) is an ideal average delay, and whereas 70\% report that $>$30 minutes would be a sufficient average latency. The three science drivers associated with $<$5 minute alert access are the electromagnetic counterparts to gravitational wave events (EM-GW; kilonovae), young supernovae (early short-lived light curve features such as shock breakouts), and gamma-ray bursts (GRB). It might at first be confusing that EM-GW was provided as the science driver for such a wide range of alert access timescales, but this is discussed further in \S~\ref{ssec:latency_emgw}.
+
+\begin{table}[h]%[htdp]
+\caption{Table of results from a TVS survey which asked "how fast do you really need alerts?". The total number of respondents was 20. The science driver acronyms are: EM-GW (electromagnetic counterparts to gravitational wave events), YSNe (young supernovae), SBOs (???), GRBs (gamma-ray bursts). \label{tab:tvs}}
+\begin{center}
+\begin{tabular}{|l|cl|cl|}
+\hline
+             & Maximum & Science & Ideal       & Science \\
+Latency & Tolerable  & Driver(s) &  Average & Driver(s) \\
+\hline
+1 min or less & 1 & EM-GW, GRB  & 2 & EM-GW, YSNe, GRB \\
+1-5 min         & 0 &                          & 1 &                                   \\
+5-10 min       & 1 & EM-GW, YSNe & 1 & SBOs \\
+10-30 min     & 2 & SBOs               & 2 & EM-GW, GRBs \\
+30-60 min     & 2 &                          & 7 & EM-GW  \\
+1-6 hours     & 4 & EM-GW, GRBs & 1 &  \\
+6-12 hours   & 2 &                          & 1 &  \\
+12-24 hours & 3 & EM-GW            & 1 & EM-GW \\
+1-3 days      & 1 &                           & 0 &  \\
+>3 days       & 4 &                           & 4 &  \\
+\hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
 
 
-\subsection{Binary Neutron Star Mergers}
+\subsection{Solar System Objects}\label{ssec:latency_sso}
+
+\textcolor{red}{MLG: in Lynne's talk on the SSSC needs for alerts brokers at the CBW in June 2019, slide 4 says that a needed broker capability was "API or other 'push' notification (e.g., trailed detections) [minutes may count]". Follow-up on the SS use case for alerts on very short timescales.}
+
+
+\subsection{Young Supernovae}\label{ssec:latency_ysne}
+
+
+\subsection{Fast Radio Bursts}\label{ssec:latency_frb}
+
+\textcolor{red}{MLG: Can grab all the stuff you put into the CBW paper and put it here instead.}
+
+
+\subsection{EM Counterparts to GW Events}\label{ssec:latency_emgw}
 % From Slack conversation, Federica Bianco, Om Sharan Salafia, Eric Bellm
 
-During LSST Operations, target-of-opportunity imaging follow-up sequences might be executed in the error ellipse of a gravitational wave (GW) detection to search for the electromagnetic (EM) optical counterpart. Such a search yielded a fast-evolving "kilonova" which decayed from 22 to 28th magnitude in the $g$-band in just 6 days \citep[faster in the bluer and slower in the redder filters][]{2017Sci...358.1559K}. 
+During LSST Operations, target-of-opportunity imaging follow-up sequences might be executed in the error ellipse of a gravitational wave (GW) detection to search for the electromagnetic (EM) optical counterpart. Such a search yielded a fast-evolving "kilonova" which decayed from 22 to 28th magnitude in the $g$-band in just 6 days \citep[faster in the bluer and slower in the redder filters][]{2017Sci...358.1559K}.
+
+The timescale required for alerts access depends on the science goal regarding "kilonovae". The light curves last only a few days, and there is so far only the one GW170817, and so even if there was a day or two delay between discovery and the onset of optical follow-up, that's still going to lead to great science. However, the point of this section is to discuss the science motivation for very rapid alerts, 1 minute vs. 5 minutes vs. 10 minutes.
 
 
 
@@ -155,10 +194,15 @@ Recent observations indicate that in a large fraction of binary neutron star (BN
 3 replies
 
 
-{\bf Summary --} Alert distribution within 5 minutes of readout is likely sufficient for all science goals related to BSN mergers and their associated optical counterparts. This is potentially good because for rapid ToO observations with LSST, there might not be time for the pre-caching of slow database queries (e.g., loading slices of the PPDB catalogs) when the upcoming pointings are not known in advance, as they are for the regular survey observations. \textcolor{red}{$\leftarrow$ This statement was modified from something ECB mentioned on Slack, double check it's accurate}.
+
+\subsection{Gamma-Ray Bursts}\label{ssec:latency_grb}
+
+\subsection{Summary}\label{ssec:latency_summary}
 
 
 
+
+\clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Pre-Filtered Alert Streams} \label{sec:prefilter}
 
@@ -173,6 +217,9 @@ Pre-filtered streams might mean the alerts can be distributed to more brokers th
 
 Provide estimates for how much the alert stream volume would be reduced.
 
+
+
+\clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Graceful Degradation} \label{sec:graceful}
 
@@ -193,6 +240,9 @@ It is a requirement that all alerts be stored in an archival database and be ava
 
 \textcolor{red}{From the community post brokers FAQ $\rightarrow$}The retention period in the alert distribution system is still to be determined, but given the alert stream data rate of ~800 GB/night it is currently reasonable to expect a retention period of ~7 days. Brokers with data rights can retrieve old alert packets from the Alerts Database. However, note that the requirements on user access to the Alert Database are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities (DMTN-102 1).
 
+
+
+\clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{LSST Alert Filtering Service}\label{sec:lafs}
 
