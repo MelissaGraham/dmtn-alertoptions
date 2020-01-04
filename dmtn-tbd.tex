@@ -12,13 +12,13 @@
 
 % To add a short-form title:
 % \title[Short title]{Title}
-\title[Alerts Menu]{LSST Alerts: A Menu of Options}
+\title[Alerts Menu]{LSST Alerts: Science-Driven Options for Packets and their Distribution}
 
 % Optional subtitle
 % \setDocSubtitle{A subtitle}
 
 \author{%
-M.~L.~Graham, and the Data Management System Science Team
+M.~L.~Graham, T. Pritchard, and the Data Management System Science Team
 }
 
 \setDocRef{DMTN-TBD}
@@ -28,7 +28,7 @@ M.~L.~Graham, and the Data Management System Science Team
 \setDocUpstreamLocation{\url{https://github.com/lsst-dm/dmtn-xxx}}
 
 \setDocAbstract{%
-\textcolor{red}{\bf EXTREME DRAFT STATE. DO NOT CITE. DO NOT READ (YET!).}\\
+\textcolor{red}{\bf EXTREME DRAFT STATE. DO NOT CITE. DO NOT READ. LOOK AWAY.}\\
 A review and discussion of the variety of options for alert packets and their distribution, such as latency timescale, packet contents, pre-stream filtering, and so forth.
 }
 
@@ -53,9 +53,9 @@ The LSST Science Requirements Document \citedsp{LPM-17} specifies that informati
 
 The purpose of this document is to consider the science motivation for, and impact of, the various options for alert packet contents and distribution timescales. 
 
-The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public (exempt from a proprietary period) and publicly \emph{accessible}. While the contents of the Prompt products database (PPDB, from which alerts are generated) are also world public, \emph{access} to the PPDB is restricted to individuals with data rights \citedsp{LDO-013}.
+The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public --- they are exempt from any proprietary period --- and publicly accessible -- they are distributed to community brokers, and not solely available via the LSST Science Platform (LSP). In comparison, although the contents of the Prompt products database (PPDB) from which alerts are generated are also world public, access to the PPDB is restricted to individuals with data rights \citedsp{LDO-013} who have authenticated accounts in the LSP.
 
-It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout. This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility. The size and latency of alerts could affect the ultimate number of supported community alert brokers.
+It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout. This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility. The size and latency of alerts could therefore affect the ultimate number of supported community alert brokers. 
 
 This draft contains content pertaining to the following open tickets in the DM-SST epic "Studies Around Alerts" (assignees):
 \begin{itemize}
@@ -76,48 +76,114 @@ This draft contains content pertaining to the following open tickets in the DM-S
 \section{Alert Packet Contents} \label{sec:packets}
 
 The section explores the science impacts of various options for alert packet contents, such as the $\sim$12 month history of {\tt DIASource} records, the image stamps, and the static-sky {\tt Object} catalog associations.
-
-One of the positive scientific impacts of reducing the size of an alert packet is based on the assumption that the ability to transmit the stream to more community brokers would lead to more science being done with alerts. There is a potential secondary science impact, in that if brokers can spend less time developing software or spend less of their computational resources to, e.g., remove parts of the alert packet they do not need prior to processing, then they can spend more on developing and running algorithms for various alerts-related science goals. \S~\ref{ssec:packets_remove} and \ref{ssec:packets_compress} consider reducing the size of the alerts.
-
+Reducing the size of an alert packet might be scientifically beneficial if it enables the stream to be transmitted to more community brokers, thereby leading to more science being done with alerts.
+It might also be beneficial if it enables brokers to spend less time developing software or spend less of their computational resources to remove parts of the alert packet they do not need prior to processing, and spend more on developing and running algorithms for various alerts-related science goals.
+\S~\ref{ssec:packets_remove} and \ref{ssec:packets_compress} consider reducing the size of alert packets by relocating some data or compressing the packets, respectively. 
+A small increase to the size of the alert packet is not necessarily going to be scientifically detrimental if the information added enables science, and \S~\ref{ssec:packets_add} considers some small additions regarding the association of {\tt DIASources} with the data release {\tt Object} catalog.
 
 \subsection{Removing Histories and/or Stamps}\label{ssec:packets_remove}
 
-The size of a fully-loaded individual alert packet is estimated to be $\lesssim$82~KB, based on simulations of the planned content of the alerts as described in Section 3.5 of \citeds{LSE-163}. The two largest components of the alert packet which could be considered "optional" are the history (the past $\sim$12 months of {\tt DIASource} records) and the stamps (at least 30$\times$30 pixels and contain flux (32 bit/pix), variance (32 bit/pix), and mask (16 bit/pix) extensions for both the template and difference image, plus a header of metadata \citedsp{LSE-163}). The history accounts for $\sim$27KB of the alert packet ($\sim$33\%) and the stamps contribute $\gtrsim$18~KB ($\sim$20\%). 
+The size of a fully-loaded individual alert packet is estimated to be $\lesssim$82~KB, based on simulations of the planned content of the alerts as described in Section 3.5 of \citeds{LSE-163} (see also \citeds{DMTN-102}). The two largest components of the alert packet which could be considered ``optional'' are the history and the postage stamps. The history is the past $\sim$12 months of {\tt DIASource} records, previously released as alerts. The postage stamps are, at minimum, 30$\times$30 pixels and contain flux, variance, and mask extensions for both the template and difference image, plus a header of metadata \citedsp{LSE-163}. The history accounts for $\sim$27KB of the alert packet ($\sim$33\%) and the stamps contribute $\gtrsim$18~KB ($\sim$20\%). 
 
-Brokers that save all alerts, build a database of alerts contents, or have an automated interface with the LSST Prompt products database or Alerts database, would not need the historical records to be included. Brokers which do not use the image stamps -- or would need them for only a subset of the alerts and could feasibly query a stamps database -- would not need them included in the alerts packets. Individual broker teams may indicate which information they require (or would like removed from the packets in their stream) during the broker proposal process \citedsp{LDM-682}, and \textcolor{red}{we should include that feedback in this document}.
+Brokers that save all alerts, build their own a database of alerts contents, or have an automated interface with the LSST Prompt products database or Alerts database might not need the historical records to be included in the alert packets. Brokers which do not use the image stamps -- or would need them for only a subset of the alerts and could feasibly query a stamps database -- might not need them included in the alerts packets. Individual broker teams may indicate which information they require (or would like removed from the packets in their stream) during the broker proposal process \citedsp{LDM-612,LDM-682,LDM-723}. During the first stages of the proposal process, and at the LSST Community Brokers Workshop\footnote{\url{ls.st/cbw}} in June 2019, there was some indication that at least a few brokers were interested in alerts without historical records and/or postage historical records.
 
+\subsubsection{{\tt DIASource} Record History}\label{sssec:packets_remove_hist}
 
-If stamps are not sent in alerts, they need to be stored in a publicly accessible database
+Including the {\tt DIASource} record history in every alert allows for the \emph{instant assessment} --- without the need to cross-match or query catalogs --- of changes in the objects's location, size, shape, or brightness, provides context for the latest detection (i.e., anomalous or typical), and enables a robust assessment of the likely physical nature of the object (e.g., light curve fits indicating supernova type become more reliable with more observations). 
 
-{\bf Remove histories and stamps from all alerts. --}
+To remove the {\tt DIASource} record history from an alert would slightly inhibit the scientific assessment of transient/variable objects for brokers that build their own database of alert contents, due to the time required to cross-match with the database. Removing the {\tt DIASource} record history would completely inhibit this kind of analysis for brokers that do not have such storage or processing capabilities. There is also the issue that the association of {\tt DIASources} into {\tt DIAObjects} may change over time, for some objects. For example, rare cases such as multiply-imaged strongly-lensed supernovae, or two unassociated transients/variables that are superimposed along the line of sight, might be blended/separated in poor/good seeing. In such cases, the set of all associated {\tt DIASources} might be improved between one alert and the next. 
 
-Pro: all transmitted streams have the same content and are identical (no need to keep on hand multiple versions of alert packets).
-
-Con: negatively impact science with brokers which do not save or associate alerts but run in pure real-time (\textcolor{red}{check LOI to assess how many?})
-
-{\bf Remove histories and stamps for some alert streams, at the request of brokers. --}
-
-{\bf Never remove histories or stamps from any distributed alerts. --}
-
-Pro: all transmitted streams have the same content and are identical (no need to keep on hand multiple versions of alert packets).
-
-Pro: every alert packet contains all the public data and there is no need to provide, e.g., a \emph{publicly accessible} stamps database.
+{\bf Summary --} The {\tt DIASource} record histories should not be removed from all alert packets, but could be optionally removed at the request of a broker. However, if the record histories are removed, a list of all {\tt DIASource} identifiers (the {\tt diaSourceId}, as in Section 3.3.1 of \citeds{LSE-163}) which are currently associated with the {\tt DIAObject} to which the alert-spawning {\tt DIASource} is associated should be provided (note that this list is \emph{not} part of the {\tt DIAObject} record).
 
 
-\subsection{Adding Associated {\tt Object} Record Elements}\label{ssec:packets_add}
+\subsubsection{Forced Photometry History}\label{sssec:packets_remove_fp}
 
-The contents of the alert packet are defined in \citeds{LSE-163}. They will include {\tt nearbyObj} ({\tt unit64[6]}), the {\it "closest {\tt Objects} (3 stars and 3 galaxies) in Data Release database"}, {\tt nearbyObjDist} ({\tt float[6]}), the {\it "distances to {\tt nearbyObj}"} in arcseconds, and {\tt nearbyObjLnP} ({\tt float[6]}), the {\it "natural log of the probability that the observed {\tt DIAObject} is the same as the nearby {\tt Object}"}. For the latter, there is a footnote that says {\it "This quantity will be computed by marginalizing over the product of position and proper motion error ellipses of the {\tt Object} and {\tt DIAObject}, assuming an appropriate prior"}.
+When forced photometry ({\tt DIAForcedSource} record history) is included in an alert packet, it is ``historical" in the sense that it is based on past images and not the image which spawned the alert. However, it is not always redundant information that was previously released in an alert, like the {\tt DIASource} record history. There are two main cases where forced photometry is performed, as described in \citeds{LSE-163}. (1) For all new {\tt DIAObjects}, forced ``pre-covery'' photometry is done in the past 30 days of difference images within 24 hours, stored in the {\tt DIAForcedSource} catalog, and included in all future alert packets associated with that {\tt DIAObject}. (2) For all {\tt DIAObjects} that are not detected\footnote{The detection threshold is a signal-to-noise ratio $\geq$ 5.} in a given difference image, but had a detection in the past $\sim$12 months, forced photometry is done on that difference image. The result is stored in the {\tt DIAForcedSource} catalog, and included in all future alert packets associated with that {\tt DIAObject}. The forced photometry is scientifically valuable because, for example, pre-covery forced photometry provides context for the first detection of a transient/variable, and low-SNR detections can help with photometric classification and prioritization for follow-up observations. 
 
-First, this definition of {\tt nearbyObjLnP} seems to only be appropriate for stars. For galaxies, the likelihood of a nearby galaxy being the true host is proportional to {\tt nearbyObjDist} divided by the effective radius of the host, or even better, \textcolor{red}{find the definition that uses semi-major and minor axies and the position angle etc.}. For this reason, the {\tt nearbyObj} included in the alerts should not simply be the three nearest galaxies -- it should be the \emph{three most likely host galaxies}. 
+If a given {\tt DIAObject} is never again detected in a difference image, then the {\tt DIAForceSource} records are never included in an alert packet, but are available to individuals or brokers with access to the PPDB via the LSST Science Platform. If a given {\tt DIAObject} is repeatedly detected in new difference images, then the same {\tt DIAForcedSource} records will be redundantly included in all future alerts (after the first one containing the pre-covery or non-detection forced photometry). For the ``historical" {\tt DIAForcedSource} records, alert content redundancy could be avoided by only including previously undistributed {\tt DIAForcedSource} data in an alert packet. To do this, the Prompt pipeline would have to either compare with the contents of the most recent alert and remove redundant data from the new alert, or flag the {\tt DIAForcedSource} data as ``released" and only add ``unreleased" forced photometry to a alert packet. Both of these options would add processing times to the alert generation pipeline, which is undesirable.
 
-Second, the most useful piece of information about a transient's host galaxy is the redshift, because this significantly improves photometric classification algorithms \textcolor{red}{(could cite RAPID or Ashely's work and others)}. 
+{\bf Summary --} If the decision is made to remove the historical {\tt DIASource} records from alert packets, the {\tt DIAForcedSource} records of forced photometry should always be added to all alerts. This will cause some redundancy in alert contents, but if not included there would be no public access to this scientifically valuable information.
 
-Including the three nearest stars remains appropriate because all stars have the same radial profile. For variable stars, \textcolor{red}{the most useful piece of information about its {\tt Object} is probably the mean apparent magnitude?}
+
+\subsubsection{Postage Stamps}\label{sssec:packets_remove_stamps}
+
+Including the postage stamps in the alert packet allows for the instant assessment of the {\tt DIASource} in the difference and template images, which has a variety of scientific applications. For example, although real/bogus classification of the difference-image sources will be done prior to alert generation, some brokers may still wish to run additional algorithms on the images -- especially in the case of first detections. Brokers might also employ algorithms to classify transients and variables based on the images instead of the photometry (e.g., \citealt{2019PASP..131j8006C}). From the postage stamp images, scientifically useful information can be derived about the trails left by moving objects, or from the 2-dimensional luminosity distribution of spatially evolving objects such as comets, which might not be entirely captured by the {\tt DIASource} elements (see Table 1 in \citeds{LSE-163}). The images also provide context for the {\tt DIASource}, such as host-galaxy morphology or field crowdedness, that can assist with follow-up observations.
+
+If postage stamps were not created during alert production, the only option would be for users to wait until the images are made available (within 24 hours) in the LSP, which would significantly inhibit alerts-based science goals. However, postage stamps are unlikely to be needed for most {\tt DIASources}, the majority of which --- 95\%, according to the breakdown in \citeds{DMTN-102} --- will be stars or asteroids: point sources for which context is not a significant part of their immediate evaluation. An efficient compromise might be for the Prompt pipeline to create the postage stamps during alert generation, and then store them in a publicly accessible database (i.e., outside the LSP) where they can be obtained (via {\tt diaSourceId}) with a latency similar to the alert distribution timescale by anyone, from anywhere, at anytime. 
+
+The expected maximum download rate from this stamp database is estimated by assuming that all 5 community brokers download $\sim$500 stamp sets per visit: $\sim$2500 stamp sets every $\sim$35 seconds. At 18~KB per stamp set, that's a data rate of 10.5 Mbps (for comparison, that's $\sim$5\% of one full alert stream).
+
+{\bf Summary --} The postage stamps could be removed from all alert packets, but they should still be created during Prompt processing and stored in a publicly accessible database where they can be obtained with a latency similar to the alert distribution timescale.
+
+
+\subsubsection{Pros and Cons of Multiple Alert Formats}\label{sssec:packets_remove_procon}
+
+The above options could either apply to all alert packets, or brokers could choose from the menu and subscribe to a stream with the options they want.
+The latter means that LSST distributes multiple types of alert packet formats, and there are benefits and drawbacks to this ``menu" approach.
+The LSST currently expects to deliver alert streams to five brokers, and there are four alert packet formats on the table: (i) with histories and stamps, (ii) with histories but without stamps, (iii) without histories but with stamps, and (iv) without histories or stamps. 
+
+From a science perspective, the benefits to allowing brokers to customize their alert packet is that it potentially enables unique science to be done by brokers (e.g., custom stamp-analysis algorithms), and could enable LSST to support $>$5 brokers which might lead to more alerts-related science in general.
+One drawback might be that in times of heavy load, full-sized packet streams might be more likely to be delayed, which would be unfair to brokers requiring full-size packets, and could disproportionately affect some science goals more than others.
+The fact that not all alert packets are identical might cause some additional bookkeeping considerations for downstream brokers who ingest from multiple community brokers, but should not be detrimental to their science goals.
+
+The technical considerations of how many different alert packet formats it is feasible to create and transmit within the required latency time is left for data management.
+
+
+\subsection{Additional {\tt Object} Association Information}\label{ssec:packets_add}
+
+The contents of the alert packet as defined in \citeds{LSE-163} includes the following with respect to associations with {\tt Object} catalog from the most recent data release:
+\begin{itemize}
+\item {\tt nearbyObj} ({\tt unit64[6]}), the {\it "closest {\tt Objects} (3 stars and 3 galaxies) in Data Release database"}
+\item {\tt nearbyObjDist} ({\tt float[6]}), the {\it "distances to {\tt nearbyObj}"} in arcseconds
+\item {\tt nearbyObjLnP} ({\tt float[6]}), the {\it "natural log of the probability that the observed {\tt DIAObject} is the same as the nearby {\tt Object}"}
+\end{itemize}
+For the latter, there is a footnote that says {\it "This quantity will be computed by marginalizing over the product of position and proper motion error ellipses of the {\tt Object} and {\tt DIAObject}, assuming an appropriate prior"}.
+
+The current definitions of {\tt nearbyObj}, {\tt nearbyObjDist}, and {\tt nearbyObjLnP} are not as useful as they could be for transients in host galaxies. 
+For extragalactic transients, the three nearest galaxies are not always the three most likely host galaxies, and the distance in arcseconds matters less than a separation distance that accounts for the galaxy's luminosity profile.
+Furthermore, the definition of {\tt nearbyObjLnP} is only appropriate for static variable point sources (stars): for transients in host galaxies, the observed {\tt DIAObject} will never be ``the same as the nearby {\tt Object}".
+
+Statistically, the most likely host for a given transient is the galaxy which contributes the most optical flux at the transient's location.
+This is usually estimated by calculating an offset distance from the nearby galaxies to the transient that is expressed in terms of the galaxy's spatial luminosity profile, and assuming the galaxy with the lowest offset distance is the host.
+The following are several options for estimating which nearby galaxy is the most likely host of an extragalactic transient.
+
+{\bf Effective Radius --} Calculate a separation distance that is the radial distance from the core of the galaxy to the location of the transient, divided by the effective radius of the galaxy (i.e., {\tt kronRad90} in the {\tt Objects} table; \citeds{LSE-163}).
+The nearby galaxy with the lowest separation distance is the most likely host. This will account for the relative sizes of the potential host galaxies, but not their position angles. 
+
+{\bf Second Moment --} Calculate a separation distance, as in \citet{2006ApJ...648..868S}, based on the two-dimensional luminosity profile of the galaxy.
+Where $x_{\rm trans},y_{\rm trans}$ is the location of the transient, and $x_{\rm gal},y_{\rm gal}$ is the center of the galaxy (the first moment; {\tt radec} in the {\tt Object} table), the separation distance is $R^2 = C_{xx} x_r^2 + C_{yy} y_r^2 + C_{xy} x_r y_r$, where $x_r = x_{\rm SN} - x_{\rm gal}$ and $y_r = y_{\rm SN} - y_{\rm gal}$.
+The ellipse parameters $C_{xx}$, $C_{yy}$, and $C_{xy}$ can be calculated directly from the second moments of the galaxy luminosity profile ({\tt Ixx}, {\tt Iyy}, and {\tt Ixy} in the {\tt Object} table), e.g., as described in Section 10 of E. Bertin's Source Extractor manual\footnote{Version 2.3: \url{https://www.astromatic.net/pubsvn/software/sextractor/trunk/doc/sextractor.pdf}}.
+The nearby galaxy with the lowest separation distance is the most likely host.
+This option accounts for both the relative sizes and position angles of the potential host galaxies, and requires only a little more processing. 
+
+{\bf 2D Algorithms --} There are also other, more complicated methods for identifying the most likely host for a given transient.
+For example, the nearby galaxy with the smallest fraction of light interior to an isophot through the transient's location, where the isophot shape is given more degrees of freedom and not constrained to concentric ellipticals as in the second moment method above.
+Another example is to use an algorithm that provides deblended footprints for nearby extended objects, and can estimate the fraction of light in given pixel that should be attributed to each (e.g., the SCARLET deblender, \cite{2018A&C....24..129M}).
+The most likely host galaxy would be the one which contributes the most flux at the pixel location of a transient.
+
+Generally, nearby galaxies with separation distances $>$3, or $>$99\% of the luminosity profile, are not assigned as hosts and the transient is considered "hostless".
+While this cutoff has been appropriate for past samples of $\sim$hundreds of transients, it will not be appropriate for the LSST sample size, and no such cut should be applied when evaluating potential host galaxies for {\tt DIAObjects}. 
+
+All of the above host galaxy identification methods can also make use of priors if the transient type is known; for example, the established correlation between core-collapse supernovae and star formation.
+However, such a robust level of host associations are beyond scope for the Prompt pipeline, and the main goal is to provide brokers with sufficient information to assess the potential host association, and decide whether it is useful to the classification and/or prioritization of alerts for follow-up. 
+
+{\bf Summary --} For the ten nearest {\tt Object} catalog galaxies, a separation distance should be calculated with respect to the transient location, preferably using the second moments of each galaxy's luminosity profile. Two new {\tt DIAObject} catalog elements should be added: {\tt nearbyPotHost}, containing the {\tt objectId} for the three galaxies with the lowest separation distances, and {\tt nearbyPotHostSepDist}, containing the separation distances. An analog for the existing element {\tt nearbyObjLnP}, representing the probability, is not necessary. This would add {\tt unit64[3]} and {\tt float[3]} to the {\tt DIAObject} catalog and to each alert, but this both tiny and worthwhile.
 
 
 \subsection{Compressing the Alert Packets}\label{ssec:packets_compress}
 
-The application of gzip compression could further reduce the size of a full alert to $\sim$65~KB (80\%; JIRA ticket DM-16280). Naively, this seems like it would allow 1 more full stream to be transmitted to a broker, but the time and computational resources required to compress the alert packets has not been considered, \emph{and} this option would then force all brokers to decompress the alerts on arrival which might further delay processing for everyone. Science goals requiring low-latency alerts (\S~\ref{sec:latency}) could be negatively impacted.
+The application of gzip compression could further reduce the size of a full alert to $\sim$65~KB (80\%; JIRA ticket DM-16280).
+Naively, this seems like it would allow 1 more full stream to be transmitted to a broker, and thereby enable more science.
+However, the time and computational resources required to compress the alert packets needs to be considered.
+For example, gzip compression at 50 MB/s to compress $\sim$10000 alerts would take $\sim$10000 $\times$0.08 MB per alert $/$50 MB/s, or $\sim$16 seconds.
+This is significant, considering the alert distribution latency requirement\reqparam{OTT1}\lsrreq{0101}\ossreq{0127}\dmreq{0004} is 60 seconds. 
+Furthermore, compressing the alert packets forces brokers to then decompress the alerts on arrival, which would incur further delay.
+Science goals requiring very low-latency alerts distribution might be negatively impacted by compression -- see \S~\ref{sec:latency} for a deeper discussion of the science drivers for low-latency alerts.
+
+{\bf Summary --} Since packet compression could induce an additional latency, perhaps it should only be done if, e.g., an algorithm could provide a compression rate of $\lesssim$10 MB/s (requiring only a few seconds to compress a visit's worth of alerts), or if the alert distribution latency requirement is relaxed from 1 minute (see \S~\ref{sec:latency}).
+Otherwise, compression would have no impact on alerts-related science goals and so this should be primarily a technically-driven decision.
+
+
 
 
 \clearpage
@@ -196,8 +262,29 @@ For this particular science case, LSST seems to be the wrong tool for the job. A
 
 \subsection{Fast Radio Bursts}\label{ssec:latency_frb}
 
-\textcolor{red}{MLG: Can grab all the stuff you put into the CBW paper and put it here instead.}
+One of the strongest -- but also most mysterious -- transients that might significantly benefit from the $60$ second alert timescale are fast radio bursts (FRBs): a millisecond long pulse of coherent emission in the GHz range.
+The emission is dispersed by the inter-galactic medium (IGM), such that the pulse's observed arrival time is frequency dependent.
+Observed FRB dispersion measures of $\rm{DM}\approx100$ to $1000$ $\rm pc\ cm^{-3}$ indicate that their origins are at cosmological distances, with redshifts $z\approx0.1$ to $1$ \citep{2018Natur.562..386S}. 
 
+If an optical counterpart is generated by this coherent emission, the time delay between the optical detection and the radio detection is on the timescale of minutes for frequencies $\nu < 500\ {\rm MHz}$, as shown in Figure \ref{fig:sci_frb}.
+This leaves open the possibility for triggering radio follow-up of optical counterpart candidates -- if they exist and are detectable -- and triggering additional follow-up for a serendipitous co-detection of FRB and optical transient.
+A millisecond-long event in the optical would have to be quite bright to be detected by LSST, but studies show that LSST detections are feasible \citep{2016ApJ...824L..18L}.
+\cite{2019ApJ...878...89Y} demonstrate that two theoretical sources for coherent optical emission from FRBs would not be detectable by LSST, but that inverse Compton scattering processes could lead to optical detections with LSST (e.g., from pulsars or masers).
+If FRBs are associated with superluminous supernovae (SLSNe) and young magnetars, then potentially an LSST alert regarding a change in behavior of known SLSNe could be used to trigger radio follow-up.
+However, this case is unlikely to be as sensitive to the LSST alert distribution timescale as the optical emission would be released over a longer time window \citep{2019arXiv191002036L}.
+
+Searches for FRB counterparts in optical images that were serendipitously obtained coincidentally with an FRB detection have only just recently become possible thanks to current wide-field imaging surveys.
+No transient optical counterparts have yet been detected \citep{2019ApJ...881...30T}, but individual host galaxies for FRB events have been identified \citep{2016Natur.530..453K}.
+Since the rate of FRBs is estimated to be quite high, thousands per day \citep{2016MNRAS.460L..30C}, even after radio detection efficiency is factored in there should be many within the observed LSST volume.
+
+\textcolor{red}{\bf Need an estimate of the number of FRB locations serendipitously observed by LSST within a few minutes window.}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=12cm]{figures/frb_optical_delays.png}
+\caption{The delay time (for coherent emission) between the arrival of the optical and radio photons due to cosmological dispersion, as a function of the frequency of the radio detector. The {\it lowest} frequency bands of the Square Kilometer Array (SKA) and the Low-Frequency Array (LOFAR) are marked with vertical dotted and dash-dotted lines, and the 1 minute timescale for LSST alert distribution with a horizontal dashed line. The delay time is $\Delta t = k_{\rm DM}\,DM\,(\nu_{\rm low}^{-2} - \nu_{\rm high}^{-2})$, where $k_{DM}=4.149$ $\rm GHz^2\ pc^{-1}\ cm^3\ ms$, ${\rm DM}$ is the dispersion measure in $\rm pc\ cm^{-3}$, $\nu$ is the low and high frequency bands of the observation, and $\Delta t$ is in $\rm ms$. We have used the range of FRB dispersion measures as observed by \cite{2018Natur.562..386S}. \label{fig:sci_frb}}
+\end{center}
+\end{figure}
 
 \subsection{Solar System Objects}\label{ssec:latency_sso}
 
