@@ -298,7 +298,6 @@ However, this case is unlikely to be as sensitive to the LSST alert distribution
 \textcolor{red}{MLG: in Lynne's talk on the SSSC needs for alerts brokers at the CBW in June 2019, slide 4 says that a needed broker capability was "API or other 'push' notification (e.g., trailed detections) [minutes may count]". Follow-up on the SS use case for alerts on very short timescales.}
 
 
-
 \subsection{Stellar Variables}\label{ssec:latency_stars}
 
 \textcolor{red}{Return to the road map or science book? Surely there must be some stellar use-cases for 1 minute alerts.}
@@ -313,16 +312,30 @@ However, this case is unlikely to be as sensitive to the LSST alert distribution
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Pre-Filtered Alert Streams} \label{sec:prefilter}
 
-Pre-filtered streams might mean the alerts can be distributed to more brokers than numStreams. What kind of pre-filters might suit the brokers?
+This section explores the scientific motivation and impact of offering brokers pre-filtered alert streams. 
+Pre-filtering could reduce the overall bandwidth of alert distribution and potentially allow streams to be transmitted to more brokers, thereby enabling more alerts-related science.
+Providing pre-filtered streams could also lessen the load and resources used by the brokers, enabling more alerts-related science by allowing brokers to spend a smaller fraction of their budget computational resources.
 
- - magnitude or signal-to-noise ratio (affects completeness/purity)
- - region of sky (like one of the LOI for a particular region)
- - static-sky object association
+The types of pre-filters that a broker would use are mainly driven by the science goals of that particular broker; some examples follow.
+A broker might only find it useful to receive alerts for {\tt DIASources} that are likely to be stellar variables, moving objects, or extragalactic transients.
+A broker might only want to receive alerts that could potentially be observed by its associated follow-up resources -- {\tt DIASources} brighter than a given limit or located in a particular region of sky. 
+A broker might employ a suite of algorithms that all require, e.g., at least two detections by LSST before any further action is taken, and so would not need any single-detection alerts.
+A broker might be specialized in a science area that is not done with the wide-fast-deep main survey, but with a special program such as the deep drilling fields or target-of-opportunity imaging surveys. 
+Finally, a broker might not be interested in alerts obtained during poor weather conditions (e.g., an image quality or sky background violating some limit) -- although, this type of filter might not be entirely science-driven.
+
+For the above reasons, the potential pre-filters that might be scientifically useful -- some of which have been suggested by brokers already -- include:
+\begin{itemize}
+\item {\bf Apparent Magnitude: } only {\tt DIASources} brighter than a specified apparent magnitude (for each of the LSST filters {\it ugrizy}) are transmitted. 
+\item {\bf Region of Sky: } only {\tt DIASources} in a given sky area(s) are transmitted. 
+\item \texttt{\bf DIAObject} {\bf History: } only {\tt DIASources} associated with {\tt DIAObjects} that have at least $N$ previous detections are transmitted, where $N$ can be $\geq1$. 
+\item \texttt{\bf SSObject} {\bf Association: } only {\tt DIASources} that are associated with a {\tt SSObject} are transmitted. (Potentially including new, unassociated {\tt DIASources}, because they might also be moving objects).
+\item \texttt{\bf Object} {\bf Association: } only {\tt DIASources} associated with {\tt DIAObjects} that are, in turn, associated with a data release {\tt Object} that meets some specification are transmitted (e.g., associated with a stellar point source).
+\item {\bf Observation Metadata: } only alerts from images obtained with a given set of metadata, e.g., a special observing program or meeting sky condition thresholds, are transmitted.
+\end{itemize}
+
+All of these potential science-driven pre-filters are based on the information contained in the alert itself, and do not impose any additional processing on the Prompt pipeline.
  
- Image free streams of alert packets.
- Sources only associated with past alerts.
-
-Provide estimates for how much the alert stream volume would be reduced.
+\textcolor{red}{Provide estimates for how much the alert stream volume would be reduced by each of these potential pre-filters using nominal limits.}
 
 
 
