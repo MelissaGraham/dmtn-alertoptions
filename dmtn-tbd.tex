@@ -126,7 +126,7 @@ From a science perspective, the benefits to allowing brokers to customize their 
 One drawback might be that in times of heavy load, full-sized packet streams might be more likely to be delayed, which would be unfair to brokers requiring full-size packets, and could disproportionately affect some science goals more than others.
 The fact that not all alert packets are identical might cause some additional bookkeeping considerations for downstream brokers who ingest from multiple community brokers, but should not be detrimental to their science goals.
 
-The technical considerations of how many different alert packet formats it is feasible to create and transmit within the required latency time is left for data management.
+The technical considerations of how many different alert packet formats it is feasible to create and transmit within the required latency time is left for other work.
 
 
 \subsection{Additional {\tt Object} Association Information}\label{ssec:packets_add}
@@ -194,15 +194,16 @@ It is a requirement that the DMS be capable of supporting the distribution of at
 
 If it is possible to relax this requirement to, e.g., 5 minutes -- \emph{without risk to the science goals} -- then it might be possible to support more community brokers and/or repurpose the human and computational resources that would otherwise be dedicated to delivering 1 minute alert distribution. This section attempts to gather the science goals which might potentially require 1 minute alert distribution and could not be satisfied with a longer latency.
 
-{\bf Generally, science goals that require alerts on timescales shorter than $\sim$5 minutes have that need because they also require follow-up on timescales shorter than $\sim$15--30 minutes.} Most observing strategies for the WFD main survey do not revisit fields on timescales shorter than $\sim$15 minutes (strategies that do pair visits aim for closer to $\sim$22 minute gaps). Thus, any science goals driving the need for alerts on timescales shorter than $\sim$5 minutes \emph{must also be able to confidently identify their targets with single-epoch single-filter LSST photometry}, or be using additional information (such as host galaxy characteristics, or coincidence with another survey's data).
+{\bf Generally, for science goals that require alerts on timescales shorter than $\sim$5 minutes, this need stems from targets that are fast-evolving or short-lived (or both) and require follow-up on timescales shorter than $\sim$15--30 minutes.} Most observing strategies for the WFD main survey do not revisit fields on timescales shorter than $\sim$15 minutes (strategies that do pair visits aim for closer to $\sim$22 minute gaps). Thus, any science goals driving the need for alerts on timescales shorter than $\sim$5 minutes \emph{must also be able to confidently identify their targets with single-epoch single-filter LSST photometry}, or be using additional information (such as host galaxy characteristics or coincidence with another survey's data). 
 
-{\bf Target of Opportunity --} It is important to note that for rapid ToO observations with LSST (if they occur), there might not be time to pre-cache slow database queries (e.g., loading slices of the PPDB catalogs) when upcoming pointings are not known in advance, as would happen during regular survey observations. This might mean that a 1 minute alert distribution timescale for alerts from ToO imaging surveys cannot be guaranteed, and this should be kept in mind when reading through the science cases for short alert latencies in this section. \textcolor{red}{$\leftarrow$ This statement was modified from something ECB mentioned on Slack, double check it's accurate}.
+{\bf Target of Opportunity --} It is important to note that for rapid ToO observations with LSST (if they occur), there might not be time to pre-cache slow database queries (e.g., loading slices of the PPDB catalogs) when upcoming pointings are not known in advance, as would happen during regular survey observations. This might mean that a 1 minute alert distribution timescale for alerts from ToO imaging surveys cannot be guaranteed. While this should be kept in mind as a possibility, for the purposes of this study of the \emph{scientific} impacts of the alert latency it assumed to be technically solvable issue.
+
 
 \subsection{TVS Survey Results Regarding Alerts Timescales}\label{ssec:latency_tvs}
 
-The Transients and Variable Stars (TVS) science collaboration surveyed the science needs of their members with respect to alert latency, and the results are shown in Table \ref{tab:tvs}\footnote{Results courtesy of TVS co-chair Rachel Street.}. The survey asked respondents to choose the maximum tolerable and ideal average delay between the alerts being produced by the LSST data reduction pipeline and the alert information becoming available through the broker service. This is not exactly the same as the alert distribution timescale {\tt OTT1}, but these responses will inform the need for $<$1 minute alert distribution.  Respondents were asked to provide a short summary of their science goals for alerts if they reported needed access within 15 minutes. Note that the pool of respondents is probably not representative of the wider collaboration, and is likely biased towards individuals with science interests that do require faster access to alerts. 
+The Transients and Variable Stars (TVS) science collaboration surveyed the science needs of their members with respect to alert latency, and the results\footnote{Results courtesy of TVS co-chair Rachel Street.} are shown in Table \ref{tab:tvs}. The survey asked respondents to choose the maximum tolerable and ideal average delay between the alerts being produced by the LSST data reduction pipeline and the alert information becoming available through the broker service. This is not exactly the same as the alert distribution timescale {\tt OTT1}, but these responses will inform the need for $<$1 minute alert distribution.  Respondents were asked to provide a short summary of their science goals for alerts if they reported needed access within 15 minutes. Note that the pool of respondents is probably not representative of the wider collaboration, and is likely biased towards individuals with science interests that do require faster access to alerts. 
 
-Only 20\% (10\%) of respondents report that $<$10 minutes ($\leq$1 minute) is an ideal average delay, and whereas 70\% report that $>$30 minutes would be a sufficient average latency. The three science drivers associated with $<$5 minute alert access are the electromagnetic counterparts to gravitational wave events (EM-GW; kilonovae), young supernovae (early short-lived light curve features such as shock breakouts), and gamma-ray bursts (GRB). It is at first confusing that EM-GW was provided as the science driver for such a wide range of alert access timescales, but this is discussed further in \S~\ref{ssec:latency_emgw}, along with several other science cases that rely on rapid access to LSST alerts.
+Only 20\% (10\%) of respondents report that $<$10 minutes ($\leq$1 minute) is an ideal average delay, and whereas 70\% report that $>$30 minutes would be a sufficient average latency. The three science drivers associated with $<$5 minute alert access are the electromagnetic counterparts to gravitational wave events (EM-GW; kilonovae), young supernovae (early short-lived light curve features such as shock breakouts), and gamma-ray bursts (GRB). The fact that these three are also listed as science drivers for longer-latency alert is mainly due to the diversity within the science drivers and the fact that the events have both short- and longer-timescale features. Each of these science drivers is discussed in turn below, along with two other science cases that rely on rapid access to LSST alerts: fast radio bursts (FRBs) and solar system objects (SSOs).
 
 \begin{table}[h]%[htdp]
 \caption{Table of results from a TVS survey which asked "how fast do you really need alerts?". The total number of respondents was 20. The science driver acronyms are: EM-GW (electromagnetic counterparts to gravitational wave events), YSNe (young supernovae, including e.g., shock breakouts), GRBs (gamma-ray bursts). \label{tab:tvs}}
@@ -232,11 +233,11 @@ Latency & Tolerable  & Driver(s) &  Average & Driver(s) \\
 \subsection{EM Counterparts to GW Events}\label{ssec:latency_emgw}
 % From Slack conversation, Federica Bianco, Om Sharan Salafia, Eric Bellm
 
-During LSST Operations, target-of-opportunity imaging follow-up sequences might be executed in the error ellipse of a gravitational wave (GW) detection to search for the electromagnetic (EM) optical counterpart. Such a search yielded a fast-evolving "kilonova" which decayed from 22 to 28th magnitude in the $g$-band in just 6 days \citep[faster in the bluer and slower in the redder filters][]{2017Sci...358.1559K}. Although the kilonova light curves last only a few days, since there is so far only one event, GW170817, a day or two delay between the GW event and the optical detection still yields very scientifically valuable data -- for now. During LSST Operations there will already exist a sizable collection of longer-latency follow-up, and it is likely that science will be moving in the direction of pushing to ever earlier detections. However, since KNe produce days-long optical afterglows, a 5 minute LSST alerts would likely suffice.
+During LSST Operations, target-of-opportunity imaging follow-up sequences might be executed in the error ellipse of a gravitational wave (GW) detection to search for the electromagnetic (EM) optical counterpart. Such a search yielded a fast-evolving "kilonova" which decayed from 22 to 28th magnitude in the $g$-band in just 6 days \citep[faster in the bluer and slower in the redder filters][]{2017Sci...358.1559K}. Although the kilonova light curves last only a few days, since there is so far only one event, GW170817, a day or two delay between the GW event and the optical detection still yields very scientifically valuable data -- for now. During LSST Operations there will already exist a sizable collection of longer-latency follow-up, and it is likely that science will be moving in the direction of pushing to ever earlier detections. However, since kilonovae produce days-long optical afterglows, a 5 minute LSST alerts would likely suffice.
 
-There are two theoretical predictions for prompt optical emission that would require very rapid access to alerts. One of them is a potential faint, $<$1 hour, UV/optical transient that occurs at the time of jet-break out for a short gamma-ray burst associated with a binary neutron star merger (\S~\ref{ssec:latency_grb}). Another that predicts emission of a similar color, luminosity, and timescale is the spin-down energy of a long-lived ($10^2$--$10^4$ s) neutron star formed from a binary neutron star merger before its eventual collapse to a black hole \citep{2016ApJ...819...15S}. As described in \S~\ref{ssec:latency_grb}, very few events could be detected by serendipitous coincidence by the LSST WFD main survey, and targeted follow-up of well-localized GW events with more appropriate facilities (such as space-based UV/optical imagers) is much more likely to yield detections of this very short lived emission.
+There are two theoretical predictions for prompt optical emission that would require very rapid access to alerts. One of them is a potential faint, $<$1 hour, UV/optical transient that occurs at the time of jet-break out for a short gamma-ray burst associated with a binary neutron star merger (\S~\ref{ssec:latency_grb}). Another that predicts emission of a similar color, luminosity, and timescale is the spin-down energy of a long-lived ($10^2$--$10^4$ s) neutron star formed from a binary neutron star merger before its eventual collapse to a black hole \citep{2016ApJ...819...15S}. As described in \S~\ref{ssec:latency_grb}, very few events could be detected by serendipitous coincidence by the LSST WFD main survey, and targeted follow-up of well-localized GW events with more appropriate facilities such as space-based UV/optical imagers is much more likely to yield detections of this very short lived emission.
 
-There are two additional issues related to ToO for EMGW events which might make 1 minute alerts necessary or impossible. First, as described above, for a ToO imaging survey with LSST there might not be time to pre-load catalogs for the targeted fields. The second is that, at least for run O3, the GW event detection system itself issues preliminary alerts within 1--10 minutes, and these preliminary alerts are often retracted and do not always have the sky localization. Even now, many imaging follow-up surveys wait for the initial alert (or retraction) to be sent after a round of human vetting of the GW event signal, and this can take several hours. With such latencies, the 1 {\it vs.} 5 minute LSST alert timescales becomes inconsequential. 
+There are two additional issues related to ToO for EMGW events which might make 1 minute alerts necessary or impossible. First, as described above, for a ToO imaging survey with LSST there might not be time to pre-load catalogs for the targeted fields. The second is that, at least for run O3, the GW event detection system itself issues preliminary alerts within 1--10 minutes, and these preliminary alerts are often retracted and do not always have the sky localization. Even now, many imaging follow-up surveys wait for the initial alert (or retraction) to be sent after a round of human vetting of the GW event signal, and this can take several hours. With such latencies, the question of 1 {\it vs.} 5 minute LSST alert timescales becomes inconsequential. 
 
 
 
@@ -247,7 +248,6 @@ For short gamma-ray bursts (sGRBs) which are thought to be the mergers of two ne
 % z=0.035 is V=0.014 Gpc3
 % z=0.14 is V=0.836 Gpc3
 % (0.836/0.014) * 4/yr = 240/yr
-
 The rate of short GRBs in the local volume ($<$200 Mpc) is estimated to be quite low, $<$4 $\rm yr^{-1}$ \citep{2019arXiv190800100M}. Scaling this up to the co-moving volume within 630 Mpc is $\sim$240 $\rm yr^{-1}$, all-sky. In the baseline main survey, about a sixth of the sky can be observed in a given night, which is $\lesssim$0.1 event in the WFD main survey area per night. With $\sim$1000 visits per night, and $\sim$10 visits every 5 minutes, there's a $10^{-3}$ chance that the location of a sGRB will be serendipitously observed within 5 minutes of the event on a given night. So this could happen once every 3 years, or $\sim$3 times over the 10-year LSST main survey.
 
 For this particular science case, LSST seems to be the wrong tool for the job. As described by \citet{2018MNRAS.473..576G}, a rapid search at the location of sGRBs with a UV satellite such as ULTRASAT would be ideal.
@@ -259,29 +259,36 @@ For this particular science case, LSST seems to be the wrong tool for the job. A
 
 \subsection{Young Supernovae}\label{ssec:latency_ysne}
 
+Photometric data obtained during the first few hours to days of a supernova can constrain the progenitor radius and circumstellar material in the immediate environment, which in turn provides information about the progenitor star, its system, and its final stages of evolution before the explosion.  For example, \citet{2018Natur.554..497B} model the optical photometric data of the post-shock breakout cooling peak for a massive star's core collapse supernova to constrain the radius and mass of its outer envelope; \citet{2012ApJ...744L..17B} used the first day of photometric observations of a nearby Type Ia (thermonuclear detonation) supernova to show that their progenitor stars must be a compact degenerates; and rare ``blue bumps" in the first few days of a Type Ia supernova's light curve might betray the presence of a non-degenerate companion star \citep[e.g.,][]{2010ApJ...708.1025K,2017ApJ...845L..11H}.
+
+For young supernovae, follow-up observations within a couple of hours are required, and the related science goals are unlikely to be impacted if the alert latency was 5--10 minutes instead of 1 minute.
+
 
 \subsection{Fast Radio Bursts}\label{ssec:latency_frb}
 
 One of the strongest -- but also most mysterious -- transients that might significantly benefit from the $60$ second alert timescale are fast radio bursts (FRBs): a millisecond long pulse of coherent emission in the GHz range.
 The emission is dispersed by the inter-galactic medium (IGM), such that the pulse's observed arrival time is frequency dependent.
-Observed FRB dispersion measures of $\rm{DM}\approx100$ to $1000$ $\rm pc\ cm^{-3}$ indicate that their origins are at cosmological distances, with redshifts $z\approx0.1$ to $1$ \citep{2018Natur.562..386S}. 
+Observed FRB dispersion measures of $\rm{DM}\approx100$ to $1000$ $\rm pc\ cm^{-3}$ indicate that they originate at cosmological distances, with redshifts $z\approx0.1$ to $1$ \citep{2018Natur.562..386S}. 
 
 If an optical counterpart is generated by this coherent emission, the time delay between the optical detection and the radio detection is on the timescale of minutes for frequencies $\nu < 500\ {\rm MHz}$, as shown in Figure \ref{fig:sci_frb}.
-This leaves open the possibility for triggering radio follow-up of optical counterpart candidates -- if they exist and are detectable -- and triggering additional follow-up for a serendipitous co-detection of FRB and optical transient.
+This leaves open the possibility for triggering radio follow-up of an optical counterpart candidate serendipitously detected by LSST -- if such counterparts exist and are detectable.
 A millisecond-long event in the optical would have to be quite bright to be detected by LSST, but studies show that LSST detections are feasible \citep{2016ApJ...824L..18L}.
 \cite{2019ApJ...878...89Y} demonstrate that two theoretical sources for coherent optical emission from FRBs would not be detectable by LSST, but that inverse Compton scattering processes could lead to optical detections with LSST (e.g., from pulsars or masers).
+Searches for FRB counterparts in optical images that were serendipitously obtained (near-) coincidentally with an FRB detection have only just recently become possible thanks to current wide-field imaging surveys.
+No transient optical counterparts have yet been detected \citep{2019ApJ...881...30T}, but individual host galaxies for FRB events have been identified \citep{2016Natur.530..453K}.
+Since the rate of FRBs is estimated to be quite high (thousands per day; \citealt{2016MNRAS.460L..30C}) even after radio detection efficiency is factored in there could be many within the observed LSST volume. 
+
+For example, if there are 1000 FRB occurring across the full sky every 24 hours, and LSST observes one sixth of the sky during a night's 10 hours of darkness, then there would be $\sim70$ FRB occurring in that area during that time.
+Assuming that both the FRB and the LSST visits are distributed randomly in time and location (although the visits are correlated, obviously), there's a $\sim6\%$ chance that in any given night one visit will be serendipitously coincident with the short lived time-delayed optical counterpart of an FRB.
+If such a source could be recognized as an FRB optical counterpart within a minute, and radio follow-up could begin as soon as possible to detect the radio component and measure the time delay (Figure \ref{fig:sci_frb}).  
+However, \textcolor{red}{it is (or rather, MLG is) currently unclear whether (a) there is strong theoretical support for such optical counterparts, and (b) radio telescopes can perform ToO follow-up on $<$15 minute timescales}.
+
 If FRBs are associated with superluminous supernovae (SLSNe) and young magnetars, then potentially an LSST alert regarding a change in behavior of known SLSNe could be used to trigger radio follow-up.
 However, this case is unlikely to be as sensitive to the LSST alert distribution timescale as the optical emission would be released over a longer time window \citep{2019arXiv191002036L}.
 
-Searches for FRB counterparts in optical images that were serendipitously obtained coincidentally with an FRB detection have only just recently become possible thanks to current wide-field imaging surveys.
-No transient optical counterparts have yet been detected \citep{2019ApJ...881...30T}, but individual host galaxies for FRB events have been identified \citep{2016Natur.530..453K}.
-Since the rate of FRBs is estimated to be quite high, thousands per day \citep{2016MNRAS.460L..30C}, even after radio detection efficiency is factored in there should be many within the observed LSST volume.
-
-\textcolor{red}{\bf Need an estimate of the number of FRB locations serendipitously observed by LSST within a few minutes window.}
-
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=12cm]{figures/frb_optical_delays.png}
+\includegraphics[width=15cm]{figures/frb_optical_delays.png}
 \caption{The delay time (for coherent emission) between the arrival of the optical and radio photons due to cosmological dispersion, as a function of the frequency of the radio detector. The {\it lowest} frequency bands of the Square Kilometer Array (SKA) and the Low-Frequency Array (LOFAR) are marked with vertical dotted and dash-dotted lines, and the 1 minute timescale for LSST alert distribution with a horizontal dashed line. The delay time is $\Delta t = k_{\rm DM}\,DM\,(\nu_{\rm low}^{-2} - \nu_{\rm high}^{-2})$, where $k_{DM}=4.149$ $\rm GHz^2\ pc^{-1}\ cm^3\ ms$, ${\rm DM}$ is the dispersion measure in $\rm pc\ cm^{-3}$, $\nu$ is the low and high frequency bands of the observation, and $\Delta t$ is in $\rm ms$. We have used the range of FRB dispersion measures as observed by \cite{2018Natur.562..386S}. \label{fig:sci_frb}}
 \end{center}
 \end{figure}
@@ -289,6 +296,12 @@ Since the rate of FRBs is estimated to be quite high, thousands per day \citep{2
 \subsection{Solar System Objects}\label{ssec:latency_sso}
 
 \textcolor{red}{MLG: in Lynne's talk on the SSSC needs for alerts brokers at the CBW in June 2019, slide 4 says that a needed broker capability was "API or other 'push' notification (e.g., trailed detections) [minutes may count]". Follow-up on the SS use case for alerts on very short timescales.}
+
+
+
+\subsection{Stellar Variables}\label{ssec:latency_stars}
+
+\textcolor{red}{Return to the road map or science book? Surely there must be some stellar use-cases for 1 minute alerts.}
 
 
 \subsection{Summary}\label{ssec:latency_summary}
@@ -317,20 +330,20 @@ Provide estimates for how much the alert stream volume would be reduced.
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Graceful Degradation} \label{sec:graceful}
 
-Along with the requirement of a 60 second alert distribution timescale (\S~\ref{sec:latency}, the DMS should support the distribution\reqparam{transN}\lsrreq{0101}\reqparam{nAlertVisitAvg}\ossreq{0193}\reqparam{nAlertVisitPeak}\dmreq{0393} of at least 10,000 alerts per standard visit on average during a given night, and at least 40,000 alerts per single standard visit. 
+Along with the requirement of a 60 second alert distribution timescale (\S~\ref{sec:latency}, there are requirements that the DMS should support the distribution\reqparam{transN}\lsrreq{0101}\reqparam{nAlertVisitAvg}\ossreq{0193}\reqparam{nAlertVisitPeak}\dmreq{0393} of at least 10,000 alerts per standard visit on average during a given night, and at least 40,000 alerts per single standard visit. 
 
 It is also a requirement\reqparam{sciVisitAlertDelay}\reqparam{sciVisitAlertFailure}\ossreq{0112}\dmreq{0392} that no more than 1\% of all standard visits fail to have at least 98\% of its alerts distributed within 60 seconds of image readout, and that no more than 0.1\% of all standard visits fail to distribute alerts.
 
-These requirements apply to standard visits which should have produced $\leq$40,000 alerts. For example, a visit would be considered "delayed" and count towards that 1\% limit if $>$2\% of its alerts were distributed with a latency of $>$60 seconds. The requirement that no more than 0.1\% of all science visits fail to generate and/or distribute alerts is integrated over all stages of data handling, not just alert distribution, and includes failures at any stage of prompt processing.
+These requirements apply to standard visits which should have produced $\leq$40,000 alerts. For example, a visit would be considered ``delayed" and count towards that 1\% limit if $>$2\% of its alerts were distributed with a latency of $>$60 seconds. The requirement that no more than 0.1\% of all science visits fail to generate and/or distribute alerts is integrated over all stages of data handling, not just alert distribution, and includes failures at any stage of prompt processing.
 
 It is furthermore specified that alert distribution "degrade gracefully" beyond that limit, meaning that visits resulting in an excess of alerts should not cause any DMS downtime \citedsp{LSE-30,LSE-61}.
 
 
 In crowded fields there might be $>$40,000 difference-image sources.
 
-For alerts that are not distributed within 60 seconds, how should they be handled? 
+For alerts that are not distributed within 60 seconds, how should they be handled, \textbf{from a science perspective?}
 
-It is a requirement that all alerts be stored in an archival database and be available for retrieval\ossreq{0185}. The term "available for retrieval" applies to users with data rights and access to the LSST Science Platform. Like all other Prompt data products, the alerts archive will be updated within 24\reqparam{L1PublicT}\lsrreq{0104} hours \citedsp{LSE-29}.
+It is a requirement that all alerts be stored in an archival database and be available for retrieval\ossreq{0185}. The term ``available for retrieval" applies to users with data rights and access to the LSST Science Platform. Like all other Prompt data products, the alerts archive will be updated within 24\reqparam{L1PublicT}\lsrreq{0104} hours \citedsp{LSE-29}.
 
 \textcolor{red}{From the community post brokers FAQ $\rightarrow$}The retention period in the alert distribution system is still to be determined, but given the alert stream data rate of ~800 GB/night it is currently reasonable to expect a retention period of ~7 days. Brokers with data rights can retrieve old alert packets from the Alerts Database. However, note that the requirements on user access to the Alert Database are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities (DMTN-102 1).
 
@@ -339,6 +352,8 @@ It is a requirement that all alerts be stored in an archival database and be ava
 \clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{LSST Alert Filtering Service}\label{sec:lafs}
+
+\textcolor{red}{check if this changed names again to the "simple filtering service"?}
 
 It is a requirement that the LSST alert filtering service be able to support\reqparam{numBrokerUsers}\dmreq{0343} at least 100 simultaneous users. The LAFS will be capable of returning 20\reqparam{numBrokerAlerts}\dmreq{0343} full-sized alerts per visit per user.
 
