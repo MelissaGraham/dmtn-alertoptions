@@ -300,13 +300,13 @@ However, this case is unlikely to be as sensitive to the LSST alert distribution
 
 \subsection{Stellar Variables}\label{ssec:latency_stars}
 
-\textcolor{red}{Return to the road map or science book? Surely there must be some stellar use-cases for 1 minute alerts.}
+\textcolor{red}{Return to the road map or science book? Surely there must be some stellar use-cases for 1 minute alerts. E.g., microlensing peaks can be real sharp.}
 
 
 \subsection{Summary}\label{ssec:latency_summary}
 
-
-
+There does not, currently, seem to be an unambiguous need for alerts on latency timescales of 1 minute compared to 5 minutes. 
+However, it is not unambiguous that such a need will not evolve out of the still emergent fields of fast radio bursts and gravitational wave events.
 
 \clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -323,14 +323,14 @@ A broker might employ a suite of algorithms that all require, e.g., at least two
 A broker might be specialized in a science area that is not done with the wide-fast-deep main survey, but with a special program such as the deep drilling fields or target-of-opportunity imaging surveys. 
 Finally, a broker might not be interested in alerts obtained during poor weather conditions (e.g., an image quality or sky background violating some limit) -- although, this type of filter might not be entirely science-driven.
 
-For the above reasons, the potential pre-filters that might be scientifically useful -- some of which have been suggested by brokers already -- include:
+For the above science drivers, the types of pre-filters that are likely to be scientifically useful -- some of which have been suggested by brokers already -- include:
 \begin{itemize}
-\item {\bf Apparent Magnitude: } only {\tt DIASources} brighter than a specified apparent magnitude (for each of the LSST filters {\it ugrizy}) are transmitted. 
-\item {\bf Region of Sky: } only {\tt DIASources} in a given sky area(s) are transmitted. 
-\item \texttt{\bf DIAObject} {\bf History: } only {\tt DIASources} associated with {\tt DIAObjects} that have at least $N$ previous detections are transmitted, where $N$ can be $\geq1$. 
-\item \texttt{\bf SSObject} {\bf Association: } only {\tt DIASources} that are associated with a {\tt SSObject} are transmitted. (Potentially including new, unassociated {\tt DIASources}, because they might also be moving objects).
-\item \texttt{\bf Object} {\bf Association: } only {\tt DIASources} associated with {\tt DIAObjects} that are, in turn, associated with a data release {\tt Object} that meets some specification are transmitted (e.g., associated with a stellar point source).
-\item {\bf Observation Metadata: } only alerts from images obtained with a given set of metadata, e.g., a special observing program or meeting sky condition thresholds, are transmitted.
+\item {\bf Apparent Magnitude:} only {\tt DIASources} brighter than a specified apparent magnitude (for each of the LSST filters {\it ugrizy}) are transmitted. 
+\item {\bf Region of Sky:} only {\tt DIASources} in a given sky area (or areas; defined by, e.g., limits in right ascension or declination), are transmitted. 
+\item \texttt{\bf DIAObject} {\bf History:} only {\tt DIASources} associated with {\tt DIAObjects} that have at least $N$ previous detections are transmitted, where $N$ can be $\geq1$. 
+\item \texttt{\bf SSObject} {\bf Association:} only {\tt DIASources} that are associated with a {\tt SSObject} are transmitted. (Potentially including new, unassociated {\tt DIASources}, because they might also be moving objects).
+\item \texttt{\bf Object} {\bf Association:} only {\tt DIASources} associated with {\tt DIAObjects} that are, in turn, associated with a data release {\tt Object} that meets some specification are transmitted (e.g., associated with a stellar point source).
+\item {\bf Observation Metadata:} only alerts from images obtained with a given set of metadata, e.g., a special observing program or meeting sky condition thresholds, are transmitted.
 \end{itemize}
 
 All of these potential science-driven pre-filters are based on the information contained in the alert itself, and do not impose any additional processing on the Prompt pipeline.
@@ -338,42 +338,50 @@ All of these potential science-driven pre-filters are based on the information c
 \textcolor{red}{Provide estimates for how much the alert stream volume would be reduced by each of these potential pre-filters using nominal limits.}
 
 
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\subsection{LSST Alert Filtering Service}\label{ssec:prefilter_lafs}
+
+As described in \citeds{LSE-163} the LSST will provide an alert filtering service with limited capacity, by which individuals with LSST data rights and access may receive alerts via pre-defined filters and/or create and apply their own filters to the stream \citedsp{LPM-17,LSE-61}.
+It is a requirement that the LSST alert filtering service be able to support\reqparam{numBrokerUsers}\dmreq{0343} at least 100 simultaneous users, and capable of returning 20\reqparam{numBrokerAlerts}\dmreq{0343} full-sized alerts per visit per user.
+User-generated filters may be comprised of, e.g., a series of {\tt if} statements applied to the alert packet elements.
+There are no requirements on the latency of filter execution, which may depend on the complexity of the filter and available resources. 
+
+From a science perspective, it would be beneficial to offer any and all of the pre-filtered streams listed above as options for user-generated filters.
+Individual users running small follow-up programs are more likely to have access to smaller-aperture telescopes and thus desire an initial apparent magnitude cut.
+It would save on compute resources to avoid a situation in which, e.g., 50 user-generated brokers all start with an {\tt if} statement to filter the stream to, e.g., $m_r < 20$ mag. 
+
+% One type of simple filtering that individual users are more likely to want than brokers is ``watchlist" capability -- lists of individual objects (stars or galaxies) and offset radii that alerts are desired within. 
+
+
+
+
 
 \clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Graceful Degradation} \label{sec:graceful}
 
-Along with the requirement of a 60 second alert distribution timescale (\S~\ref{sec:latency}, there are requirements that the DMS should support the distribution\reqparam{transN}\lsrreq{0101}\reqparam{nAlertVisitAvg}\ossreq{0193}\reqparam{nAlertVisitPeak}\dmreq{0393} of at least 10,000 alerts per standard visit on average during a given night, and at least 40,000 alerts per single standard visit. 
+The LSST specifications for the DMS require that it support the distribution\reqparam{transN}\lsrreq{0101}\reqparam{nAlertVisitAvg}\ossreq{0193}\reqparam{nAlertVisitPeak}\dmreq{0393} of at least 40,000 alerts per single standard visit, and that for visits producing $\leq$40,000 alerts \reqparam{sciVisitAlertDelay}\reqparam{sciVisitAlertFailure}\ossreq{0112}\dmreq{0392} no more than 1\% of them fail to have at least 98\% of its alerts distributed within 60 seconds of image readout.
+It is furthermore specified that alert distribution "degrade gracefully" beyond that limit, meaning that visits resulting in an excess of 40,000 of alerts should not cause any DMS downtime \citedsp{LSE-30,LSE-61}.
 
-It is also a requirement\reqparam{sciVisitAlertDelay}\reqparam{sciVisitAlertFailure}\ossreq{0112}\dmreq{0392} that no more than 1\% of all standard visits fail to have at least 98\% of its alerts distributed within 60 seconds of image readout, and that no more than 0.1\% of all standard visits fail to distribute alerts.
+This leaves the open question of what, from a science perspective, is the optimal way of dealing with delayed alerts that also meets the DMS specification of a ``graceful degradation"?
+We leave the aspects of technical implementation of a ``graceful degradation", such as distributing delayed alerts and alert archive storage access, for elsewhere and here just consider the science implications for a delayed timescale.
 
-These requirements apply to standard visits which should have produced $\leq$40,000 alerts. For example, a visit would be considered ``delayed" and count towards that 1\% limit if $>$2\% of its alerts were distributed with a latency of $>$60 seconds. The requirement that no more than 0.1\% of all science visits fail to generate and/or distribute alerts is integrated over all stages of data handling, not just alert distribution, and includes failures at any stage of prompt processing.
+{\bf Next-opportunity distribution via the alert stream.} As discussed in Section \ref{sec:latency}, there remains plenty of science goals that do not absolutely require alert distribution in 1 minute.
+Distributing delayed alerts via the stream would still enable plenty of science.
+The brokers might prefer to have delayed alerts clearly flagged to properly process them (e.g., some filtering and processing done by brokers might only be appropriate for alerts delivered within a given latency).
 
-It is furthermore specified that alert distribution "degrade gracefully" beyond that limit, meaning that visits resulting in an excess of alerts should not cause any DMS downtime \citedsp{LSE-30,LSE-61}.
+{\bf Next-morning distribution via the alert stream.} This refers to an option to collect all delayed alerts during the night and then releasing them (perhaps on a new ``topic") in the morning after survey operations have ended for the night.
+From a science perspective this is not as useful as next-opportunity distribution, but if it is preferred for technical reasons it would enable more science than the option below.
 
+{\bf Do not distribute delayed alerts; send directly to archive.} There is no scientific merit in not distributing delayed alerts, and two further drawbacks: the alert archive update timescale is 24 hours\reqparam{L1PublicT}, significantly slower than next-morning distribution, and the alert archive might only be accessible by brokers with data rights since it is part of the LSST Data Facility.
 
-In crowded fields there might be $>$40,000 difference-image sources.
+% MLG: commented out technical implementation aspects.
+%The retention period of alert packets in the alert distribution system is still to be determined, but given the alert stream data rate of ~800 GB/night it is currently reasonable to expect a retention period of ~7 days. 
+% It is a requirement that all alerts be stored in an archival database and be available for retrieval\ossreq{0185}.
+%The term ``available for retrieval" applies to users with data rights and access to the LSST Science Platform.
+%Like all other Prompt data products, the alerts archive will be updated within 24\reqparam{L1PublicT}\lsrreq{0104} hours \citedsp{LSE-29}.
+% However, note that the requirements on user access to the alerts archive are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities.
 
-For alerts that are not distributed within 60 seconds, how should they be handled, \textbf{from a science perspective?}
-
-It is a requirement that all alerts be stored in an archival database and be available for retrieval\ossreq{0185}. The term ``available for retrieval" applies to users with data rights and access to the LSST Science Platform. Like all other Prompt data products, the alerts archive will be updated within 24\reqparam{L1PublicT}\lsrreq{0104} hours \citedsp{LSE-29}.
-
-\textcolor{red}{From the community post brokers FAQ $\rightarrow$}The retention period in the alert distribution system is still to be determined, but given the alert stream data rate of ~800 GB/night it is currently reasonable to expect a retention period of ~7 days. Brokers with data rights can retrieve old alert packets from the Alerts Database. However, note that the requirements on user access to the Alert Database are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities (DMTN-102 1).
-
-
-
-\clearpage
-% % % % % % % % % % % % % % % % % % % % % % % % % %
-\section{LSST Alert Filtering Service}\label{sec:lafs}
-
-\textcolor{red}{check if this changed names again to the "simple filtering service"?}
-
-It is a requirement that the LSST alert filtering service be able to support\reqparam{numBrokerUsers}\dmreq{0343} at least 100 simultaneous users. The LAFS will be capable of returning 20\reqparam{numBrokerAlerts}\dmreq{0343} full-sized alerts per visit per user.
-
-The LSST alerts filtering service is a mechanism by which users --- individuals with LSST data rights and access --- can receive alerts via pre-defined filters that have been optimized for established transient classifications such as supernovae and/or create and apply their own filters to the stream \citedsp{LPM-17,LSE-61}. 
-
-Which options might be appropriate for implementation with the LAFS?
-A few of these options might also be available to users of the LSST alert filtering service (\S~\ref{sec:LAFS}).
 
 
 % Include all the relevant bib files.
