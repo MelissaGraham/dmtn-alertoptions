@@ -42,6 +42,9 @@ A review and discussion of the variety of options for alert packets and their di
 
 \begin{document}
 
+% Cite requirements using these macros.
+% \lsrreq \ossreq \dmreq \reqparam 
+
 % Create the title page.
 % Table of contents is added automatically with the "toc" class option.
 \maketitle
@@ -49,25 +52,35 @@ A review and discussion of the variety of options for alert packets and their di
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Introduction} \label{sec:intro}
 
-The LSST Science Requirements Document \citedsp{LPM-17} specifies that information about the detections of transient, variable, and moving objects be released promptly as a data stream.
+% The LSST Science Requirements Document \citedsp{LPM-17} specifies that information about the detections of transient, variable, and moving objects be released promptly as a data stream.
 
-The purpose of this document is to consider the science motivation for, and impact of, the various options for alert packet contents and distribution timescales. 
+The purpose of this document is to consider the science motivation for, and impact of, various options for alert packet contents and their distribution timescale.
+The contents and delivery of alert packets will play a major role in the scientific impact of LSST, in part because they are the only LSST data product that is both world public, as they are exempt from any proprietary period, and publicly accessible because they are distributed to community brokers, and not solely available via the LSST Science Platform (LSP).
+In comparison, although the contents of the Prompt products database (PPDB) from which alerts are generated are also world public, access to the PPDB is restricted to individuals with data rights \citedsp{LDO-013} who have authenticated accounts in the LSP.
 
-The contents and delivery of alert packets play a major role in the scientific impact potential of LSST, in part because they are the only LSST data product that is both world public --- they are exempt from any proprietary period --- and publicly accessible -- they are distributed to community brokers, and not solely available via the LSST Science Platform (LSP). In comparison, although the contents of the Prompt products database (PPDB) from which alerts are generated are also world public, access to the PPDB is restricted to individuals with data rights \citedsp{LDO-013} who have authenticated accounts in the LSP.
+It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout.
+This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility.
+Reducing the packet size or increasing (slightly) the latency could enable the stream to be delivered to more brokers, and thereby increase the amount of alerts-related science done by the community.
+The alert packets, as described in \citeds{LSE-163}, were designed to include all the relevant LSST data about a source that a broker might need to assess, classify, and prioritize the alert for follow-up observations \emph{within minutes} (i.e., on order the timescale of the 60 second alert distribution latency).
+Reducing the contents should only be done if that information is easily and quickly obtainable elsewhere. 
 
-It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout. This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility. The size and latency of alerts could therefore affect the ultimate number of supported community alert brokers. 
+{\bf Document Overview ---} \S~\ref{sec:packets} discusses how removing stamps and histories from alerts could be scientifically beneficial for some brokers, as long as stamps are made publicly available with similar latency, and proposes additional alert elements to better identify potential transient host galaxies.
+\S~\ref{sec:latency} find that most alerts-related science goals would be satisfied with a $\sim$5 minute alert timescale, but that the quickly evolving fields of fast radio bursts and gravitational wave events may soon provide more robust motivation for a 60 second latency.
+\S~\ref{sec:prefilter} lists the expected types of pre-filtered streams that could improve brokers' scientific productivity, and \S~\ref{sec:graceful} argues that when alerts are delayed, the scientifically optimal response would be to flag and distribute them as soon as possible (and not, e.g., send them directly to an archive).
+%In \S~\ref{sec:packets} we consider the potential science impact of options for the alert contents that could reduce packet size, and a few small additions that would assist with source classification. In \S~\ref{sec:latency} we consider the various science drivers for an alert distribution latency of 1 minute, and the potential scientific impact of a relaxed (e.g., 5 minute) latency. In \S~\ref{sec:prefilter} and \ref{sec:graceful} we consider the potential effects on scientific productivity regarding options to provide brokers with pre-filtered streams and delayed alert packets.
 
-This draft contains content pertaining to the following open tickets in the DM-SST epic "Studies Around Alerts" (assignees):
-\begin{itemize}
-\item DM-19484, Estimate distribution of alert packet size based on scientific considerations (Bellm)
-\item DM-15654, Define policy for handling fields with $>$10K alerts (Bellm)
-\item DM-20296, Investigate the possibility of providing filtered streams (Graham)
-\item DM-20298, Revise the contents of the alert packets (Graham)
-\item DM-20299, Scientific use-cases requiring $<$5 minute access (Graham)
-\item DM-20300, Investigate options for expanding access to the alert stream (Bellm)
-\end{itemize}
 
-% \lsrreq \ossreq \dmreq \reqparam 
+
+%This draft contains content pertaining to the following open tickets in the DM-SST epic "Studies Around Alerts" (assignees):
+%\begin{itemize}
+%\item DM-19484, Estimate distribution of alert packet size based on scientific considerations (Bellm)
+%\item DM-15654, Define policy for handling fields with $>$10K alerts (Bellm)
+%\item DM-20296, Investigate the possibility of providing filtered streams (Graham)
+%\item DM-20298, Revise the contents of the alert packets (Graham)
+%\item DM-20299, Scientific use-cases requiring $<$5 minute access (Graham)
+%\item DM-20300, Investigate options for expanding access to the alert stream (Bellm)
+%\end{itemize}
+
 
 
 
