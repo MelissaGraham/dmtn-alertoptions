@@ -18,7 +18,7 @@
 % \setDocSubtitle{A subtitle}
 
 \author{%
-M.~L.~Graham, T. Pritchard, and the Data Management System Science Team
+M.~L.~Graham and the Data Management System Science Team, with contributions from the Transients and Variable Stars Science Collaboration
 }
 
 \setDocRef{DMTN-TBD}
@@ -38,6 +38,7 @@ A review and discussion of the variety of options for alert packets and their di
 % See LPM-51 for version number policy.
 \setDocChangeRecord{%
   \addtohist{0}{2019-11-14}{Conception.}{Melissa Graham}
+  \addtohist{0.1}{2020-01-09}{First draft ready for input from others.}{Melissa Graham}
 }
 
 \begin{document}
@@ -66,10 +67,7 @@ Reducing the contents should only be done if that information is easily and quic
 
 {\bf Document Overview ---} \S~\ref{sec:packets} discusses how removing stamps and histories from alerts could be scientifically beneficial for some brokers, as long as stamps are made publicly available with similar latency, and proposes additional alert elements to better identify potential transient host galaxies.
 \S~\ref{sec:latency} find that most alerts-related science goals would be satisfied with a $\sim$5 minute alert timescale, but that the quickly evolving fields of fast radio bursts and gravitational wave events may soon provide more robust motivation for a 60 second latency.
-\S~\ref{sec:prefilter} lists the expected types of pre-filtered streams that could improve brokers' scientific productivity, and \S~\ref{sec:graceful} argues that when alerts are delayed, the scientifically optimal response would be to flag and distribute them as soon as possible (and not, e.g., send them directly to an archive).
-%In \S~\ref{sec:packets} we consider the potential science impact of options for the alert contents that could reduce packet size, and a few small additions that would assist with source classification. In \S~\ref{sec:latency} we consider the various science drivers for an alert distribution latency of 1 minute, and the potential scientific impact of a relaxed (e.g., 5 minute) latency. In \S~\ref{sec:prefilter} and \ref{sec:graceful} we consider the potential effects on scientific productivity regarding options to provide brokers with pre-filtered streams and delayed alert packets.
-
-
+\S~\ref{sec:prefilter} lists types of pre-filtered streams that could improve brokers' scientific productivity and estimates the resulting bandwidth reductions, and \S~\ref{sec:graceful} argues that when alerts are delayed, the scientifically optimal response would be to flag and distribute them as soon as possible (and not, e.g., send them directly to an archive).
 
 %This draft contains content pertaining to the following open tickets in the DM-SST epic "Studies Around Alerts" (assignees):
 %\begin{itemize}
@@ -81,66 +79,100 @@ Reducing the contents should only be done if that information is easily and quic
 %\item DM-20300, Investigate options for expanding access to the alert stream (Bellm)
 %\end{itemize}
 
-
-
-
 \clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Alert Packet Contents} \label{sec:packets}
 
-The section explores the science impacts of various options for alert packet contents, such as the $\sim$12 month history of {\tt DIASource} records, the image stamps, and the static-sky {\tt Object} catalog associations.
-Reducing the size of an alert packet might be scientifically beneficial if it enables the stream to be transmitted to more community brokers, thereby leading to more science being done with alerts.
-It might also be beneficial if it enables brokers to spend less time developing software or spend less of their computational resources to remove parts of the alert packet they do not need prior to processing, and spend more on developing and running algorithms for various alerts-related science goals.
-\S~\ref{ssec:packets_remove} and \ref{ssec:packets_compress} consider reducing the size of alert packets by relocating some data or compressing the packets, respectively. 
-A small increase to the size of the alert packet is not necessarily going to be scientifically detrimental if the information added enables science, and \S~\ref{ssec:packets_add} considers some small additions regarding the association of {\tt DIASources} with the data release {\tt Object} catalog.
+In this section the scientific impacts of various options to reduce the size of alert packets (in order to, e.g., enable wider alert distribution, facilitate broker processing) are considered, as are potential additions to the alert packet contents which would improve the user's ability to classify and prioritize alert sources for follow-up.
+The main conclusions of the following discussion are:
+\begin{itemize}
+\item {\bf Removing Histories (\S~\ref{sssec:packets_remove_hist}) ---} Removing the {\tt DIASource} histories from the alert packets that are transmitted to brokers that request this modification could be scientifically beneficial, but a list of all {\tt DIASource} identifiers associated with the {\tt DIAObject} at the time of alert generation must be added to those packets. 
+\item {\bf Removing Stamps (\S~\ref{sssec:packets_remove_stamps}) ---} Removing the image stamps from all alert packets could be scientifically beneficial, but stamps should still be made during alert production and made publicly retrievable with a latency similar to that of alert distribution.
+\item {\bf Distributing Multiple Packet Formats (\S~\ref{sssec:packets_remove_procon}) ---} From a science perspective, distributing non-identical alert packets would have no negative impact provided that full-sized packets do not become more prone to delays.
+\item {\bf Adding Object Association Information (\S~\ref{ssec:packets_add}) ---} To better enable extragalactic transient science with brokers, two new {\tt DIAObject} catalog elements should be computed and included in the alert packets: (1) the {\tt objectId} for the three {\tt Object} catalog galaxies with the lowest separation distance (based on the galaxy's 2D luminosity profile) from the {\tt DIAObject}, and (2) the separation distances for those three {\tt Objects}.
+\item {\bf Compressing Packets (\S~\ref{ssec:packets_compress}) ---} From a science perspective, compressing the alert packets has little scientific impact unless it imposes a large additional latency on alert distribution, which could be detrimental to alerts-related science.
+\end{itemize}
 
 \subsection{Removing Histories and/or Stamps}\label{ssec:packets_remove}
 
-The size of a fully-loaded individual alert packet is estimated to be $\lesssim$82~KB, based on simulations of the planned content of the alerts as described in Section 3.5 of \citeds{LSE-163} (see also \citeds{DMTN-102}). The two largest components of the alert packet which could be considered ``optional'' are the history and the postage stamps. The history is the past $\sim$12 months of {\tt DIASource} records, previously released as alerts. The postage stamps are, at minimum, 30$\times$30 pixels and contain flux, variance, and mask extensions for both the template and difference image, plus a header of metadata \citedsp{LSE-163}. The history accounts for $\sim$27KB of the alert packet ($\sim$33\%) and the stamps contribute $\gtrsim$18~KB ($\sim$20\%). 
+The size of a fully-loaded individual alert packet is estimated to be $\lesssim$82~KB, based on simulations of the planned content of the alerts as described in Section 3.5 of \citeds{LSE-163} (see also \citeds{DMTN-102}).
+The two largest components of the alert packet which could be considered ``optional'' are the history and the postage stamps.
+The history is the past $\sim$12 months of {\tt DIASource} records, previously released as alerts.
+The postage stamps are, at minimum, 30$\times$30 pixels and contain flux, variance, and mask extensions for both the template and difference image, plus a header of metadata \citedsp{LSE-163}.
+The history accounts for $\sim$27KB of the alert packet ($\sim$33\%) and the stamps contribute $\gtrsim$18~KB ($\sim$20\%). 
 
-Brokers that save all alerts, build their own a database of alerts contents, or have an automated interface with the LSST Prompt products database or Alerts database might not need the historical records to be included in the alert packets. Brokers which do not use the image stamps -- or would need them for only a subset of the alerts and could feasibly query a stamps database -- might not need them included in the alerts packets. Individual broker teams may indicate which information they require (or would like removed from the packets in their stream) during the broker proposal process \citedsp{LDM-612,LDM-682,LDM-723}. During the first stages of the proposal process, and at the LSST Community Brokers Workshop\footnote{\url{ls.st/cbw}} in June 2019, there was some indication that at least a few brokers were interested in alerts without historical records and/or postage historical records.
+Brokers that save all alerts, build their own a database of alerts contents, or have an automated interface with the LSST Prompt products database or Alerts database might not need the historical records to be included in the alert packets.
+Brokers which do not use the image stamps -- or would need them for only a subset of the alerts and could feasibly query a stamps database -- might not need them included in the alerts packets.
+Individual broker teams may indicate which information they require (or would like removed from the packets in their stream) during the broker proposal process \citedsp{LDM-612,LDM-682,LDM-723}.
+During the first stages of the proposal process, and at the LSST Community Brokers Workshop\footnote{\url{ls.st/cbw}} in June 2019, there was some indication that at least a few brokers were interested in alerts without historical records and/or postage historical records.
 
 \subsubsection{{\tt DIASource} Record History}\label{sssec:packets_remove_hist}
 
 Including the {\tt DIASource} record history in every alert allows for the \emph{instant assessment} --- without the need to cross-match or query catalogs --- of changes in the objects's location, size, shape, or brightness, provides context for the latest detection (i.e., anomalous or typical), and enables a robust assessment of the likely physical nature of the object (e.g., light curve fits indicating supernova type become more reliable with more observations). 
 
-To remove the {\tt DIASource} record history from an alert would slightly inhibit the scientific assessment of transient/variable objects for brokers that build their own database of alert contents, due to the time required to cross-match with the database. Removing the {\tt DIASource} record history would completely inhibit this kind of analysis for brokers that do not have such storage or processing capabilities. There is also the issue that the association of {\tt DIASources} into {\tt DIAObjects} may change over time, for some objects. For example, rare cases such as multiply-imaged strongly-lensed supernovae, or two unassociated transients/variables that are superimposed along the line of sight, might be blended/separated in poor/good seeing. In such cases, the set of all associated {\tt DIASources} might be improved between one alert and the next. 
+To remove the {\tt DIASource} record history from an alert would slightly inhibit the scientific assessment of transient/variable objects for brokers that build their own database of alert contents, due to the time required to cross-match with the database.
+Removing the {\tt DIASource} record history would completely inhibit this kind of analysis for brokers that do not have such storage or processing capabilities.
 
-{\bf Summary --} The {\tt DIASource} record histories should not be removed from all alert packets, but could be optionally removed at the request of a broker. However, if the record histories are removed, a list of all {\tt DIASource} identifiers (the {\tt diaSourceId}, as in Section 3.3.1 of \citeds{LSE-163}) which are currently associated with the {\tt DIAObject} to which the alert-spawning {\tt DIASource} is associated should be provided (note that this list is \emph{not} part of the {\tt DIAObject} record).
+There is also the issue that the association of {\tt DIASources} into {\tt DIAObjects} may change over time, for some objects.
+For example, rare cases such as multiply-imaged strongly-lensed supernovae, or two unassociated transients/variables that are superimposed along the line of sight, might be blended/separated in poor/good seeing.
+In such cases, the set of all associated {\tt DIASources} might be improved between one alert and the next. 
 
+{\bf Summary --} The {\tt DIASource} record histories should not be removed from all alert packets, but could be optionally removed at the request of a broker.
+However, if the record histories are removed, a list of all {\tt DIASource} identifiers (the {\tt diaSourceId}, as in Section 3.3.1 of \citeds{LSE-163}) which are currently associated with the {\tt DIAObject} to which the alert-spawning {\tt DIASource} is associated should be provided (note that this list is \emph{not} currently part of the {\tt DIAObject} record).
 
 \subsubsection{Forced Photometry History}\label{sssec:packets_remove_fp}
 
-When forced photometry ({\tt DIAForcedSource} record history) is included in an alert packet, it is ``historical" in the sense that it is based on past images and not the image which spawned the alert. However, it is not always redundant information that was previously released in an alert, like the {\tt DIASource} record history. There are two main cases where forced photometry is performed, as described in \citeds{LSE-163}. (1) For all new {\tt DIAObjects}, forced ``pre-covery'' photometry is done in the past 30 days of difference images within 24 hours, stored in the {\tt DIAForcedSource} catalog, and included in all future alert packets associated with that {\tt DIAObject}. (2) For all {\tt DIAObjects} that are not detected\footnote{The detection threshold is a signal-to-noise ratio $\geq$ 5.} in a given difference image, but had a detection in the past $\sim$12 months, forced photometry is done on that difference image. The result is stored in the {\tt DIAForcedSource} catalog, and included in all future alert packets associated with that {\tt DIAObject}. The forced photometry is scientifically valuable because, for example, pre-covery forced photometry provides context for the first detection of a transient/variable, and low-SNR detections can help with photometric classification and prioritization for follow-up observations. 
+When forced photometry ({\tt DIAForcedSource} record history) is included in an alert packet, it is ``historical" in the sense that it is based on past images and not the image which spawned the alert.
+However, it is not always redundant information that was previously released in an alert, like the {\tt DIASource} record history.
 
-If a given {\tt DIAObject} is never again detected in a difference image, then the {\tt DIAForceSource} records are never included in an alert packet, but are available to individuals or brokers with access to the PPDB via the LSST Science Platform. If a given {\tt DIAObject} is repeatedly detected in new difference images, then the same {\tt DIAForcedSource} records will be redundantly included in all future alerts (after the first one containing the pre-covery or non-detection forced photometry). For the ``historical" {\tt DIAForcedSource} records, alert content redundancy could be avoided by only including previously undistributed {\tt DIAForcedSource} data in an alert packet. To do this, the Prompt pipeline would have to either compare with the contents of the most recent alert and remove redundant data from the new alert, or flag the {\tt DIAForcedSource} data as ``released" and only add ``unreleased" forced photometry to a alert packet. Both of these options would add processing times to the alert generation pipeline, which is undesirable.
+There are two main cases where forced photometry is performed, as described in \citeds{LSE-163}.
+(1) For all new {\tt DIAObjects}, forced ``pre-covery'' photometry is done in the past 30 days of difference images within 24 hours, stored in the {\tt DIAForcedSource} catalog, and included in all future alert packets associated with that {\tt DIAObject}.
+(2) For all {\tt DIAObjects} that are not detected\footnote{The detection threshold is a signal-to-noise ratio $\geq$ 5.} in a given difference image, but had a detection in the past $\sim$12 months, forced photometry is done on that difference image.
+The result is stored in the {\tt DIAForcedSource} catalog, and included in all future alert packets associated with that {\tt DIAObject}.
+The forced photometry is scientifically valuable because, for example, pre-covery forced photometry provides context for the first detection of a transient/variable, and low-SNR detections can help with photometric classification and prioritization for follow-up observations. 
 
-{\bf Summary --} If the decision is made to remove the historical {\tt DIASource} records from alert packets, the {\tt DIAForcedSource} records of forced photometry should always be added to all alerts. This will cause some redundancy in alert contents, but if not included there would be no public access to this scientifically valuable information.
+If a given {\tt DIAObject} is never again detected in a difference image, then the {\tt DIAForceSource} records are never included in an alert packet, but are available to individuals or brokers with access to the PPDB via the LSST Science Platform.
+If a given {\tt DIAObject} is repeatedly detected in new difference images, then the same {\tt DIAForcedSource} records will be redundantly included in all future alerts (after the first one containing the pre-covery or non-detection forced photometry).
+For the ``historical" {\tt DIAForcedSource} records, alert content redundancy could be avoided by only including previously undistributed {\tt DIAForcedSource} data in an alert packet.
+To do this, the Prompt pipeline would have to either compare with the contents of the most recent alert and remove redundant data from the new alert, or flag the {\tt DIAForcedSource} data as ``released" and only add ``unreleased" forced photometry to a alert packet.
+Both of these options would add processing times to the alert generation pipeline, which is undesirable.
 
+{\bf Summary --} If the decision is made to remove the historical {\tt DIASource} records from alert packets, the {\tt DIAForcedSource} records of forced photometry should always be added to all alerts.
+This will cause some redundancy in alert contents, but if not included there would be no public access to this scientifically valuable information.
 
 \subsubsection{Postage Stamps}\label{sssec:packets_remove_stamps}
 
-Including the postage stamps in the alert packet allows for the instant assessment of the {\tt DIASource} in the difference and template images, which has a variety of scientific applications. For example, although real/bogus classification of the difference-image sources will be done prior to alert generation, some brokers may still wish to run additional algorithms on the images -- especially in the case of first detections. Brokers might also employ algorithms to classify transients and variables based on the images instead of the photometry (e.g., \citealt{2019PASP..131j8006C}). From the postage stamp images, scientifically useful information can be derived about the trails left by moving objects, or from the 2-dimensional luminosity distribution of spatially evolving objects such as comets, which might not be entirely captured by the {\tt DIASource} elements (see Table 1 in \citeds{LSE-163}). The images also provide context for the {\tt DIASource}, such as host-galaxy morphology or field crowdedness, that can assist with follow-up observations.
+Including the postage stamps in the alert packet allows for the instant assessment of the {\tt DIASource} in the difference and template images, which has a variety of scientific applications.
+For example, although real/bogus classification of the difference-image sources will be done prior to alert generation, some brokers may still wish to run additional algorithms on the images -- especially in the case of first detections.
+Brokers might also employ algorithms to classify transients and variables based on the images instead of the photometry (e.g., \citealt{2019PASP..131j8006C}).
+From the postage stamp images, scientifically useful information can be derived about the trails left by moving objects, or from the 2-dimensional luminosity distribution of spatially evolving objects such as comets, which might not be entirely captured by the {\tt DIASource} elements (see Table 1 in \citeds{LSE-163}).
+The images also provide context for the {\tt DIASource}, such as host-galaxy morphology or field crowdedness, that can assist with follow-up observations.
 
-If postage stamps were not created during alert production, the only option would be for users to wait until the images are made available (within 24 hours) in the LSP, which would significantly inhibit alerts-based science goals. However, postage stamps are unlikely to be needed for most {\tt DIASources}, the majority of which --- 95\%, according to the breakdown in \citeds{DMTN-102} --- will be stars or asteroids: point sources for which context is not a significant part of their immediate evaluation. An efficient compromise might be for the Prompt pipeline to create the postage stamps during alert generation, and then store them in a publicly accessible database (i.e., outside the LSP) where they can be obtained (via {\tt diaSourceId}) with a latency similar to the alert distribution timescale by anyone, from anywhere, at anytime. 
+If postage stamps were not created during alert production, the only option would be for users to wait until the images are made available (within 24 hours) in the LSP, which would significantly inhibit alerts-based science goals.
+However, postage stamps are unlikely to be needed for most {\tt DIASources}, the majority of which --- 95\%, according to the breakdown in \citeds{DMTN-102} --- will be stars or asteroids: point sources for which context is not a significant part of their immediate evaluation.
+An efficient compromise might be for the Prompt pipeline to create the postage stamps during alert generation, and then store them in a publicly accessible database (i.e., outside the LSP) where they can be obtained (via {\tt diaSourceId}) with a latency similar to the alert distribution timescale by anyone, from anywhere, at anytime. 
 
-The expected maximum download rate from this stamp database is estimated by assuming that all 5 community brokers download $\sim$500 stamp sets per visit: $\sim$2500 stamp sets every $\sim$35 seconds. At 18~KB per stamp set, that's a data rate of 10.5 Mbps (for comparison, that's $\sim$5\% of one full alert stream).
+The expected maximum download rate from this stamp database is estimated by assuming that all 5 community brokers download $\sim$500 stamp sets per visit: $\sim$2500 stamp sets every $\sim$35 seconds.
+At 18~KB per stamp set, that's a data rate of 10.5 Mbps (for comparison, that's $\sim$5\% of one full alert stream).
 
 {\bf Summary --} The postage stamps could be removed from all alert packets, but they should still be created during Prompt processing and stored in a publicly accessible database where they can be obtained with a latency similar to the alert distribution timescale.
 
-
 \subsubsection{Pros and Cons of Multiple Alert Formats}\label{sssec:packets_remove_procon}
 
-The above options could either apply to all alert packets, or brokers could choose from the menu and subscribe to a stream with the options they want.
-The latter means that LSST distributes multiple types of alert packet formats, and there are benefits and drawbacks to this ``menu" approach.
-The LSST currently expects to deliver alert streams to five brokers, and there are four alert packet formats on the table: (i) with histories and stamps, (ii) with histories but without stamps, (iii) without histories but with stamps, and (iv) without histories or stamps. 
+The histories and/or stamps could be removed from all alert packets, or only at the request of a broker.
+In the latter case, LSST might end up distributing four types of alert packet formats to its five brokers: (i) with histories and stamps, (ii) with histories but without stamps, (iii) without histories but with stamps, and (iv) without histories or stamps. 
 
-From a science perspective, the benefits to allowing brokers to customize their alert packet is that it potentially enables unique science to be done by brokers (e.g., custom stamp-analysis algorithms), and could enable LSST to support $>$5 brokers which might lead to more alerts-related science in general.
-One drawback might be that in times of heavy load, full-sized packet streams might be more likely to be delayed, which would be unfair to brokers requiring full-size packets, and could disproportionately affect some science goals more than others.
-The fact that not all alert packets are identical might cause some additional bookkeeping considerations for downstream brokers who ingest from multiple community brokers, but should not be detrimental to their science goals.
+From a science perspective, the benefits to allowing brokers to customize their alert packet is that it potentially enables unique science to be done by brokers (e.g., very rapid custom stamp-analysis algorithms), and could enable LSST to support $>$5 brokers which might lead to more alerts-related science in general.
 
-The technical considerations of how many different alert packet formats it is feasible to create and transmit within the required latency time is left for other work.
+One drawback might arise during times of heavy load, such as many visits with $>$40,000 alerts (\S~\ref{sec:graceful}), \emph{if}, and only if, full-sized packet streams are more likely to be delayed.
+Whether this becomes a possibility will depend on the technical aspects of how the multiple types of alerts are generated and transmitted, and also on the final decisions about latency (\S~\ref{sec:latency}) and delayed distribution (\S~\ref{sec:graceful}).
+This may well never come to pass, but if it did, it could be unfair to brokers requiring full-size packets.
+While some brokers are being designed for a wide variety of science goals, others are more specifically tailored.
+If it is the specifically-tailored broker that requires full-sized alerts, then experiencing delayed transmission more frequently than other brokers could put some science goals at a disadvantage. 
+Furthermore, the fact that not all alert packets are identical might cause some additional bookkeeping considerations for downstream brokers who ingest from multiple community brokers, but that should not be detrimental to their science goals.
+The technical considerations of how many different alert packet formats it is feasible to create and transmit within the required latency time is beyond the scope of this document, in which we focus on science impacts.
 
+{\bf Summary --} Offering multiple alert formats to brokers is scientifically beneficial provided that full-sized alerts are not predisposed to delay.
 
 \subsection{Additional {\tt Object} Association Information}\label{ssec:packets_add}
 
@@ -182,7 +214,6 @@ However, such a robust level of host associations are beyond scope for the Promp
 
 {\bf Summary --} For the ten nearest {\tt Object} catalog galaxies, a separation distance should be calculated with respect to the transient location, preferably using the second moments of each galaxy's luminosity profile. Two new {\tt DIAObject} catalog elements should be added: {\tt nearbyPotHost}, containing the {\tt objectId} for the three galaxies with the lowest separation distances, and {\tt nearbyPotHostSepDist}, containing the separation distances. An analog for the existing element {\tt nearbyObjLnP}, representing the probability, is not necessary. This would add {\tt unit64[3]} and {\tt float[3]} to the {\tt DIAObject} catalog and to each alert, but this both tiny and worthwhile.
 
-
 \subsection{Compressing the Alert Packets}\label{ssec:packets_compress}
 
 The application of gzip compression could further reduce the size of a full alert to $\sim$65~KB (80\%; JIRA ticket DM-16280).
@@ -203,20 +234,36 @@ Otherwise, compression would have no impact on alerts-related science goals and 
 % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Alert Distribution Latency} \label{sec:latency}
 
+This section considers the scientific motivation for the 1 minute alert distribution latency, and the impact to alerts-related science if that latency was extended to, e.g., 5 minutes.
 It is a requirement that the DMS be capable of supporting the distribution of at least 98\%\reqparam{OTT1}\reqparam{OTR1}\lsrreq{0101}\lsrreq{0025}\ossreq{0127}\dmreq{0004} of alerts for each visit within 60 seconds of the end of image readout.
+However, if it is possible to relax this requirement without a negative impact on science then it might be possible for LSST to transmit alerts to $>$5 brokers (and/or repurpose human and computational resources dedicated to the 1 minute latency), which in turn might enable more alerts-related science.
 
-If it is possible to relax this requirement to, e.g., 5 minutes -- \emph{without risk to the science goals} -- then it might be possible to support more community brokers and/or repurpose the human and computational resources that would otherwise be dedicated to delivering 1 minute alert distribution. This section attempts to gather the science goals which might potentially require 1 minute alert distribution and could not be satisfied with a longer latency.
+Generally, for science goals that require alerts on timescales shorter than $\sim$5 minutes, this need stems from targets that are fast-evolving or short-lived (or both) and require follow-up on timescales shorter than $\sim$15--30 minutes.
+Since most observing strategies for the WFD main survey do not revisit fields on timescales shorter than $\sim$15 minutes (strategies that do pair visits aim for closer to $\sim$22 minute gaps), brokers must be able to confidently identify such targets with single-epoch single-filter LSST photometry, or be using additional information (e.g., host galaxy characteristics, coincident alerts from other surveys).
+For the purposes of this discussion, an optimistic outlook is assumed, and the difficulty in identifying targets with a single epoch of LSST photometry is not considered as a reason to downgrade the importance of a 1 minute alert latency.
 
-{\bf Generally, for science goals that require alerts on timescales shorter than $\sim$5 minutes, this need stems from targets that are fast-evolving or short-lived (or both) and require follow-up on timescales shorter than $\sim$15--30 minutes.} Most observing strategies for the WFD main survey do not revisit fields on timescales shorter than $\sim$15 minutes (strategies that do pair visits aim for closer to $\sim$22 minute gaps). Thus, any science goals driving the need for alerts on timescales shorter than $\sim$5 minutes \emph{must also be able to confidently identify their targets with single-epoch single-filter LSST photometry}, or be using additional information (such as host galaxy characteristics or coincidence with another survey's data). 
-
-{\bf Target of Opportunity --} It is important to note that for rapid ToO observations with LSST (if they occur), there might not be time to pre-cache slow database queries (e.g., loading slices of the PPDB catalogs) when upcoming pointings are not known in advance, as would happen during regular survey observations. This might mean that a 1 minute alert distribution timescale for alerts from ToO imaging surveys cannot be guaranteed. While this should be kept in mind as a possibility, for the purposes of this study of the \emph{scientific} impacts of the alert latency it assumed to be technically solvable issue.
+After a consideration of the following science cases that are most likely to require rapid follow-up (summary below), it appears that most of them would be satisfied without risk if the latency was increased from 1 to 5 minutes. 
+However, it is absolutely not unambiguously clear that a need for 1 minute alerts will not evolve out of the still emergent fields of fast radio bursts and gravitational wave events over the next couple of years.
+\begin{itemize}
+\item {\bf A TVS Survey (\S~\ref{ssec:latency_tvs})} found that only $<$10\% of respondents reported that requiring alerts within 1 minute was necessary for their science goals.
+\item {\bf GW Follow-up (\S~\ref{ssec:latency_emgw}) ---} Although a 5 minute latency would suffice for kilonovae (days-long optical counterparts to neutron star mergers), some theoretical models predict optical emission within the first hour (e.g., jet break-out or spin-down energy from the merger). However, these GW scientific motivators for a 1 minute alert latency are moot if the time between GW event and LSST ToO follow-up remains at tens of minutes or more.
+\item {\bf Gamma-Ray Bursts (\S~\ref{ssec:latency_grb}) ---} \textcolor{red}{Tentatively,} alerts for the coincident optical counterparts of short GRBs would be most scientifically useful if distributed within 1 minute, but the predicted occurrence rate is $\lesssim$20 over the 10-year LSST survey.
+\item {\bf Fast Radio Bursts (\S~\ref{ssec:latency_frb}) ---} \textcolor{red}{Tentatively,} some models predict that a short, bright burst of optical emission from the physical mechanism powering FRBs could be detected by LSST 5 to 15 minutes prior to the radio signal.
+If such optical events occur with significant frequency, are bright and consistently detectable, and can be identified with a single-filter detection, and if radio telescopes can respond within minutes, then LSST is the most promising future facility for this science, which requires a 1 minute alert distribution latency.
+\item {\bf Young Supernovae (\S~\ref{ssec:latency_ysne}) ---} The science goals require follow-up in an hour or longer, and a 5 minute latency would not have a negatively impact.
+\item {\bf Solar System Objects (\S~\ref{ssec:latency_sso}) ---} \textcolor{red}{TBD.}
+\item {\bf Stellar Variables (\S~\ref{ssec:latency_stars}) ---} \textcolor{red}{TBD.}
+\end{itemize}
 
 
 \subsection{TVS Survey Results Regarding Alerts Timescales}\label{ssec:latency_tvs}
+{\it Contents contain the results of a TVS survey administered by Rachel Street.}
 
-The Transients and Variable Stars (TVS) science collaboration surveyed the science needs of their members with respect to alert latency, and the results\footnote{Results courtesy of TVS co-chair Rachel Street.} are shown in Table \ref{tab:tvs}. The survey asked respondents to choose the maximum tolerable and ideal average delay between the alerts being produced by the LSST data reduction pipeline and the alert information becoming available through the broker service. This is not exactly the same as the alert distribution timescale {\tt OTT1}, but these responses will inform the need for $<$1 minute alert distribution.  Respondents were asked to provide a short summary of their science goals for alerts if they reported needed access within 15 minutes. Note that the pool of respondents is probably not representative of the wider collaboration, and is likely biased towards individuals with science interests that do require faster access to alerts. 
-
-Only 20\% (10\%) of respondents report that $<$10 minutes ($\leq$1 minute) is an ideal average delay, and whereas 70\% report that $>$30 minutes would be a sufficient average latency. The three science drivers associated with $<$5 minute alert access are the electromagnetic counterparts to gravitational wave events (EM-GW; kilonovae), young supernovae (early short-lived light curve features such as shock breakouts), and gamma-ray bursts (GRB). The fact that these three are also listed as science drivers for longer-latency alert is mainly due to the diversity within the science drivers and the fact that the events have both short- and longer-timescale features. Each of these science drivers is discussed in turn below, along with two other science cases that rely on rapid access to LSST alerts: fast radio bursts (FRBs) and solar system objects (SSOs).
+The Transients and Variable Stars (TVS) science collaboration surveyed the science needs of their members with respect to alert latency, and the results\footnote{Results courtesy of TVS co-chair Rachel Street.} are shown in Table \ref{tab:tvs}.
+The survey asked respondents to choose the maximum tolerable and ideal average delay between the alerts being produced by the LSST data reduction pipeline and the alert information becoming available through the broker service.
+This is not exactly the same as the alert distribution timescale {\tt OTT1}, but these responses will inform the need for $<$1 minute alert distribution.
+Respondents were asked to provide a short summary of their science goals for alerts if they reported needed access within 15 minutes.
+Note that the pool of respondents is probably not representative of the wider collaboration, and is likely biased towards individuals with science interests that do require faster access to alerts. 
 
 \begin{table}[h]%[htdp]
 \caption{Table of results from a TVS survey which asked "how fast do you really need alerts?". The total number of respondents was 20. The science driver acronyms are: EM-GW (electromagnetic counterparts to gravitational wave events), YSNe (young supernovae, including e.g., shock breakouts), GRBs (gamma-ray bursts). \label{tab:tvs}}
@@ -242,44 +289,77 @@ Latency & Tolerable  & Driver(s) &  Average & Driver(s) \\
 \label{default}
 \end{table}%
 
+Only 20\% (10\%) of respondents report that $<$10 minutes ($\leq$1 minute) is an ideal average delay, and whereas 70\% report that $>$30 minutes would be a sufficient average latency.
+The three science drivers associated with $<$5 minute alert access are the electromagnetic counterparts to gravitational wave events (EM-GW; kilonovae), young supernovae (early short-lived light curve features such as shock breakouts), and gamma-ray bursts (GRB).
+The fact that these three are also listed as science drivers for longer-latency alert is mainly due to the diversity within the science drivers and the fact that the events have both short- and longer-timescale features.
+Each of these science drivers is discussed in turn below, along with two other science cases that rely on rapid access to LSST alerts: fast radio bursts (FRBs) and solar system objects (SSOs).
 
 \subsection{EM Counterparts to GW Events}\label{ssec:latency_emgw}
-% From Slack conversation, Federica Bianco, Om Sharan Salafia, Eric Bellm
+{\it Some contents revised from a Slack conversation in the TVS chanel between Federica Bianco, Om Sharan Salafia, and Eric Bellm.}
 
-During LSST Operations, target-of-opportunity imaging follow-up sequences might be executed in the error ellipse of a gravitational wave (GW) detection to search for the electromagnetic (EM) optical counterpart. Such a search yielded a fast-evolving "kilonova" which decayed from 22 to 28th magnitude in the $g$-band in just 6 days \citep[faster in the bluer and slower in the redder filters][]{2017Sci...358.1559K}. Although the kilonova light curves last only a few days, since there is so far only one event, GW170817, a day or two delay between the GW event and the optical detection still yields very scientifically valuable data -- for now. During LSST Operations there will already exist a sizable collection of longer-latency follow-up, and it is likely that science will be moving in the direction of pushing to ever earlier detections. However, since kilonovae produce days-long optical afterglows, a 5 minute LSST alerts would likely suffice.
+During LSST Operations, target-of-opportunity imaging follow-up sequences might be executed in the error ellipse of a gravitational wave (GW) detection to search for the electromagnetic (EM) optical counterpart.
+Such a search yielded a fast-evolving "kilonova" which decayed from 22 to 28th magnitude in the $g$-band in just 6 days \citep[faster in the bluer and slower in the redder filters][]{2017Sci...358.1559K}.
+Although the kilonova light curves last only a few days, since there is so far only one event, GW170817, a day or two delay between the GW event and the optical detection still yields very scientifically valuable data -- for now.
+During LSST Operations there will already exist a sizable collection of longer-latency follow-up, and it is likely that science will be moving in the direction of pushing to ever earlier detections.
+However, since kilonovae produce days-long optical afterglows, a 5 minute LSST alerts would likely suffice.
 
-There are two theoretical predictions for prompt optical emission that would require very rapid access to alerts. One of them is a potential faint, $<$1 hour, UV/optical transient that occurs at the time of jet-break out for a short gamma-ray burst associated with a binary neutron star merger (\S~\ref{ssec:latency_grb}). Another that predicts emission of a similar color, luminosity, and timescale is the spin-down energy of a long-lived ($10^2$--$10^4$ s) neutron star formed from a binary neutron star merger before its eventual collapse to a black hole \citep{2016ApJ...819...15S}. As described in \S~\ref{ssec:latency_grb}, very few events could be detected by serendipitous coincidence by the LSST WFD main survey, and targeted follow-up of well-localized GW events with more appropriate facilities such as space-based UV/optical imagers is much more likely to yield detections of this very short lived emission.
+There are two theoretical predictions for prompt optical emission that would require very rapid access to alerts.
+One of them is a potential faint, $<$1 hour, UV/optical transient that occurs at the time of jet-break out for a short gamma-ray burst associated with a binary neutron star merger (\S~\ref{ssec:latency_grb}).
+Another that predicts emission of a similar color, luminosity, and timescale is the spin-down energy of a long-lived ($10^2$--$10^4$ s) neutron star formed from a binary neutron star merger before its eventual collapse to a black hole \citep{2016ApJ...819...15S}.
+As described in \S~\ref{ssec:latency_grb}, very few events could be detected by serendipitous coincidence by the LSST WFD main survey, and targeted follow-up of well-localized GW events with more appropriate facilities such as space-based UV/optical imagers is much more likely to yield detections of this very short lived emission.
 
-There are two additional issues related to ToO for EMGW events which might make 1 minute alerts necessary or impossible. First, as described above, for a ToO imaging survey with LSST there might not be time to pre-load catalogs for the targeted fields. The second is that, at least for run O3, the GW event detection system itself issues preliminary alerts within 1--10 minutes, and these preliminary alerts are often retracted and do not always have the sky localization. Even now, many imaging follow-up surveys wait for the initial alert (or retraction) to be sent after a round of human vetting of the GW event signal, and this can take several hours. With such latencies, the question of 1 {\it vs.} 5 minute LSST alert timescales becomes inconsequential. 
+There are two additional issues related to ToO for EMGW events which might make 1 minute alerts necessary or impossible. 
 
+First, for rapid ToO observations when visit coordinates are not known in advance, there might not be time to pre-cache the slow database queries that are needed during alert production processing (e.g., loading slices of the PPDB catalogs).
+This might mean that an alert distribution latency cannot be guaranteed for ToO imaging surveys. 
+For the purposes of this science-driven discussion, assume this to be a surmountable technical implementation issue.
 
+The second is that, at least for run O3, the GW event detection system itself issues preliminary alerts within 1--10 minutes, and these preliminary alerts are often retracted and do not always have the sky localization.
+Even now, many imaging follow-up surveys wait for the initial alert (or retraction) to be sent after a round of human vetting of the GW event signal, and this can take several hours.
+With such latencies, the question of 1 {\it vs.} 5 minute LSST alert timescales becomes inconsequential. 
 
 \subsection{Gamma-Ray Bursts}\label{ssec:latency_grb}
 
-For short gamma-ray bursts (sGRBs) which are thought to be the mergers of two neutron stars, or a neutron star and a black hole, as the jet propagates through the ejecta material a hot cocoon is formed. When cocoon and jet break out, along with sGRB can can be observed as a blue transient with an absolute peak brightness of -12 to -15 magnitudes that lasts for $10^3$--$10^4$ seconds (e.g., \citealt{2018MNRAS.473..576G}). For an LSST detection limit of $r\sim24$ mag, a detection limit of $r\lesssim-12$ ($r\lesssim-15$) mag corresponds to distances of $\lesssim160$ ($\lesssim630$) Mpc, or redshifts $z\lesssim0.035$ ($z\lesssim0.14$). Observing the diversity of cocoon emission will require multi-band follow-up within $10^3$ seconds, or $15$ minutes, and in this particular case a 5 minute alert distribution latency is too long to include the shorter events (or the fainter events for which only the peak would be visible).
+{\it \textcolor{red}{MLG: no outside input on this yet, is needed to be confirmed by a GRB person.} }
+
+Short gamma-ray bursts (sGRBs) are thought to be the mergers of two neutron stars, or a neutron star and a black hole.
+As the jet propagates through the ejecta material a hot cocoon is formed.
+When cocoon and jet break out, along with the sGRB can be observed a blue optical transient with an absolute peak brightness of -12 to -15 magnitudes which lasts for $10^3$--$10^4$ seconds (e.g., \citealt{2018MNRAS.473..576G}).
+For an LSST detection limit of $r\sim24$ mag, a detection limit of $r\lesssim-12$ ($r\lesssim-15$) mag corresponds to distances of $\lesssim160$ ($\lesssim630$) Mpc, or redshifts $z\lesssim0.035$ ($z\lesssim0.14$).
+Observing the diversity of cocoon emission for a sample of sGRBs would require regular and consistent multi-band follow-up within $10^3$ seconds, or $15$ minutes.
+In such cases where a sGRB is observed in a time/area that is serendipitously coincident LSST visit, science would be maximized if the alert confirming the presence of an optical counterpart was distributed to brokers within 1 minute.
+However, what is the expected frequency of this situation occurring during LSST Operations?
 
 % z=0.035 is V=0.014 Gpc3
 % z=0.14 is V=0.836 Gpc3
 % (0.836/0.014) * 4/yr = 240/yr
-The rate of short GRBs in the local volume ($<$200 Mpc) is estimated to be quite low, $<$4 $\rm yr^{-1}$ \citep{2019arXiv190800100M}. Scaling this up to the co-moving volume within 630 Mpc is $\sim$240 $\rm yr^{-1}$, all-sky. In the baseline main survey, about a sixth of the sky can be observed in a given night, which is $\lesssim$0.1 event in the WFD main survey area per night. With $\sim$1000 visits per night, and $\sim$10 visits every 5 minutes, there's a $10^{-3}$ chance that the location of a sGRB will be serendipitously observed within 5 minutes of the event on a given night. So this could happen once every 3 years, or $\sim$3 times over the 10-year LSST main survey.
+The rate of short GRBs in the local volume ($<$200 Mpc) is estimated to be quite low, $<$4 $\rm yr^{-1}$ \citep{2019arXiv190800100M}.
+Scaled up to the co-moving volume within 630 Mpc, this rate is $\sim$240 $\rm yr^{-1}$, all-sky.
+In the baseline main survey about a sixth of the sky can be observed in a given night, which implies $\sim$1 sGRBs with detectable optical counterparts in the WFD survey per night for every $\sim$10 nights of observations.
+The probability that one of the 1000 visits per night will occur during the 5 minutes in which an alert would be useful for triggering rapid follow-up is $<10^{-2}$.
+Very roughly, we might expect this serendipitous coincidence to occur twice a year at most, or $\sim$20 times over the 10-year LSST main survey.
 
-For this particular science case, LSST seems to be the wrong tool for the job. As described by \citet{2018MNRAS.473..576G}, a rapid search at the location of sGRBs with a UV satellite such as ULTRASAT would be ideal.
+% 10 visits per 5 minute block, or 100 "blocks" per night
+% 100x100 potential sky area/time options for the 100 blocks, x10 days
+% of the options, 100 blocks per night x 10 nights would be done
+% and then randomly draw just the 1 sGRB
+% scipy.stats.hypergeom(100000,1000,1)
+% 0 0.9900 
+% 1 0.0100 
+% 2 0.0000 
+
+For discovering the optical counterparts of sGRBs, the LSST wide-fast-deep survey is simply not the most efficient future facility for the job.
+As described by \citet{2018MNRAS.473..576G}, a rapid search at the location of sGRBs with a UV satellite such as ULTRASAT would be ideal.
 
 %Triggering criteria might be:
 %new {\it u}- or {\it g}-band source with recent limits associated with a $<$200 Mpc galaxy (how many expected per night?)
 %and then very high priority if it's serendipidously associated with a GRB detection in the last 5 minutes
 
-
-\subsection{Young Supernovae}\label{ssec:latency_ysne}
-
-Photometric data obtained during the first few hours to days of a supernova can constrain the progenitor radius and circumstellar material in the immediate environment, which in turn provides information about the progenitor star, its system, and its final stages of evolution before the explosion.  For example, \citet{2018Natur.554..497B} model the optical photometric data of the post-shock breakout cooling peak for a massive star's core collapse supernova to constrain the radius and mass of its outer envelope; \citet{2012ApJ...744L..17B} used the first day of photometric observations of a nearby Type Ia (thermonuclear detonation) supernova to show that their progenitor stars must be a compact degenerates; and rare ``blue bumps" in the first few days of a Type Ia supernova's light curve might betray the presence of a non-degenerate companion star \citep[e.g.,][]{2010ApJ...708.1025K,2017ApJ...845L..11H}.
-
-For young supernovae, follow-up observations within a couple of hours are required, and the related science goals are unlikely to be impacted if the alert latency was 5--10 minutes instead of 1 minute.
-
-
 \subsection{Fast Radio Bursts}\label{ssec:latency_frb}
 
-One of the strongest -- but also most mysterious -- transients that might significantly benefit from the $60$ second alert timescale are fast radio bursts (FRBs): a millisecond long pulse of coherent emission in the GHz range.
+{\it Some contents based on text from and discussions with Tyler Pritchard (TVS member).}
+
+One of the most likely -- but also most mysterious -- transients that might significantly benefit from the $60$ second alert timescale are fast radio bursts (FRBs): a millisecond long pulse of coherent emission in the GHz range.
 The emission is dispersed by the inter-galactic medium (IGM), such that the pulse's observed arrival time is frequency dependent.
 Observed FRB dispersion measures of $\rm{DM}\approx100$ to $1000$ $\rm pc\ cm^{-3}$ indicate that they originate at cosmological distances, with redshifts $z\approx0.1$ to $1$ \citep{2018Natur.562..386S}. 
 
@@ -289,10 +369,10 @@ A millisecond-long event in the optical would have to be quite bright to be dete
 \cite{2019ApJ...878...89Y} demonstrate that two theoretical sources for coherent optical emission from FRBs would not be detectable by LSST, but that inverse Compton scattering processes could lead to optical detections with LSST (e.g., from pulsars or masers).
 Searches for FRB counterparts in optical images that were serendipitously obtained (near-) coincidentally with an FRB detection have only just recently become possible thanks to current wide-field imaging surveys.
 No transient optical counterparts have yet been detected \citep{2019ApJ...881...30T}, but individual host galaxies for FRB events have been identified \citep{2016Natur.530..453K}.
-Since the rate of FRBs is estimated to be quite high (thousands per day; \citealt{2016MNRAS.460L..30C}) even after radio detection efficiency is factored in there could be many within the observed LSST volume. 
 
+Since the rate of FRBs is estimated to be quite high (thousands per day; \citealt{2016MNRAS.460L..30C}) even after radio detection efficiency is factored in there could be many within the observed LSST volume. 
 For example, if there are 1000 FRB occurring across the full sky every 24 hours, and LSST observes one sixth of the sky during a night's 10 hours of darkness, then there would be $\sim70$ FRB occurring in that area during that time.
-Assuming that both the FRB and the LSST visits are distributed randomly in time and location (although the visits are correlated, obviously), there's a $\sim6\%$ chance that in any given night one visit will be serendipitously coincident with the short lived time-delayed optical counterpart of an FRB.
+Assuming that both the FRB and the LSST visits are distributed randomly in time and location (although the visits are correlated, obviously), there's a $\sim6\%$ chance that in any given night one visit will be serendipitously coincident with the expected arrival of a short lived optical precursor to the FRB.
 If such a source could be recognized as an FRB optical counterpart within a minute, and radio follow-up could begin as soon as possible to detect the radio component and measure the time delay (Figure \ref{fig:sci_frb}).  
 However, \textcolor{red}{it is (or rather, MLG is) currently unclear whether (a) there is strong theoretical support for such optical counterparts, and (b) radio telescopes can perform ToO follow-up on $<$15 minute timescales}.
 
@@ -306,20 +386,20 @@ However, this case is unlikely to be as sensitive to the LSST alert distribution
 \end{center}
 \end{figure}
 
+\subsection{Young Supernovae}\label{ssec:latency_ysne}
+
+Photometric data obtained during the first few hours to days of a supernova can constrain the progenitor radius and circumstellar material in the immediate environment, which in turn provides information about the progenitor star, its system, and its final stages of evolution before the explosion.
+For example, \citet{2018Natur.554..497B} model the optical photometric data of the post-shock breakout cooling peak for a massive star's core collapse supernova to constrain the radius and mass of its outer envelope; \citet{2012ApJ...744L..17B} used the first day of photometric observations of a nearby Type Ia (thermonuclear detonation) supernova to show that their progenitor stars must be a compact degenerates; and rare ``blue bumps" in the first few days of a Type Ia supernova's light curve might betray the presence of a non-degenerate companion star \citep[e.g.,][]{2010ApJ...708.1025K,2017ApJ...845L..11H}.
+
+For young supernovae, follow-up observations within a couple of hours are required, and the related science goals are unlikely to be impacted if the alert latency was 5--10 minutes instead of 1 minute.
+
 \subsection{Solar System Objects}\label{ssec:latency_sso}
 
 \textcolor{red}{MLG: in Lynne's talk on the SSSC needs for alerts brokers at the CBW in June 2019, slide 4 says that a needed broker capability was "API or other 'push' notification (e.g., trailed detections) [minutes may count]". Follow-up on the SS use case for alerts on very short timescales.}
 
-
 \subsection{Stellar Variables}\label{ssec:latency_stars}
 
 \textcolor{red}{Return to the road map or science book? Surely there must be some stellar use-cases for 1 minute alerts. E.g., microlensing peaks can be real sharp.}
-
-
-\subsection{Summary}\label{ssec:latency_summary}
-
-There does not, currently, seem to be an unambiguous need for alerts on latency timescales of 1 minute compared to 5 minutes. 
-However, it is not unambiguous that such a need will not evolve out of the still emergent fields of fast radio bursts and gravitational wave events.
 
 \clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -329,12 +409,14 @@ This section explores the scientific motivation and impact of offering brokers p
 Pre-filtering could reduce the overall bandwidth of alert distribution and potentially allow streams to be transmitted to more brokers, thereby enabling more alerts-related science.
 Providing pre-filtered streams could also lessen the load and resources used by the brokers, enabling more alerts-related science by allowing brokers to spend a smaller fraction of their budget computational resources.
 
-The types of pre-filters that a broker would use are mainly driven by the science goals of that particular broker; some examples follow.
-A broker might only find it useful to receive alerts for {\tt DIASources} that are likely to be stellar variables, moving objects, or extragalactic transients.
-A broker might only want to receive alerts that could potentially be observed by its associated follow-up resources -- {\tt DIASources} brighter than a given limit or located in a particular region of sky. 
-A broker might employ a suite of algorithms that all require, e.g., at least two detections by LSST before any further action is taken, and so would not need any single-detection alerts.
-A broker might be specialized in a science area that is not done with the wide-fast-deep main survey, but with a special program such as the deep drilling fields or target-of-opportunity imaging surveys. 
-Finally, a broker might not be interested in alerts obtained during poor weather conditions (e.g., an image quality or sky background violating some limit) -- although, this type of filter might not be entirely science-driven.
+Depending on the science goals of a given broker and/or their users, a broker might find it useful to only receive alerts for {\tt DIASources} which:
+\begin{itemize}
+\item are likely to have a certain physical origin, e.g., stellar variable, moving objects
+\item could potentially be observed by the follow-up resources its users have access to
+\item have at least one prior detection by LSST (because, e.g., their algorithms all require photometric confirmation or a change in brightness)
+\item originate in images obtained as part of a special program such as the deep drilling fields or target-of-opportunity imaging surveys
+\item were not obtained during poor weather conditions (e.g., an image quality or sky background violating some limit)
+\end{itemize}
 
 For the above science drivers, the types of pre-filters that are likely to be scientifically useful -- some of which have been suggested by brokers already -- include:
 \begin{itemize}
@@ -347,8 +429,11 @@ For the above science drivers, the types of pre-filters that are likely to be sc
 \end{itemize}
 
 All of these potential science-driven pre-filters are based on the information contained in the alert itself, and do not impose any additional processing on the Prompt pipeline.
- 
-\textcolor{red}{Provide estimates for how much the alert stream volume would be reduced by each of these potential pre-filters using nominal limits.}
+They all also have the potential to considerably reduce the number of transmitted alerts.
+Due to the exponential relationship between the number of variable stars and their variability amplitude, and also that of volume and distance modulus, an apparent magnitude limit $\sim1$ mag brighter than the nominal $5{\sigma}$ {\tt DIASource} detection limit could reduce the alert stream data rate by $\gtrsim50$\%.
+Limiting to alerts that are associated with past detections or certain types of objects could similarly reduce the alert stream data rate.
+These types of pre-filers would reduce the number of alerts per visit for all visits -- the average bandwidth -- which might enable alert distribution to extend to more brokers and thus enable more alerts-related LSST science.
+Pre-filters based on their sky location or observational metadata would probably either deliver all or none of the alerts for a given visit, causing fluctuations in the bandwidth but not necessarily in a way that would allow for additional streams to be transmitted.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % %
