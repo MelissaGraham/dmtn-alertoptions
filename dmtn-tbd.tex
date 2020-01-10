@@ -210,6 +210,7 @@ This option accounts for both the relative sizes and position angles of the pote
 {\bf 2D Algorithms --} There are also other, more complicated methods for identifying the most likely host for a given transient.
 For example, the nearby galaxy with the smallest fraction of light interior to an isophot through the transient's location, where the isophot shape is given more degrees of freedom and not constrained to concentric ellipticals as in the second moment method above.
 Another example is to use an algorithm that provides deblended footprints for nearby extended objects, and can estimate the fraction of light in given pixel that should be attributed to each (e.g., the SCARLET deblender, \cite{2018A&C....24..129M}).
+\textcolor{red}{\citeds{LSE-163} does mention that footprints will be generated for {\tt Objects}, but it doesn't look like they'd be stored in the {\tt Object} table; find out if these footprints would be appropriate/available to use here.}
 The most likely host galaxy would be the one which contributes the most flux at the pixel location of a transient.
 
 Generally, nearby galaxies with separation distances $>$3, or $>$99\% of the luminosity profile, are not assigned as hosts and the transient is considered "hostless".
