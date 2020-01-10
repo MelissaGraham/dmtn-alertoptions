@@ -157,6 +157,12 @@ At 18~KB per stamp set, that's a data rate of 10.5 Mbps (for comparison, that's 
 
 {\bf Summary --} The postage stamps could be removed from all alert packets, but they should still be created during Prompt processing and stored in a publicly accessible database where they can be obtained with a latency similar to the alert distribution timescale.
 
+\textcolor{red}{{\bf Could Postage Stamps Be Smaller? --}}
+\citeds{LSE-163} describes the size of the postage stamp to be at least $6\arcsec \times 6\arcsec$ ($30\times30$ pixels), or large enough to encompass the entire footprint of the {\tt DIASource} (e.g., if trailed, extended). 
+That is large enough to contain the angular diameter (30 kpc) of a Milky Way-like galaxy at a redshift of $z\approx0.5$, which will be a fairly typical supernova host galaxy in the LSST data set.
+Since context is a science driver for producing stamps, it would not be desirable for them to be much smaller than $6\arcsec \times 6\arcsec$.
+
+
 \subsubsection{Pros and Cons of Multiple Alert Formats}\label{sssec:packets_remove_procon}
 
 The histories and/or stamps could be removed from all alert packets, or only at the request of a broker.
