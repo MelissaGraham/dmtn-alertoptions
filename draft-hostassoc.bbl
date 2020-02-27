@@ -1,0 +1,78 @@
+\begin{thebibliography}{9}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{ #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\makeatletter
+\relax
+\def\mn@urlcharsother{\let\do\@makeother \do\$\do\&\do\#\do\^\do\_\do\%\do\~}
+\def\mn@doi{\begingroup\mn@urlcharsother \@ifnextchar [ {\mn@doi@}
+  {\mn@doi@[]}}
+\def\mn@doi@[#1]#2{\def\@tempa{#1}\ifx\@tempa\@empty \href {http://doi.org/#2}
+  {doi:#2}\else \href {http://doi.org/#2} {#1}\fi \endgroup}
+\def\mn@eprint#1#2{\mn@eprint@#1:#2::\@nil}
+\def\mn@eprint@arXiv#1{\href {http://arxiv.org/abs/#1} {\texttt{arXiv:#1}}}
+\def\mn@eprint@ascl#1{\href {http://ascl.net/#1} {\texttt{ascl:#1}}}
+\def\mn@eprint@dblp#1{\href {http://dblp.uni-trier.de/rec/bibtex/#1.xml}
+  {dblp:#1}}
+\def\mn@eprint@#1:#2:#3:#4\@nil{\def\@tempa {#1}\def\@tempb {#2}\def\@tempc
+  {#3}\ifx \@tempc \@empty \let \@tempc \@tempb \let \@tempb \@tempa \fi \ifx
+  \@tempb \@empty \def\@tempb {arXiv}\fi \@ifundefined
+  {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
+  mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
+
+\bibitem[{{Foley} \& {Mandel}(2013)}]{2013ApJ...778..167F}
+{Foley}, R.J., {Mandel}, K., 2013, \apj, 778, 167 (\mn@eprint {arXiv}
+  {1309.2630}), \mn@doi{10.1088/0004-637X/778/2/167},
+  \href{https://ui.adsabs.harvard.edu/abs/2013ApJ...778..167F}{ADS Link}
+
+\bibitem[{{Graham} et~al.(2012){Graham}, {Sand}, {Bildfell}
+  et~al.}]{2012ApJ...753...68G}
+{Graham}, M.L., {Sand}, D.J., {Bildfell}, C.J., et~al., 2012, \apj, 753, 68
+  (\mn@eprint {arXiv} {1205.0015}), \mn@doi{10.1088/0004-637X/753/1/68},
+  \href{https://ui.adsabs.harvard.edu/abs/2012ApJ...753...68G}{ADS Link}
+
+\bibitem[{{Gupta} et~al.(2016){Gupta}, {Kuhlmann}, {Kovacs}
+  et~al.}]{2016AJ....152..154G}
+{Gupta}, R.R., {Kuhlmann}, S., {Kovacs}, E., et~al., 2016, \aj, 152, 154
+  (\mn@eprint {arXiv} {1604.06138}), \mn@doi{10.3847/0004-6256/152/6/154},
+  \href{https://ui.adsabs.harvard.edu/abs/2016AJ....152..154G}{ADS Link}
+
+\bibitem[{{Irani} et~al.(2019){Irani}, {Schulze}, {Gal-Yam}
+  et~al.}]{2019ApJ...887..127I}
+{Irani}, I., {Schulze}, S., {Gal-Yam}, A., et~al., 2019, \apj, 887, 127
+  (\mn@eprint {arXiv} {1904.01425}), \mn@doi{10.3847/1538-4357/ab505d},
+  \href{https://ui.adsabs.harvard.edu/abs/2019ApJ...887..127I}{ADS Link}
+
+\bibitem[{Juri\'c et~al.(LSE-163)}]{LSE-163}
+\textbf{[LSE-163]}, Juri\'c, M., et~al., 2017,  \emph{ {LSST Data Products
+  Definition Document}}, \textsf{ LSE-163},
+  \urlprefix\url{https://ls.st/LSE-163}
+
+\bibitem[{{Melchior} et~al.(2018){Melchior}, {Moolekamp}, {Jerdee}
+  et~al.}]{2018A&C....24..129M}
+{Melchior}, P., {Moolekamp}, F., {Jerdee}, M., et~al., 2018, Astronomy and
+  Computing, 24, 129 (\mn@eprint {arXiv} {1802.10157}),
+  \mn@doi{10.1016/j.ascom.2018.07.001},
+  \href{https://ui.adsabs.harvard.edu/abs/2018A%26C....24..129M}{ADS Link}
+
+\bibitem[{{Sako} et~al.(2018){Sako}, {Bassett}, {Becker}
+  et~al.}]{2018PASP..130f4002S}
+{Sako}, M., {Bassett}, B., {Becker}, A.C., et~al., 2018, \pasp, 130, 064002
+  (\mn@eprint {arXiv} {1401.3317}), \mn@doi{10.1088/1538-3873/aab4e0},
+  \href{https://ui.adsabs.harvard.edu/abs/2018PASP..130f4002S}{ADS Link}
+
+\bibitem[{{Sand} et~al.(2011){Sand}, {Graham}, {Bildfell}
+  et~al.}]{2011ApJ...729..142S}
+{Sand}, D.J., {Graham}, M.L., {Bildfell}, C., et~al., 2011, \apj, 729, 142
+  (\mn@eprint {arXiv} {1011.1310}), \mn@doi{10.1088/0004-637X/729/2/142},
+  \href{https://ui.adsabs.harvard.edu/abs/2011ApJ...729..142S}{ADS Link}
+
+\bibitem[{{Sullivan} et~al.(2006){Sullivan}, {Le Borgne}, {Pritchet}
+  et~al.}]{2006ApJ...648..868S}
+{Sullivan}, M., {Le Borgne}, D., {Pritchet}, C.J., et~al., 2006, \apj, 648, 868
+  (\mn@eprint {arXiv} {astro-ph/0605455}), \mn@doi{10.1086/506137},
+  \href{https://ui.adsabs.harvard.edu/abs/2006ApJ...648..868S}{ADS Link}
+
+\makeatother
+\end{thebibliography}

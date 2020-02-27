@@ -1,0 +1,143 @@
+\begin{thebibliography}{21}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{ #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\makeatletter
+\relax
+\def\mn@urlcharsother{\let\do\@makeother \do\$\do\&\do\#\do\^\do\_\do\%\do\~}
+\def\mn@doi{\begingroup\mn@urlcharsother \@ifnextchar [ {\mn@doi@}
+  {\mn@doi@[]}}
+\def\mn@doi@[#1]#2{\def\@tempa{#1}\ifx\@tempa\@empty \href {http://doi.org/#2}
+  {doi:#2}\else \href {http://doi.org/#2} {#1}\fi \endgroup}
+\def\mn@eprint#1#2{\mn@eprint@#1:#2::\@nil}
+\def\mn@eprint@arXiv#1{\href {http://arxiv.org/abs/#1} {\texttt{arXiv:#1}}}
+\def\mn@eprint@ascl#1{\href {http://ascl.net/#1} {\texttt{ascl:#1}}}
+\def\mn@eprint@dblp#1{\href {http://dblp.uni-trier.de/rec/bibtex/#1.xml}
+  {dblp:#1}}
+\def\mn@eprint@#1:#2:#3:#4\@nil{\def\@tempa {#1}\def\@tempb {#2}\def\@tempc
+  {#3}\ifx \@tempc \@empty \let \@tempc \@tempb \let \@tempb \@tempa \fi \ifx
+  \@tempb \@empty \def\@tempb {arXiv}\fi \@ifundefined
+  {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
+  mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
+
+\bibitem[{et~al.(LDO-013)}]{LDO-013}
+\textbf{[LDO-013]}, et~al., B., 2019,  \emph{ {LSST Data Policy}}, \textsf{
+  LDO-013}, \urlprefix\url{https://ls.st/LDO-013}
+
+\bibitem[{{Berger} et~al.(2013){Berger}, {Leibler}, {Chornock}
+  et~al.}]{2013ApJ...779...18B}
+{Berger}, E., {Leibler}, C.N., {Chornock}, R., et~al., 2013, \apj, 779, 18
+  (\mn@eprint {arXiv} {1307.5324}), \mn@doi{10.1088/0004-637X/779/1/18},
+  \href{https://ui.adsabs.harvard.edu/abs/2013ApJ...779...18B}{ADS Link}
+
+\bibitem[{{Bersten} et~al.(2018){Bersten}, {Folatelli}, {Garc{\'\i}a}
+  et~al.}]{2018Natur.554..497B}
+{Bersten}, M.C., {Folatelli}, G., {Garc{\'\i}a}, F., et~al., 2018, \nat, 554,
+  497 (\mn@eprint {arXiv} {1802.09360}), \mn@doi{10.1038/nature25151},
+  \href{https://ui.adsabs.harvard.edu/abs/2018Natur.554..497B}{ADS Link}
+
+\bibitem[{{Bloom} et~al.(2012){Bloom}, {Kasen}, {Shen}
+  et~al.}]{2012ApJ...744L..17B}
+{Bloom}, J.S., {Kasen}, D., {Shen}, K.J., et~al., 2012, \apjl, 744, L17
+  (\mn@eprint {arXiv} {1111.0966}), \mn@doi{10.1088/2041-8205/744/2/L17},
+  \href{https://ui.adsabs.harvard.edu/abs/2012ApJ...744L..17B}{ADS Link}
+
+\bibitem[{{Champion} et~al.(2016){Champion}, {Petroff}, {Kramer}
+  et~al.}]{2016MNRAS.460L..30C}
+{Champion}, D.J., {Petroff}, E., {Kramer}, M., et~al., 2016, \mnras, 460, L30
+  (\mn@eprint {arXiv} {1511.07746}), \mn@doi{10.1093/mnrasl/slw069},
+  \href{https://ui.adsabs.harvard.edu/abs/2016MNRAS.460L..30C}{ADS Link}
+
+\bibitem[{{Gottlieb} et~al.(2018){Gottlieb}, {Nakar}, \&
+  {Piran}}]{2018MNRAS.473..576G}
+{Gottlieb}, O., {Nakar}, E., {Piran}, T., 2018, \mnras, 473, 576 (\mn@eprint
+  {arXiv} {1705.10797}), \mn@doi{10.1093/mnras/stx2357},
+  \href{https://ui.adsabs.harvard.edu/abs/2018MNRAS.473..576G}{ADS Link}
+
+\bibitem[{Graham et~al.(DMTN-102)Graham, Bellm, Guy, Dubois-Felsmann, \& the
+  DM~System Science~Team}]{DMTN-102}
+\textbf{[DMTN-102]}, Graham, M.L., Bellm, E.C., Guy, L.P., Dubois-Felsmann,
+  C.T.S.G.P., the DM~System Science~Team, 2019,  \emph{ {LSST Alerts: Key
+  Numbers}}, \textsf{ DMTN-102}, \urlprefix\url{https://dmtn-102.lsst.io},
+  \newline LSST Data Management Technical Note
+
+\bibitem[{{Ho} et~al.(2018){Ho}, {Kulkarni}, {Nugent}
+  et~al.}]{2018ApJ...854L..13H}
+{Ho}, A.Y.Q., {Kulkarni}, S.R., {Nugent}, P.E., et~al., 2018, \apjl, 854, L13
+  (\mn@eprint {arXiv} {1712.00949}), \mn@doi{10.3847/2041-8213/aaaa62},
+  \href{https://ui.adsabs.harvard.edu/abs/2018ApJ...854L..13H}{ADS Link}
+
+\bibitem[{{Hosseinzadeh} et~al.(2017){Hosseinzadeh}, {Sand}, {Valenti}
+  et~al.}]{2017ApJ...845L..11H}
+{Hosseinzadeh}, G., {Sand}, D.J., {Valenti}, S., et~al., 2017, \apjl, 845, L11
+  (\mn@eprint {arXiv} {1706.08990}), \mn@doi{10.3847/2041-8213/aa8402},
+  \href{https://ui.adsabs.harvard.edu/abs/2017ApJ...845L..11H}{ADS Link}
+
+\bibitem[{{Ivezi{\'c}} \& {The LSST Science Collaboration}(LPM-17)}]{LPM-17}
+\textbf{[LPM-17]}, {Ivezi{\'c}}, {\v Z}., {The LSST Science Collaboration},
+  2018,  \emph{ {LSST Science Requirements Document}}, \textsf{ LPM-17},
+  \urlprefix\url{https://ls.st/LPM-17}
+
+\bibitem[{{Kasen}(2010)}]{2010ApJ...708.1025K}
+{Kasen}, D., 2010, \apj, 708, 1025 (\mn@eprint {arXiv} {0909.0275}),
+  \mn@doi{10.1088/0004-637X/708/2/1025},
+  \href{https://ui.adsabs.harvard.edu/abs/2010ApJ...708.1025K}{ADS Link}
+
+\bibitem[{{Kasliwal} et~al.(2017){Kasliwal}, {Nakar}, {Singer}
+  et~al.}]{2017Sci...358.1559K}
+{Kasliwal}, M.M., {Nakar}, E., {Singer}, L.P., et~al., 2017, Science, 358, 1559
+  (\mn@eprint {arXiv} {1710.05436}), \mn@doi{10.1126/science.aap9455},
+  \href{https://ui.adsabs.harvard.edu/abs/2017Sci...358.1559K}{ADS Link}
+
+\bibitem[{{Keane} et~al.(2016){Keane}, {Johnston}, {Bhandari}
+  et~al.}]{2016Natur.530..453K}
+{Keane}, E.F., {Johnston}, S., {Bhandari}, S., et~al., 2016, \nat, 530, 453
+  (\mn@eprint {arXiv} {1602.07477}), \mn@doi{10.1038/nature17140},
+  \href{https://ui.adsabs.harvard.edu/abs/2016Natur.530..453K}{ADS Link}
+
+\bibitem[{{Kulkarni} \& {Rau}(2006)}]{2006ApJ...644L..63K}
+{Kulkarni}, S.R., {Rau}, A., 2006, \apjl, 644, L63 (\mn@eprint {arXiv}
+  {astro-ph/0604343}), \mn@doi{10.1086/505423},
+  \href{https://ui.adsabs.harvard.edu/abs/2006ApJ...644L..63K}{ADS Link}
+
+\bibitem[{{Law} et~al.(2019){Law}, {Omand}, {Kashiyama}
+  et~al.}]{2019arXiv191002036L}
+{Law}, C.J., {Omand}, C.M.B., {Kashiyama}, K., et~al., 2019, arXiv e-prints,
+  arXiv:1910.02036 (\mn@eprint {arXiv} {1910.02036}),
+  \href{https://ui.adsabs.harvard.edu/abs/2019arXiv191002036L}{ADS Link}
+
+\bibitem[{{Lyutikov} \& {Lorimer}(2016)}]{2016ApJ...824L..18L}
+{Lyutikov}, M., {Lorimer}, D.R., 2016, \apjl, 824, L18 (\mn@eprint {arXiv}
+  {1605.01468}), \mn@doi{10.3847/2041-8205/824/2/L18},
+  \href{https://ui.adsabs.harvard.edu/abs/2016ApJ...824L..18L}{ADS Link}
+
+\bibitem[{{Mandhai} et~al.(2019){Mandhai}, {Tanvir}, {Lamb}, {Levan}, \&
+  {Tsang}}]{2019arXiv190800100M}
+{Mandhai}, S., {Tanvir}, N., {Lamb}, G., {Levan}, A., {Tsang}, D., 2019, arXiv
+  e-prints, arXiv:1908.00100 (\mn@eprint {arXiv} {1908.00100}),
+  \href{https://ui.adsabs.harvard.edu/abs/2019arXiv190800100M}{ADS Link}
+
+\bibitem[{{Shannon} et~al.(2018){Shannon}, {Macquart}, {Bannister}
+  et~al.}]{2018Natur.562..386S}
+{Shannon}, R.M., {Macquart}, J.P., {Bannister}, K.W., et~al., 2018, \nat, 562,
+  386, \mn@doi{10.1038/s41586-018-0588-y},
+  \href{https://ui.adsabs.harvard.edu/abs/2018Natur.562..386S}{ADS Link}
+
+\bibitem[{{Siegel} \& {Ciolfi}(2016)}]{2016ApJ...819...15S}
+{Siegel}, D.M., {Ciolfi}, R., 2016, \apj, 819, 15 (\mn@eprint {arXiv}
+  {1508.07939}), \mn@doi{10.3847/0004-637X/819/1/15},
+  \href{https://ui.adsabs.harvard.edu/abs/2016ApJ...819...15S}{ADS Link}
+
+\bibitem[{{Tingay} \& {Yang}(2019)}]{2019ApJ...881...30T}
+{Tingay}, S.J., {Yang}, Y.P., 2019, \apj, 881, 30 (\mn@eprint {arXiv}
+  {1906.09673}), \mn@doi{10.3847/1538-4357/ab2c6e},
+  \href{https://ui.adsabs.harvard.edu/abs/2019ApJ...881...30T}{ADS Link}
+
+\bibitem[{{Yang} et~al.(2019){Yang}, {Zhang}, \& {Wei}}]{2019ApJ...878...89Y}
+{Yang}, Y.P., {Zhang}, B., {Wei}, J.Y., 2019, \apj, 878, 89 (\mn@eprint {arXiv}
+  {1905.02429}), \mn@doi{10.3847/1538-4357/ab1fe2},
+  \href{https://ui.adsabs.harvard.edu/abs/2019ApJ...878...89Y}{ADS Link}
+
+\makeatother
+\end{thebibliography}

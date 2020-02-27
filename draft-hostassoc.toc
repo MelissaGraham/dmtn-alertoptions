@@ -1,0 +1,13 @@
+\babel@toc {english}{}
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
+\contentsline {section}{\numberline {2}Current DM Plans for Host Galaxy Association}{1}{section.2}
+\contentsline {section}{\numberline {3}Options to Improve Host Galaxy Association}{2}{section.3}
+\contentsline {subsection}{\numberline {3.1}Effective Radius}{2}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Second Moments}{3}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}2D Algorithms}{3}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Hostless Transients}{4}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Galaxy/Transient Types}{4}{subsection.3.5}
+\contentsline {section}{\numberline {4}Recommendations}{5}{section.4}
+\contentsline {subsection}{\numberline {4.1}Draft RFC}{5}{subsection.4.1}
+\contentsline {section}{\numberline {5}Appendix: Separation Distance from Second Moments}{6}{section.5}
