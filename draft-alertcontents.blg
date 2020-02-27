@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: dmtn-tbd.aux
+The style file: lsst_aa.bst
+Database file #1: local.bib
+Database file #2: lsst.bib
+Database file #3: lsst-dm.bib
+Database file #4: refs_ads.bib
+Database file #5: refs.bib
+Database file #6: books.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 31 entries,
+            3036 wiz_defined-function locations,
+            1305 strings with 23518 characters,
+and the built_in function-call counts, 18319 in all, are:
+= -- 1380
+> -- 1155
+< -- 10
++ -- 550
+- -- 306
+* -- 1536
+:= -- 2442
+add.period$ -- 0
+call.type$ -- 31
+change.case$ -- 146
+chr.to.int$ -- 31
+cite$ -- 93
+duplicate$ -- 1189
+empty$ -- 1348
+format.name$ -- 410
+if$ -- 3883
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 238
+newline$ -- 111
+num.names$ -- 124
+pop$ -- 545
+preamble$ -- 1
+purify$ -- 146
+quote$ -- 0
+skip$ -- 936
+stack$ -- 0
+substring$ -- 362
+swap$ -- 541
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 279
+warning$ -- 0
+while$ -- 115
+width$ -- 0
+write$ -- 409

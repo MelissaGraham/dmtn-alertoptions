@@ -1,0 +1,20 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Alert Packet Contents}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Removing Histories and/or Stamps}{section.2}% 3
+\BOOKMARK [3][-]{subsubsection.2.1.1}{DIASource Record History}{subsection.2.1}% 4
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Forced Photometry History}{subsection.2.1}% 5
+\BOOKMARK [3][-]{subsubsection.2.1.3}{Postage Stamps}{subsection.2.1}% 6
+\BOOKMARK [3][-]{subsubsection.2.1.4}{Pros and Cons of Multiple Alert Formats}{subsection.2.1}% 7
+\BOOKMARK [2][-]{subsection.2.2}{Additional Object Association Information}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.3}{Compressing the Alert Packets}{section.2}% 9
+\BOOKMARK [1][-]{section.3}{Alert Distribution Latency}{}% 10
+\BOOKMARK [2][-]{subsection.3.1}{TVS Survey Results Regarding Alerts Timescales}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.2}{EM Counterparts to GW Events}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.3}{Gamma-Ray Bursts}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.4}{Fast Radio Bursts}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.5}{Young Supernovae}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.6}{Solar System Objects}{section.3}% 16
+\BOOKMARK [2][-]{subsection.3.7}{Stellar Variables}{section.3}% 17
+\BOOKMARK [1][-]{section.4}{Pre-Filtered Alert Streams}{}% 18
+\BOOKMARK [2][-]{subsection.4.1}{LSST Alert Filtering Service}{section.4}% 19
+\BOOKMARK [1][-]{section.5}{Graceful Degradation}{}% 20
