@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  27 FEB 2020 15:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  27 FEB 2020 16:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1498,11 +1498,6 @@ Package pdftex.def Info: lsst_logo_notext.png  used on input line 51.
  [3
 
 ]
-Overfull \hbox (7.23714pt too wide) in paragraph at lines 58--61
-\T1/fos/m/n/10.95 This doc-u-ment con-sid-ers the sci-ence mo-ti-va-tion and im
--pacts of the alert dis-tri-bu-tion timescale,
- []
-
 
 LaTeX Warning: Marginpar on page 1 moved.
 
@@ -1534,7 +1529,7 @@ File: ts1fos.fd 2011/11/11 Fontinst v1.927 font definitions for TS1/fos.
 )
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 97.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 98.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [2
 
@@ -1660,14 +1655,11 @@ Package rerunfilecheck Info: File `draft-latency.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
  26344 strings out of 492649
  448690 string characters out of 6129622
- 614908 words of memory out of 5000000
+ 614889 words of memory out of 5000000
  29457 multiletter control sequences out of 15000+600000
  151790 words of font info for 245 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1693,7 +1685,7 @@ mf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2018/texmf-dist
 /type1/public/txfonts/txsya.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1
 /public/newtx/txsys.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/tim
 es/utmri8a.pfb>
-Output written on draft-latency.pdf (14 pages, 1045643 bytes).
+Output written on draft-latency.pdf (14 pages, 1045977 bytes).
 PDF statistics:
  372 PDF objects out of 1000 (max. 8388607)
  329 compressed objects within 4 object streams

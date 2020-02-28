@@ -28,8 +28,8 @@ M.~L.~Graham, with contributions from the Transients and Variable Stars Science 
 \setDocUpstreamLocation{\url{https://github.com/lsst-dm/dmtn-xxx}}
 
 \setDocAbstract{%
-\textcolor{red}{\bf EXTREME DRAFT STATE. DO NOT CITE. DO NOT READ. LOOK AWAY.}\\
-A discussion of the science drivers regarding the alert packet distribution latency.
+\textcolor{red}{\bf EXTREME DRAFT. DO NOT CITE OR READ.}\\
+A gathering place for the science drivers related to alert packet distribution latency.
 }
 
 % Change history defined here.
@@ -55,17 +55,17 @@ A discussion of the science drivers regarding the alert packet distribution late
 
 % The LSST Science Requirements Document \citedsp{LPM-17} specifies that information about the detections of transient, variable, and moving objects be released promptly as a data stream.
 
-This document considers the science motivation and impacts of the alert distribution timescale, also called the latency.
+This document gathers the scientific motivations for --- and impacts of --- the alert distribution timescale, also called the latency.
 Alert packets will play a major role in the scientific impact of LSST, in part because they are the only LSST data product that is both world public (exempt from any proprietary period) and publicly accessible, as they are distributed to community brokers and not solely available via the LSST Science Platform (LSP).
-In comparison, although the contents of the Prompt products database (PPDB) from which alerts are generated are also world public, access to the PPDB is restricted to individuals with data rights \citedsp{LDO-013} who have authenticated accounts in the LSP.
+Although the contents of the Prompt products database (PPDB) from which alerts are generated are also world public, access to the PPDB is restricted to individuals with data rights \citedsp{LDO-013} who have authenticated accounts in the LSP.
 
 It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout --- more specifically, that the data management system (DMS) be capable of supporting the distribution of at least 98\%\reqparam{OTT1}\reqparam{OTR1}\lsrreq{0101}\lsrreq{0025}\ossreq{0127}\dmreq{0004} of alerts for each visit within 60 seconds of the end of image readout.
-The 5 full streams aspect is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility \citedsp{DMTN-102}.
-The 60 second aspect is scientifically motivated by a desire to explore the parameter space for very short timescale transients and variables which might last only a few minutes \citedsp{LPM-17}.
+The 60 second latency was broadly scientifically motivated by a desire to explore the parameter space for very short timescale transients and variables which might last only a few minutes \citedsp{LPM-17}.
+The number of 5 full streams is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility \citedsp{DMTN-102}.
 
-Increasing the alert latency could enable the stream to be delivered to more brokers, thereby increasing the amount of alerts-related science done by the community.
-Or, it might allow human and computational resources currently dedicated to building a DMS that can deliver a 1 minute latency to be repurposed. 
-In case it ever becomes technically necessary to change the alert latency, this document collects the science drivers for short timescale alert distribution.
+Increasing the alert latency \emph{might} enable the stream to be delivered to more brokers, thereby increasing the amount of alerts-related science done by the community.
+Or it might allow human and computational resources that are currently dedicated to building a DMS which can deliver a 1 minute latency to be repurposed. 
+\textbf{There is currently no tabled proposal to increase the alert latency from 60 seconds}, but in case there ever is, this document collects the science drivers for short timescale alert distribution.
 \textbf{Time-domain astronomy remains a rapidly evolving field and this should be considered a living, in-progress document}.
 
 \subsection{Summary}
@@ -88,7 +88,7 @@ For the purposes of this discussion, an optimistic outlook is assumed, and the d
 
 \begin{itemize}
 \item {\bf A TVS Survey (\S~\ref{ssec:latency_tvs})} found that only $<$10\% of respondents reported that requiring alerts within 1 minute was necessary for their science goals.
-\item {\bf GW Follow-up (\S~\ref{ssec:latency_emgw}) ---} Although a 5 minute latency would suffice for kilonovae (days-long optical counterparts to neutron star mergers), some theoretical models predict optical emission within the first hour (e.g., jet break-out or spin-down energy from the merger). However, these GW scientific motivators for a 1 minute alert latency are moot if the time between GW event and LSST ToO follow-up remains at tens of minutes or more.
+\item {\bf GW Follow-up (\S~\ref{ssec:latency_emgw}) ---} Although a 5 minute latency would suffice for kilonovae (days-long optical counterparts to neutron star mergers), some theoretical models predict optical emission within the first hour (e.g., jet break-out or spin-down energy from the merger). However, these GW scientific motivators for a 1 minute alert latency are moot if the time between GW event and LSST ToO imaging remains $\sim$tens of minutes.
 \item {\bf Gamma-Ray Bursts (\S~\ref{ssec:latency_grb}) ---} \textcolor{red}{Tentatively,} alerts for the coincident optical counterparts of short GRBs would be most scientifically useful if distributed within 1 minute, but the predicted occurrence rate is $\lesssim$20 over the 10-year LSST survey.
 \item {\bf Fast Radio Bursts (\S~\ref{ssec:latency_frb}) ---} \textcolor{red}{Tentatively,} some models predict that a short, bright burst of optical emission from the physical mechanism powering FRBs could be detected by LSST 5 to 15 minutes prior to the radio signal.
 If such optical events occur with significant frequency, are bright and consistently detectable, and can be identified with a single-filter detection, and if radio telescopes can respond within minutes, then LSST is the most promising future facility for this science, which requires a 1 minute alert distribution latency.
