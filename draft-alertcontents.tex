@@ -65,7 +65,7 @@ It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of 
 This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility.
 Reducing the packet size by narrowing down the contents included, and/or reducing the number of alerts distributed by applying a pre-filter, could enable alerts to be delivered to more brokers, and thereby increase the amount of alerts-related science done by the community.
 
-\S~\ref{sec:packets} discusses how removing stamps and histories from alerts could be scientifically beneficial for some brokers, as long as stamps are made publicly available with similar latency, and proposes additional alert elements to better identify potential transient host galaxies.
+\S~\ref{sec:packets} discusses how removing stamps and histories from alerts could be scientifically beneficial for some brokers, as long as stamps are made publicly available with similar latency.
 \S~\ref{sec:prefilter} lists types of pre-filtered streams that could improve brokers' scientific productivity and estimates the resulting bandwidth reductions, and \S~\ref{sec:graceful} argues that when alerts are delayed, the scientifically optimal response would be to flag and distribute them as soon as possible (and not, e.g., send them directly to an archive).
 
 \clearpage
