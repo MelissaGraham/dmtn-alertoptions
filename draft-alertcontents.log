@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  27 FEB 2020 16:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  28 FEB 2020 11:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1388,6 +1388,12 @@ LaTeX Font Info:    Font shape `T1/fos/bx/n' in size <24.88> not available
 (Font)              Font shape `T1/fos/b/n' tried instead on input line 51.
 LaTeX Font Info:    Font shape `T1/fos/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/fos/b/n' tried instead on input line 51.
+LaTeX Font Info:    Try loading font information for T1+zi4 on input line 51.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/inconsolata/t1zi4.fd
+File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
+)
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 10.95pt on input line 51.
 <lsstscopegrey.png, id=51, 542.9886pt x 520.8258pt>
 File: lsstscopegrey.png Graphic file (type png)
 <use lsstscopegrey.png>
@@ -1398,20 +1404,20 @@ File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
 Package pdftex.def Info: lsst_logo_notext.png  used on input line 51.
 (pdftex.def)             Requested size: 252.94499pt x 63.7301pt.
-[1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+ [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
  </Users/melissagraham/latex/lsst-texmf/texmf/tex/latex/lsst/lsstscopegrey.png>
  </Users/melissagraham/latex/lsst-texmf/texmf/tex/latex/lsst/lsst_logo_notext.p
 ng>]
+File: lsst_logo_notext.png Graphic file (type png)
+<use lsst_logo_notext.png>
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 51.
+(pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
+LaTeX Font Info:    Font shape `T1/fos/bx/n' in size <6> not available
+(Font)              Font shape `T1/fos/b/n' tried instead on input line 51.
+ [2]
 LaTeX Font Info:    Font shape `T1/fos/bx/n' in size <10> not available
 (Font)              Font shape `T1/fos/b/n' tried instead on input line 51.
-LaTeX Font Info:    Try loading font information for T1+zi4 on input line 51.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/inconsolata/t1zi4.fd
-File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
-)
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.95pt on input line 51.
 
 Underfull \hbox (badness 10000) in paragraph at lines 51--51
 
@@ -1421,9 +1427,7 @@ File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
 Package pdftex.def Info: lsst_logo_notext.png  used on input line 51.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
-LaTeX Font Info:    Font shape `T1/fos/bx/n' in size <6> not available
-(Font)              Font shape `T1/fos/b/n' tried instead on input line 51.
-[2
+[3
 
 ]
 exclude: 
@@ -1500,7 +1504,7 @@ File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
 Package pdftex.def Info: lsst_logo_notext.png  used on input line 51.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
- [3
+ [4
 
 ]
 
@@ -1508,72 +1512,66 @@ LaTeX Warning: Marginpar on page 1 moved.
 
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 82.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 71.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [1
 
 ]
-LaTeX Font Info:    Try loading font information for TS1+fos on input line 89.
+LaTeX Font Info:    Try loading font information for TS1+fos on input line 78.
  (/usr/local/texlive/2018/texmf-dist/tex/latex/opensans/ts1fos.fd
 File: ts1fos.fd 2011/11/11 Fontinst v1.927 font definitions for TS1/fos.
 )
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 106.
+(Font)              size <5> substituted on input line 95.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 106.
+(Font)              size <5> substituted on input line 95.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <5.5> not available
-(Font)              size <5> substituted on input line 106.
+(Font)              size <5> substituted on input line 95.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 106.
+(Font)              size <5> substituted on input line 95.
 
 
 LaTeX Font Warning: Font shape `U/lasy/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 106.
+(Font)              size <5> substituted on input line 95.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 106.
+(Font)              scaled to size 9.0pt on input line 95.
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 107.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 96.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [2
 
 ]
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 121.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 110.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [3]
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 141.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 130.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [4]
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 159.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 148.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 LaTeX Font Info:    Font shape `T1/fos/bx/n' in size <142.26378> not available
-(Font)              Font shape `T1/fos/b/n' tried instead on input line 159.
+(Font)              Font shape `T1/fos/b/n' tried instead on input line 148.
  [5]
-
-LaTeX Warning: Reference `sec:latency' on page 6 undefined on input line 175.
-
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 181.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 170.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
-[6]
-
-LaTeX Warning: Reference `sec:latency' on page 7 undefined on input line 192.
-
+ [6]
 
 LaTeX Warning: Marginpar on page 7 moved.
 
@@ -1582,18 +1580,15 @@ LaTeX Warning: Marginpar on page 7 moved.
 
 
 LaTeX Warning: Marginpar on page 7 moved.
-
-
-LaTeX Warning: Reference `sec:latency' on page 7 undefined on input line 194.
 
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 199.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 188.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [7]
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 222.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 211.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [8
 
@@ -1609,12 +1604,12 @@ LaTeX Warning: Marginpar on page 9 moved.
 
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 245.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 234.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [9]
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 252.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 241.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [10]
 
@@ -1644,17 +1639,13 @@ LaTeX Warning: Marginpar on page 11 moved.
 
 LaTeX Warning: Marginpar on page 11 moved.
 
-
-LaTeX Warning: Reference `sec:latency' on page 11 undefined on input line 262.
-
-(./draft-alertcontents.bbl
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 28.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 267.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
- [11
+[11
 
-]
+] (./draft-alertcontents.bbl
 Underfull \hbox (badness 1990) in paragraph at lines 45--48
 []\T1/fos/m/n/10.95 Berger, E., Leibler, C.N., Chornock, R., et al., 2013, ApJ,
  779, 18 ([]\T1/zi4/m/n/10.95 arXiv:1307.5324[]\T1/fos/m/n/10.95 ),
@@ -1694,7 +1685,9 @@ File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
 Package pdftex.def Info: lsst_logo_notext.png  used on input line 109.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
-[12]
+[12
+
+]
 Underfull \hbox (badness 1314) in paragraph at lines 155--158
 []\T1/fos/m/n/10.95 Lyutikov, M., Lorimer, D.R., 2016, ApJ, 824, L18 ([]\T1/zi4
 /m/n/10.95 arXiv:1605.01468[]\T1/fos/m/n/10.95 ), []doi:10.3847/2041-
@@ -1713,14 +1706,14 @@ Package pdftex.def Info: lsst_logo_notext.png  used on input line 193.
 [13])
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 284.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 272.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [14]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 284.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 284.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 272.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 272.
  (./draft-alertcontents.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 284.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 284.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 272.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 272.
 Package rerunfilecheck Info: File `draft-alertcontents.out' has not changed.
 (rerunfilecheck)             Checksum: 67FC6460C46179E0CF9FE321BBAA6C74;795.
 
@@ -1728,15 +1721,12 @@ Package rerunfilecheck Info: File `draft-alertcontents.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
  26341 strings out of 492649
- 449193 string characters out of 6129622
- 614340 words of memory out of 5000000
- 29474 multiletter control sequences out of 15000+600000
+ 449187 string characters out of 6129622
+ 614736 words of memory out of 5000000
+ 29473 multiletter control sequences out of 15000+600000
  133040 words of font info for 203 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  61i,16n,75p,1985b,570s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1744,8 +1734,8 @@ Here is how much of TeX's memory you used:
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/opensans/opensans-04.enc}{/
 usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texli
 ve/2018/texmf-dist/fonts/enc/dvips/opensans/opensans-02.enc}{/usr/local/texlive
-/2018/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/usr/local/texlive/20
-18/texmf-dist/fonts/enc/dvips/opensans/opensans-01.enc}</usr/local/texlive/2018
+/2018/texmf-dist/fonts/enc/dvips/opensans/opensans-01.enc}{/usr/local/texlive/2
+018/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/2018
 /texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/tex
 live/2018/texmf-dist/fonts/type1/public/opensans/OpenSans-Bold.pfb></usr/local/
 texlive/2018/texmf-dist/fonts/type1/public/opensans/OpenSans-Italic.pfb></usr/l
@@ -1756,10 +1746,10 @@ al/texlive/2018/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/tex
 live/2018/texmf-dist/fonts/type1/public/txfonts/txsya.pfb></usr/local/texlive/2
 018/texmf-dist/fonts/type1/public/newtx/txsys.pfb></usr/local/texlive/2018/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on draft-alertcontents.pdf (17 pages, 961608 bytes).
+Output written on draft-alertcontents.pdf (18 pages, 962488 bytes).
 PDF statistics:
- 371 PDF objects out of 1000 (max. 8388607)
- 334 compressed objects within 4 object streams
- 67 named destinations out of 1000 (max. 500000)
+ 375 PDF objects out of 1000 (max. 8388607)
+ 337 compressed objects within 4 object streams
+ 68 named destinations out of 1000 (max. 500000)
  111 words of extra memory for PDF output out of 10000 (max. 10000000)
 

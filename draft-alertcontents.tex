@@ -12,7 +12,7 @@
 
 % To add a short-form title:
 % \title[Short title]{Title}
-\title[Alerts Contents]{LSST Alerts: Science-Driven Options for Packet Contents and Pre-Filtering}
+\title[Alerts Contents]{LSST Alerts: A Scientific Perspective on Packet Contents and Pre-Filtering}
 
 % Optional subtitle
 % \setDocSubtitle{A subtitle}
@@ -28,9 +28,9 @@ M.~L.~Graham and the Data Management System Science Team
 \setDocUpstreamLocation{\url{https://github.com/lsst-dm/dmtn-xxx}}
 
 \setDocAbstract{%
-\textcolor{red}{\bf EXTREME DRAFT STATE. DO NOT CITE. DO NOT READ. LOOK AWAY.}\\
-A review and discussion of the variety of options for alert packets contents, pre-stream filtering, and so forth.
-}
+\textcolor{red}{\bf EXTREME DRAFT STATE. DO NOT CITE OR READ.}\\
+\textcolor{red}{The DM-SST will return to this document once the broker full proposals have been received, as they will contain more information on these topics.}\\
+A review and discussion of the science motivation for, and impacts of, the variety of options for alert packets contents (e.g., histories, stamps) and pre-filtered streams (based on, e.g., apparent magnitude, {\tt Object} assocation). A brief discussion about the science impacts for the various ways of implementing a ``graceful degradation" of $>$40000 alerts per visit. }
 
 % Change history defined here.
 % Order: oldest first.
@@ -63,21 +63,10 @@ The alert packets, as described in \citeds{LSE-163}, were designed to include al
 
 It is a requirement\reqparam{numStreams}\dmreq{0391} that the DMS be capable of supporting the transmission of at least 5 full alert streams within 60 seconds of image readout.
 This is based in part on estimates of the alert stream data rate and the bandwidth allocated to alert distribution in the LSST data facility.
-
 Reducing the packet size by narrowing down the contents included, and/or reducing the number of alerts distributed by applying a pre-filter, could enable alerts to be delivered to more brokers, and thereby increase the amount of alerts-related science done by the community.
 
 \S~\ref{sec:packets} discusses how removing stamps and histories from alerts could be scientifically beneficial for some brokers, as long as stamps are made publicly available with similar latency, and proposes additional alert elements to better identify potential transient host galaxies.
 \S~\ref{sec:prefilter} lists types of pre-filtered streams that could improve brokers' scientific productivity and estimates the resulting bandwidth reductions, and \S~\ref{sec:graceful} argues that when alerts are delayed, the scientifically optimal response would be to flag and distribute them as soon as possible (and not, e.g., send them directly to an archive).
-
-%This draft contains content pertaining to the following open tickets in the DM-SST epic "Studies Around Alerts" (assignees):
-%\begin{itemize}
-%\item DM-19484, Estimate distribution of alert packet size based on scientific considerations (Bellm)
-%\item DM-15654, Define policy for handling fields with $>$10K alerts (Bellm)
-%\item DM-20296, Investigate the possibility of providing filtered streams (Graham)
-%\item DM-20298, Revise the contents of the alert packets (Graham)
-%\item DM-20299, Scientific use-cases requiring $<$5 minute access (Graham)
-%\item DM-20300, Investigate options for expanding access to the alert stream (Bellm)
-%\end{itemize}
 
 \clearpage
 % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -172,7 +161,7 @@ In the latter case, LSST might end up distributing four types of alert packet fo
 From a science perspective, the benefits to allowing brokers to customize their alert packet is that it potentially enables unique science to be done by brokers (e.g., very rapid custom stamp-analysis algorithms), and could enable LSST to support $>$5 brokers which might lead to more alerts-related science in general.
 
 One drawback might arise during times of heavy load, such as many visits with $>$40,000 alerts (\S~\ref{sec:graceful}), \emph{if}, and only if, full-sized packet streams are more likely to be delayed.
-Whether this becomes a possibility will depend on the technical aspects of how the multiple types of alerts are generated and transmitted, and also on the final decisions about latency (\S~\ref{sec:latency}) and delayed distribution (\S~\ref{sec:graceful}).
+Whether this becomes a possibility will depend on the technical aspects of how the multiple types of alerts are generated and transmitted, and also on the final decisions about delayed distribution (\S~\ref{sec:graceful}).
 This may well never come to pass, but if it did, it could be unfair to brokers requiring full-size packets.
 While some brokers are being designed for a wide variety of science goals, others are more specifically tailored.
 If it is the specifically-tailored broker that requires full-sized alerts, then experiencing delayed transmission more frequently than other brokers could put some science goals at a disadvantage. 
@@ -189,9 +178,9 @@ However, the time and computational resources required to compress the alert pac
 For example, gzip compression at 50 MB/s to compress $\sim$10000 alerts would take $\sim$10000 $\times$0.08 MB per alert $/$50 MB/s, or $\sim$16 seconds.
 This is significant, considering the alert distribution latency requirement\reqparam{OTT1}\lsrreq{0101}\ossreq{0127}\dmreq{0004} is 60 seconds. 
 Furthermore, compressing the alert packets forces brokers to then decompress the alerts on arrival, which would incur further delay.
-Science goals requiring very low-latency alerts distribution might be negatively impacted by compression -- see \S~\ref{sec:latency} for a deeper discussion of the science drivers for low-latency alerts.
+Science goals requiring very low-latency alerts distribution might be negatively impacted by compression.
 
-{\bf Summary --} Since packet compression could induce an additional latency, perhaps it should only be done if, e.g., an algorithm could provide a compression rate of $\lesssim$10 MB/s (requiring only a few seconds to compress a visit's worth of alerts), or if the alert distribution latency requirement is relaxed from 1 minute (see \S~\ref{sec:latency}).
+{\bf Summary --} Since packet compression could induce an additional latency, perhaps it should only be done if, e.g., an algorithm could provide a compression rate of $\lesssim$10 MB/s (requiring only a few seconds to compress a visit's worth of alerts), or if the alert distribution latency requirement is relaxed from 1 minute (not currently planned).
 Otherwise, compression would have no impact on alerts-related science goals and so this should be primarily a technically-driven decision.
 
 
@@ -259,8 +248,7 @@ It is furthermore specified that alert distribution "degrade gracefully" beyond 
 This leaves the open question of what, from a science perspective, is the optimal way of dealing with delayed alerts that also meets the DMS specification of a ``graceful degradation"?
 We leave the aspects of technical implementation of a ``graceful degradation", such as distributing delayed alerts and alert archive storage access, for elsewhere and here just consider the science implications for a delayed timescale.
 
-{\bf Next-opportunity distribution via the alert stream.} As discussed in Section \ref{sec:latency}, there remains plenty of science goals that do not absolutely require alert distribution in 1 minute.
-Distributing delayed alerts via the stream would still enable plenty of science.
+{\bf Next-opportunity distribution via the alert stream.} There are plenty of science goals that do not absolutely require alert distribution in 1 minute, and so distributing delayed alerts via the stream would still enable plenty of science.
 The brokers might prefer to have delayed alerts clearly flagged to properly process them (e.g., some filtering and processing done by brokers might only be appropriate for alerts delivered within a given latency).
 
 {\bf Next-morning distribution via the alert stream.} This refers to an option to collect all delayed alerts during the night and then releasing them (perhaps on a new ``topic") in the morning after survey operations have ended for the night.
@@ -276,7 +264,7 @@ From a science perspective this is not as useful as next-opportunity distributio
 % However, note that the requirements on user access to the alerts archive are not yet fully developed, and may be limited in terms of how alert packets may be queried (e.g., alert ID), or by the bulk download capabilities.
 
 
-
+\clearpage
 % Include all the relevant bib files.
 % https://lsst-texmf.lsst.io/lsstdoc.html#bibliographies
 \bibliography{local,lsst,lsst-dm,refs_ads,refs,books}
