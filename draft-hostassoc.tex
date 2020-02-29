@@ -151,7 +151,9 @@ In order to better enable extragalactic transient science with brokers, it is pr
 (1) {\tt nearbyPotHost}, containing the {\tt objectId} for the three {\tt Object} catalog galaxies with the lowest \emph{separation distances}, and
 (2) {\tt nearbyPotHostSepDist}, the separation distances for those three {\tt Objects}.
 The \emph{separation distance} should be calculated with respect to the transient location using the second moments of each galaxy's luminosity profile, as described in detail in Section \ref{sec:app} of DMTN-XXX.
-All parameters required for the calculation of the separation distances are already planned to be in the {\tt DIAObject} and {\tt Object} tables, and this change would only add unit64[3] and float[3] per {\tt DIAObject} catalog entry, and per alert. 
+All parameters required for the calculation of the separation distances are already planned to be in the {\tt DIAObject} and {\tt Object} tables, and this change would only add unit64[3] and float[3] per {\tt DIAObject} catalog entry, and per alert.
+
+The above changes would be incorporated into the Data Products Definitions Document.
 
 
 
