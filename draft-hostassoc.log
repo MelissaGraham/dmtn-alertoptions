@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  25 MAR 2020 17:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  25 MAR 2020 17:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1562,19 +1562,19 @@ Package pdftex.def Info: lsst_logo_notext.png  used on input line 138.
 [4]
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 161.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 157.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [5]
-Overfull \hbox (3.41501pt too wide) in paragraph at lines 164--165
+Overfull \hbox (3.41501pt too wide) in paragraph at lines 160--161
 \T1/fos/m/n/10.95 From the LSST cat-a-logs the fol-low-ing ta-ble el-e-ments ar
 e used to de-fine the pa-ram-e-ters needed
  []
 
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 177.
+(Font)              scaled to size 9.0pt on input line 173.
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 202.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 198.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [6
 
@@ -1617,16 +1617,16 @@ Underfull \hbox (badness 2205) in paragraph at lines 67--70
 )
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 207.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 203.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [7
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 207.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 207.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 203.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 203.
  (./draft-hostassoc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 207.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 207.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 203.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 203.
 Package rerunfilecheck Info: File `draft-hostassoc.out' has not changed.
 (rerunfilecheck)             Checksum: 53A5A0E422B0B4F408C7795968CC4BB5;726.
 
@@ -1663,7 +1663,7 @@ mf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2018/texmf-dist
 /fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
 ype1/public/newtx/txsys.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw
 /times/utmri8a.pfb>
-Output written on draft-hostassoc.pdf (10 pages, 959450 bytes).
+Output written on draft-hostassoc.pdf (10 pages, 959512 bytes).
 PDF statistics:
  280 PDF objects out of 1000 (max. 8388607)
  247 compressed objects within 3 object streams
