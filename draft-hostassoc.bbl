@@ -1,4 +1,4 @@
-\begin{thebibliography}{9}
+\begin{thebibliography}{12}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{\texttt{ #1}}\fi
@@ -32,6 +32,12 @@
   (\mn@eprint {arXiv} {1205.0015}), \mn@doi{10.1088/0004-637X/753/1/68},
   \href{https://ui.adsabs.harvard.edu/abs/2012ApJ...753...68G}{ADS Link}
 
+\bibitem[{{Graham} et~al.(2018){Graham}, {Connolly}, {Ivezi{\'c}}
+  et~al.}]{2018AJ....155....1G}
+{Graham}, M.L., {Connolly}, A.J., {Ivezi{\'c}}, {\v{Z}}., et~al., 2018, \aj,
+  155, 1 (\mn@eprint {arXiv} {1706.09507}), \mn@doi{10.3847/1538-3881/aa99d4},
+  \href{https://ui.adsabs.harvard.edu/abs/2018AJ....155....1G}{ADS Link}
+
 \bibitem[{{Gupta} et~al.(2016){Gupta}, {Kuhlmann}, {Kovacs}
   et~al.}]{2016AJ....152..154G}
 {Gupta}, R.R., {Kuhlmann}, S., {Kovacs}, E., et~al., 2016, \aj, 152, 154
@@ -43,6 +49,11 @@
 {Irani}, I., {Schulze}, S., {Gal-Yam}, A., et~al., 2019, \apj, 887, 127
   (\mn@eprint {arXiv} {1904.01425}), \mn@doi{10.3847/1538-4357/ab505d},
   \href{https://ui.adsabs.harvard.edu/abs/2019ApJ...887..127I}{ADS Link}
+
+\bibitem[{{Ivezi{\'c}} \& {The LSST Science Collaboration}(LPM-17)}]{LPM-17}
+\textbf{[LPM-17]}, {Ivezi{\'c}}, {\v Z}., {The LSST Science Collaboration},
+  2018,  \emph{ {LSST Science Requirements Document}}, \textsf{ LPM-17},
+  \urlprefix\url{https://ls.st/LPM-17}
 
 \bibitem[{Juri\'c et~al.(LSE-163)}]{LSE-163}
 \textbf{[LSE-163]}, Juri\'c, M., et~al., 2017,  \emph{ {LSST Data Products
@@ -67,6 +78,13 @@
 {Sand}, D.J., {Graham}, M.L., {Bildfell}, C., et~al., 2011, \apj, 729, 142
   (\mn@eprint {arXiv} {1011.1310}), \mn@doi{10.1088/0004-637X/729/2/142},
   \href{https://ui.adsabs.harvard.edu/abs/2011ApJ...729..142S}{ADS Link}
+
+\bibitem[{{Shen} et~al.(2003){Shen}, {Mo}, {White}
+  et~al.}]{2003MNRAS.343..978S}
+{Shen}, S., {Mo}, H.J., {White}, S.D.M., et~al., 2003, \mnras, 343, 978
+  (\mn@eprint {arXiv} {astro-ph/0301527}),
+  \mn@doi{10.1046/j.1365-8711.2003.06740.x},
+  \href{https://ui.adsabs.harvard.edu/abs/2003MNRAS.343..978S}{ADS Link}
 
 \bibitem[{{Sullivan} et~al.(2006){Sullivan}, {Le Borgne}, {Pritchet}
   et~al.}]{2006ApJ...648..868S}

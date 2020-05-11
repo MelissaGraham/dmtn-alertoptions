@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  20 APR 2020 19:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  10 MAY 2020 22:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1393,12 +1393,12 @@ LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
 (Font)              scaled to size 24.88pt on input line 49.
 LaTeX Font Info:    Font shape `T1/fos/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/fos/b/n' tried instead on input line 49.
-<lsstscopegrey.png, id=51, 542.9886pt x 520.8258pt>
+<lsstscopegrey.png, id=55, 542.9886pt x 520.8258pt>
 File: lsstscopegrey.png Graphic file (type png)
 <use lsstscopegrey.png>
 Package pdftex.def Info: lsstscopegrey.png  used on input line 49.
 (pdftex.def)             Requested size: 516.73335pt x 495.67973pt.
-<lsst_logo_notext.png, id=53, 513.92pt x 129.48375pt>
+<lsst_logo_notext.png, id=57, 513.92pt x 129.48375pt>
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
 Package pdftex.def Info: lsst_logo_notext.png  used on input line 49.
@@ -1490,6 +1490,11 @@ text indent by \l@... (toc, 1):  16.42499pt
 number indent by parent (toc, 1):  0.0pt
 text indent calculated (toc, 1): 11.71648pt
 number indent calculated (toc, 1): 0.0pt
+number indent by \l@... (toc, 1):  0.0pt
+text indent by \l@... (toc, 1):  16.42499pt
+number indent by parent (toc, 1):  0.0pt
+text indent calculated (toc, 1): 11.71648pt
+number indent calculated (toc, 1): 0.0pt
 )
 \tf@toc=\write9
 \openout9 = `draft-hostassoc.toc'.
@@ -1515,14 +1520,14 @@ Overfull \hbox (0.72649pt too wide) in paragraph at lines 71--72
 
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 73.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 72.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [1
 
 ]
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 95.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 94.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [2]
 Overfull \hbox (0.42622pt too wide) in paragraph at lines 97--101
@@ -1532,32 +1537,18 @@ nal lu-mi-nos-ity pro-file of the nearby
 
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 121.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 113.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [3]
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 137.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 137.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <5.5> not available
-(Font)              size <5> substituted on input line 137.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 137.
-
-
-LaTeX Font Warning: Font shape `U/lasy/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 137.
+Overfull \hbox (21.92545pt too wide) in paragraph at lines 136--137
+\T1/zi4/m/n/10.95 objectId \T1/fos/m/n/10.95 for the three galax-ies with the l
+ow-est sep-a-ra-tion dis-tances, and \T1/zi4/m/n/10.95 potentialHostSeparation\
+T1/fos/m/n/10.95 ,
+ []
 
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 138.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 137.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
 [4]
 File: lsst_logo_notext.png Graphic file (type png)
@@ -1565,20 +1556,109 @@ File: lsst_logo_notext.png Graphic file (type png)
 Package pdftex.def Info: lsst_logo_notext.png  used on input line 157.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
  [5]
-Overfull \hbox (3.41501pt too wide) in paragraph at lines 160--161
-\T1/fos/m/n/10.95 From the LSST cat-a-logs the fol-low-ing ta-ble el-e-ments ar
-e used to de-fine the pa-ram-e-ters needed
- []
-
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 173.
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 198.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 169.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
-[6
+ [6]
 
-] (./draft-hostassoc.bbl
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 189.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 189.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <5.5> not available
+(Font)              size <5> substituted on input line 189.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 189.
+
+
+LaTeX Font Warning: Font shape `U/lasy/m/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 189.
+
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 9.0pt on input line 189.
+File: lsst_logo_notext.png Graphic file (type png)
+<use lsst_logo_notext.png>
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 207.
+(pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
+[7
+
+]
+File: lsst_logo_notext.png Graphic file (type png)
+<use lsst_logo_notext.png>
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 220.
+(pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
+ [8]
+<notebooks/hg_Mr_dist.png, id=193, 813.0375pt x 409.7709pt>
+File: notebooks/hg_Mr_dist.png Graphic file (type png)
+<use notebooks/hg_Mr_dist.png>
+Package pdftex.def Info: notebooks/hg_Mr_dist.png  used on input line 237.
+(pdftex.def)             Requested size: 227.62204pt x 114.71631pt.
+<notebooks/hg_Mr_vs_z.png, id=194, 774.0117pt x 409.7709pt>
+File: notebooks/hg_Mr_vs_z.png Graphic file (type png)
+<use notebooks/hg_Mr_vs_z.png>
+Package pdftex.def Info: notebooks/hg_Mr_vs_z.png  used on input line 238.
+(pdftex.def)             Requested size: 227.62204pt x 120.50621pt.
+<notebooks/hg_rad_dist.png, id=195, 804.3651pt x 409.7709pt>
+File: notebooks/hg_rad_dist.png Graphic file (type png)
+<use notebooks/hg_rad_dist.png>
+Package pdftex.def Info: notebooks/hg_rad_dist.png  used on input line 239.
+(pdftex.def)             Requested size: 227.62204pt x 115.95432pt.
+<notebooks/hg_rad_vs_z.png, id=196, 788.4657pt x 409.7709pt>
+File: notebooks/hg_rad_vs_z.png Graphic file (type png)
+<use notebooks/hg_rad_vs_z.png>
+Package pdftex.def Info: notebooks/hg_rad_vs_z.png  used on input line 240.
+(pdftex.def)             Requested size: 227.62204pt x 118.29279pt.
+<notebooks/hg_z_dist.png, id=197, 807.9786pt x 409.7709pt>
+File: notebooks/hg_z_dist.png Graphic file (type png)
+<use notebooks/hg_z_dist.png>
+Package pdftex.def Info: notebooks/hg_z_dist.png  used on input line 241.
+(pdftex.def)             Requested size: 227.62204pt x 115.43535pt.
+<notebooks/hg_rad_vs_Mr.png, id=198, 794.2473pt x 409.7709pt>
+File: notebooks/hg_rad_vs_Mr.png Graphic file (type png)
+<use notebooks/hg_rad_vs_Mr.png>
+Package pdftex.def Info: notebooks/hg_rad_vs_Mr.png  used on input line 242.
+(pdftex.def)             Requested size: 227.62204pt x 117.43619pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: lsst_logo_notext.png Graphic file (type png)
+<use lsst_logo_notext.png>
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 256.
+(pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
+[9
+
+]
+File: lsst_logo_notext.png Graphic file (type png)
+<use lsst_logo_notext.png>
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 263.
+(pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
+ [10 <./notebooks/hg_Mr_dist.png> <./notebooks/hg_Mr_vs_z.png> <./notebooks/hg_
+rad_dist.png> <./notebooks/hg_rad_vs_z.png> <./notebooks/hg_z_dist.png> <./note
+books/hg_rad_vs_Mr.png>]
+File: lsst_logo_notext.png Graphic file (type png)
+<use lsst_logo_notext.png>
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 283.
+(pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
+ [11]
+<notebooks/hg_P_vs_Re.png, id=235, 763.1712pt x 428.5611pt>
+File: notebooks/hg_P_vs_Re.png Graphic file (type png)
+<use notebooks/hg_P_vs_Re.png>
+Package pdftex.def Info: notebooks/hg_P_vs_Re.png  used on input line 286.
+(pdftex.def)             Requested size: 341.43306pt x 191.73248pt.
+File: lsst_logo_notext.png Graphic file (type png)
+<use lsst_logo_notext.png>
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 297.
+(pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
+ [12 <./notebooks/hg_P_vs_Re.png>]
+(./draft-hostassoc.bbl
 Underfull \hbox (badness 6461) in paragraph at lines 25--28
 []\T1/fos/m/n/10.95 Foley, R.J., Man-del, K., 2013, ApJ, 778, 167 ([]\T1/zi4/m/
 n/10.95 arXiv:1309.2630[]\T1/fos/m/n/10.95 ), []doi:10.1088/0004-
@@ -1591,25 +1671,31 @@ J, 753, 68 ([]\T1/zi4/m/n/10.95 arXiv:1205.0015[]\T1/fos/m/n/10.95 ),
  []
 
 
-Underfull \hbox (badness 1546) in paragraph at lines 37--40
+Underfull \hbox (badness 2401) in paragraph at lines 37--40
+[]\T1/fos/m/n/10.95 Graham, M.L., Con-nolly, A.J., Ivezi¢, š., et al., 2018, AJ
+, 155, 1 ([]\T1/zi4/m/n/10.95 arXiv:1706.09507[]\T1/fos/m/n/10.95 ),
+ []
+
+
+Underfull \hbox (badness 1546) in paragraph at lines 43--46
 []\T1/fos/m/n/10.95 Gupta, R.R., Kuhlmann, S., Ko-vacs, E., et al., 2016, AJ, 1
 52, 154 ([]\T1/zi4/m/n/10.95 arXiv:1604.06138[]\T1/fos/m/n/10.95 ),
  []
 
 
-Underfull \hbox (badness 4024) in paragraph at lines 43--46
+Underfull \hbox (badness 4024) in paragraph at lines 49--52
 []\T1/fos/m/n/10.95 Irani, I., Schulze, S., Gal-Yam, A., et al., 2019, ApJ, 887
 , 127 ([]\T1/zi4/m/n/10.95 arXiv:1904.01425[]\T1/fos/m/n/10.95 ),
  []
 
 
-Underfull \hbox (badness 1028) in paragraph at lines 61--64
+Underfull \hbox (badness 1028) in paragraph at lines 72--75
 []\T1/fos/m/n/10.95 Sako, M., Bas-sett, B., Becker, A.C., et al., 2018, PASP, 1
 30, 064002 ([]\T1/zi4/m/n/10.95 arXiv:1401.3317[]\T1/fos/m/n/10.95 ),
  []
 
 
-Underfull \hbox (badness 2205) in paragraph at lines 67--70
+Underfull \hbox (badness 2205) in paragraph at lines 78--81
 []\T1/fos/m/n/10.95 Sand, D.J., Gra-ham, M.L., Bild-fell, C., et al., 2011, ApJ
 , 729, 142 ([]\T1/zi4/m/n/10.95 arXiv:1011.1310[]\T1/fos/m/n/10.95 ),
  []
@@ -1617,18 +1703,18 @@ Underfull \hbox (badness 2205) in paragraph at lines 67--70
 )
 File: lsst_logo_notext.png Graphic file (type png)
 <use lsst_logo_notext.png>
-Package pdftex.def Info: lsst_logo_notext.png  used on input line 203.
+Package pdftex.def Info: lsst_logo_notext.png  used on input line 302.
 (pdftex.def)             Requested size: 84.55244pt x 21.30264pt.
- [7
+ [13
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 203.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 203.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 302.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 302.
  (./draft-hostassoc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 203.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 203.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 302.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 302.
 Package rerunfilecheck Info: File `draft-hostassoc.out' has not changed.
-(rerunfilecheck)             Checksum: 53A5A0E422B0B4F408C7795968CC4BB5;726.
+(rerunfilecheck)             Checksum: D5C0B2EBDD9928B73AFBFADF596D4E80;818.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1636,13 +1722,13 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 26251 strings out of 492649
- 446947 string characters out of 6129622
- 611144 words of memory out of 5000000
- 29402 multiletter control sequences out of 15000+600000
- 132714 words of font info for 209 fonts, out of 8000000 for 9000
+ 26357 strings out of 492649
+ 448765 string characters out of 6129622
+ 612501 words of memory out of 5000000
+ 29462 multiletter control sequences out of 15000+600000
+ 152341 words of font info for 247 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 61i,15n,75p,1981b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 61i,16n,75p,1981b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/opensans/opensans-03.enc}
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
 live/2018/texmf-dist/fonts/enc/dvips/opensans/opensans-02.enc}{/usr/local/texli
@@ -1657,16 +1743,18 @@ ocal/texlive/2018/texmf-dist/fonts/type1/public/opensans/OpenSans-Regular.pfb><
 sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
 local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
 al/texlive/2018/texmf-dist/fonts/type1/public/newtx/rntxmi.pfb></usr/local/texl
-ive/2018/texmf-dist/fonts/type1/public/newtx/rntxmi7.pfb></usr/local/texlive/20
-18/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/texlive/2018/tex
-mf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2018/texmf-dist
-/fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
-ype1/public/newtx/txsys.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw
-/times/utmri8a.pfb>
-Output written on draft-hostassoc.pdf (10 pages, 959505 bytes).
+ive/2018/texmf-dist/fonts/type1/public/newtx/rntxmi5.pfb></usr/local/texlive/20
+18/texmf-dist/fonts/type1/public/newtx/rntxmi7.pfb></usr/local/texlive/2018/tex
+mf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/texlive/2018/texmf-dis
+t/fonts/type1/public/newtx/rtxmi7.pfb></usr/local/texlive/2018/texmf-dist/fonts
+/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/
+public/newtx/txexs.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/n
+ewtx/txsys.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/times/utmri8
+a.pfb>
+Output written on draft-hostassoc.pdf (16 pages, 1517027 bytes).
 PDF statistics:
- 280 PDF objects out of 1000 (max. 8388607)
- 247 compressed objects within 3 object streams
- 44 named destinations out of 1000 (max. 500000)
- 111 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 361 PDF objects out of 1000 (max. 8388607)
+ 305 compressed objects within 4 object streams
+ 57 named destinations out of 1000 (max. 500000)
+ 154 words of extra memory for PDF output out of 10000 (max. 10000000)
 

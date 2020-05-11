@@ -1,6 +1,6 @@
 This is BibTeX, Version 0.99d (TeX Live 2018)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
-The top-level auxiliary file: dmtn-tbd.aux
+The top-level auxiliary file: draft-hostassoc.aux
 The style file: lsst_aa.bst
 Database file #1: local.bib
 Database file #2: lsst.bib
@@ -10,44 +10,44 @@ Database file #5: refs.bib
 Database file #6: books.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 9 entries,
+You've used 12 entries,
             3036 wiz_defined-function locations,
-            1135 strings with 15559 characters,
-and the built_in function-call counts, 5539 in all, are:
-= -- 399
-> -- 359
-< -- 2
-+ -- 174
-- -- 96
-* -- 474
-:= -- 757
+            1158 strings with 16471 characters,
+and the built_in function-call counts, 7230 in all, are:
+= -- 523
+> -- 472
+< -- 3
++ -- 228
+- -- 126
+* -- 622
+:= -- 990
 add.period$ -- 0
-call.type$ -- 9
-change.case$ -- 42
-chr.to.int$ -- 9
-cite$ -- 27
-duplicate$ -- 349
-empty$ -- 414
-format.name$ -- 126
-if$ -- 1160
+call.type$ -- 12
+change.case$ -- 56
+chr.to.int$ -- 12
+cite$ -- 36
+duplicate$ -- 457
+empty$ -- 538
+format.name$ -- 167
+if$ -- 1512
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 75
-newline$ -- 45
-num.names$ -- 36
-pop$ -- 148
+missing$ -- 98
+newline$ -- 54
+num.names$ -- 48
+pop$ -- 197
 preamble$ -- 1
-purify$ -- 42
+purify$ -- 56
 quote$ -- 0
-skip$ -- 281
+skip$ -- 363
 stack$ -- 0
-substring$ -- 113
-swap$ -- 150
+substring$ -- 136
+swap$ -- 196
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 81
+type$ -- 108
 warning$ -- 0
-while$ -- 35
+while$ -- 46
 width$ -- 0
-write$ -- 133
+write$ -- 171

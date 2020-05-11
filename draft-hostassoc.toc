@@ -10,4 +10,5 @@
 \contentsline {subsection}{\numberline {3.5}Galaxy/Transient Types}{4}{subsection.3.5}
 \contentsline {section}{\numberline {4}Recommendations}{5}{section.4}
 \contentsline {subsection}{\numberline {4.1}Draft RFC}{5}{subsection.4.1}
-\contentsline {section}{\numberline {5}Appendix: Separation Distance from Second Moments}{6}{section.5}
+\contentsline {section}{\numberline {5}Appendix A: Separation Distance from Second Moments}{7}{section.5}
+\contentsline {section}{\numberline {6}Appendix B: Overcoming Background Galaxy Contamination}{9}{section.6}
